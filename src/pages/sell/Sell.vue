@@ -2,7 +2,7 @@
     <div class="sell">
       	<!-- 头部组件 -->
 		<TopHeader custom-title="50元专卖区" custom-fixed>
-            <i slot="backBtn" class="iconfont icon-fanhui"></i>
+            <i slot="backBtn" class="iconfont iconfanhui"></i>
 		</TopHeader>
         <div class="height-88"></div>
         <!-- CONTENT START -->

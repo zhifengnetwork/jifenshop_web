@@ -2,7 +2,7 @@
     <div class="Details">
         <!-- 头部组件 -->
 		<TopHeader custom-title="商品详情" custom-fixed>
-			<i slot="backBtn" class="iconfont icon-fanhui"></i>
+			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</TopHeader>
         <div class="height-88"></div>
         <!-- 产品图轮播 -->

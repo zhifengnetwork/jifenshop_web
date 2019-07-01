@@ -3,7 +3,7 @@
         <!-- 头部组件 -->
 		<My-Header custom-title="我的分享" custom-fixed class="head">
 			<!-- 返回按钮 -->
-			<i slot="backBtn" class="iconfont icon-fanhui"></i>
+			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</My-Header>
         <div class="content">
             <div class="main">

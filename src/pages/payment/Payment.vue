@@ -2,7 +2,7 @@
     <div class="payment">
       	<!-- 头部组件 -->
 		<TopHeader custom-title="订单支付" custom-fixed>
-            <i slot="backBtn" class="iconfont icon-fanhui"></i>
+            <i slot="backBtn" class="iconfont iconfanhui"></i>
 		</TopHeader>
         <div class="height-88"></div>
         <!-- CONTENT START --> 

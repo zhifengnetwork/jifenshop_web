@@ -3,7 +3,7 @@
         <!-- 头部组件 -->
 		<Look-Header custom-title="查看订单" custom-fixed>
 			<!-- 返回按钮 -->
-			<i slot="backBtn" class="iconfont icon-fanhui"></i>
+			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Look-Header>
         <ul class="ul">
             <li class="li">

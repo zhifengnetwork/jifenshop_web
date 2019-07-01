@@ -3,7 +3,7 @@
 		<!-- 头部组件 -->
 		<Data-Header custom-title="个人资料" custom-fixed>
 			<!-- 返回按钮 -->
-			<i slot="backBtn" class="iconfont icon-fanhui"></i>
+			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Data-Header>
         <div class="content">
 			<div class="nom_wrap">

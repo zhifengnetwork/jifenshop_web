@@ -2,7 +2,7 @@
     <div class="cart">
       	<!-- 头部组件 -->
 		<TopHeader custom-title="购物车" custom-fixed>
-			<i slot="rightBtn" class="iconfont icon-lajitong" @click="deletOption()"></i>
+			<i slot="rightBtn" class="iconfont iconshanchu" @click="deletOption()"></i>
 		</TopHeader>
         <div class="height-88"></div>
        
@@ -19,9 +19,9 @@
                             ￥<strong>{{item.price}}</strong>
                         </span>
                         <span class="-option-">
-                            <i class="subling iconfont icon-jian-" @click="reducingNumber(key)"></i>
+                            <i class="subling iconfont iconjian-copy" @click="reducingNumber(key)"></i>
                             <input class="inp" type="text" :value="item.number" @change="changNumber($event,key)"/>
-                            <i class="puls iconfont icon-jia" @click="addNumber(key)" ></i>
+                            <i class="puls iconfont iconjia-copy" @click="addNumber(key)" ></i>
                         </span>
                     </div>
                 </div>

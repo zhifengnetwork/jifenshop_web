@@ -2,7 +2,7 @@
 	<div class="Category">
 		<!-- 头部组件 -->
 		<TopHeader custom-title="分类" custom-fixed>
-			<!-- <i slot="backBtn" class="iconfont icon-fanhui"></i> -->
+			<!-- <i slot="backBtn" class="iconfont iconfanhui"></i> -->
 			<!-- <i slot="rightBtn" class="iconfont icon-lajitong"></i> -->
 		</TopHeader>
 		<div class="height-88"></div>

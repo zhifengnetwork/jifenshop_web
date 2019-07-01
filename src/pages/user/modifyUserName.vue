@@ -3,7 +3,7 @@
 		<!-- 头部组件 -->
 		<Name-Header custom-title="修改用户名" custom-fixed>
 			<!-- 返回按钮 -->
-			<i slot="backBtn" class="iconfont icon-fanhui"></i>
+			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Name-Header>
         <div class="content">
             <div class="inp_wrap">

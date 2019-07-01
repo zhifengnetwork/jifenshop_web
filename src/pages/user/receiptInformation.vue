@@ -3,7 +3,7 @@
         <!-- 头部组件 -->
 		<Rece-Header custom-title="收款信息" custom-fixed>
 			<!-- 返回按钮 -->
-			<i slot="backBtn" class="iconfont icon-fanhui"></i>
+			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Rece-Header>
         <div class="content">
             <div class="main">

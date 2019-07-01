@@ -1,10 +1,10 @@
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1561600490035'); /* IE9 */
-  src: url('iconfont.eot?t=1561600490035#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAKoAAsAAAAABlQAAAJeAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCcApgcAE2AiQDCAsGAAQgBYRtBy0bkwXILiEnG15ESjTdmZOS8sqS6+RPUA58+hDB0360ebt7poZ5Fk1kPDQ8ilWoWspJyYTimfzvf63Nia2EdsC8fuYJs6R9Zf6Kzw72Oi1zIRIKIcLrlswyAAkAIwsbY1fwraCx7IcvwHc5pFPq81xO764CCmR+oBz3ojUGDaBeHFCge2CbrEgiT2F41UHuxHkCjUb1VC6cXt9BW2FPC8TDwLOgXXArihirF2ob1hbxQY369DKR99H345+jTVKT2QWXb5+4sP+Tk5CfV7kVEDwEtrkGGctAIa43hi+qCZFZ0xiumwT7yg1+qqrAJPaqF+JfZ2c3g2EquCehJ7rVWILbEiCdY6PmEMOPjPxp/9VufzL8hz3fm2mpftx7fTCUze8Hn/cPx0fTZkdm2ni9e7w83rauT49M9fC3tq+5h32ASj6vguBFLyf+YwE/6kdwVgrMCur3ZQn+iRBsK4bYNqaiCRt7k+Fz1TRqRBVn7/Q9VtNzA/FQr2eEtc5IhqzeNFkYy6jRZBu16p1GoyVnm5t0YTVRGrDojSC0e0fS6gBZu0+yML5Qo9c/arVHDY1uRteeTWYj0M4zWUIu2q8YOFmqXLNoce4NeY+xxXlxxHogLgMfjgejcuyMUuI5FpRP3kREoeIswVNyGcVxhjlnITky8EXyzXComt40cLIENOcxYhHEhWyvUMCRSamgv9Aqn79BPI9iFu5oqfM/IKwUDI/GBkYAeaZIoZZ7uab0xDMhhIIUlkmgUzKKxGIZlDePChGHGPBHBHMbQ6ebQhWD9VXJ1x2ARrY2hVOS5fuBBQA=') format('woff2'),
-  url('iconfont.woff?t=1561600490035') format('woff'),
-  url('iconfont.ttf?t=1561600490035') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-  url('iconfont.svg?t=1561600490035#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1561951465905'); /* IE9 */
+  src: url('iconfont.eot?t=1561951465905#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAATQAAsAAAAACfwAAASBAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCEEAqGBIR6ATYCJAMkCxQABCAFhG0HaRuVCMgehXEsLDTq1avsExkP/7+W3vcHFsElClDGs86JiicSEkq+bKt0bYVFO1swYv//d9P7eGkJUvXMDJuo0zmahNTCCaEqE9gcmZl/mVqlAQIEcR8cS/20Bsv7SpI3zAiLWtJ4PKABRSRGCm9go4kOeIPuBgf6yjcTaFrUEjrsN2QMkHL2XoF44FgTkAW3vIMc6ray4cQc4j0EqKcZkgsA3kXfH/9BFwmSIgP7wOOrvlboUbV8XY1L60phUoAAzXJBsNPIsAXkxOfG8Fs4KW/Bmnoz4QzoOz8JU7V81e5V31euV/5X519X19VVUP/GoTkmjcBLglBTKGVySV1JeP87aG5j7GOlQdUS8QmqdnxqVH35FFQuPiWVn09GdZ5Pzuwfn8TsP586s2qVodnsZAyBPvAbIEZg4w6Z07mFQySFaMfKg5AYRcrJsFik/NSCGzfG3Lw59vbt1Fu3xlvBM470uKKjfdF6X5nfHTWW9W/wlhborQiNRXQqY3H7ES7zuTwgeelVWHIx2Kdp3DhS4vUa5MsvtZPvvZDoHXwlERRa+bKrbYMOXE8JUCDnj1t+zaxwr4tS+jdwCzc2VK4/HG8IyVqypUnIuk1xFtfymFS9b4l/Q9RYb2nkGE+Bb22kVe9zbSyNMnmjorzumBh/DOsvm6gIcwN6KQ91IVTGYoUkCNpJjpUoOyTleq/jRHU1cYw4Xv3/eKggRgJuXF09pb26FwqtF6olNf7Dw7Zt1ocdDR+7bDGlGwsPwkCzz8OHnTwJcHQEmQ/DhnrskHqjrFPqzDG4b4/ys0Kn+BybU4fm2PJB/lLRs8y40bjMIz75lJxoN3QID/n05Xj2tCnhHRITEoM/7UvcGDK7kCycnXdD+sl+3K6S4jBVWfvAz3bGWFfCi/Pwq8feww1sRF2PqXV1udG5/uvlQPvpF86dsfncm5cL4xvELYLq+pr6I5WjtPV0Jx/NiIMO75jYsSN0pD3OHjZkG9xJhWuVvARgfgofw70A5icxibtz05roGNIXyVIAsjcSA9jvGzoEMH+FF+N48BsIwenEdsQQ0uUnqSAAvndf9hak5icJWL5DXWKw5kfTDFyUGzrb08i12b1dBBpOSe92kKazgh8sPvRoWetkcDehbpJBUrMAmbolZI7dgkLLNpTqdqBpU//TW0YEWOQyYEMVgNC3A5Kur5Dpu4jMsQ+hMPURSv0wNJ1ExAVbVuLkvQXaJNJWypxHcRY+i3F9ojzuHUWzzgyTkNdFFD0tOLgcpVVpyrX+dBYtLHGII5vViSJDMQKfSfUDt6MzMnjKLvBptEVU2UTR3kmtZppeSGXhM0HugIBmIqJZUczyUDgWvCxMsLpIXvn6UWgspwwmQsdEXVaPJnDg1k/RUtEMQPY3Zw2aeJTNHbKxdEQiBu/GEPAyUfrBIC3DKfMo9ubt0tAsRCq2CUW7TtRoOWaoWbW9NfNar4Em+9EaIUEYESgABSIpIpEMyaG8MLG8s1UgY8qyOTmpw2bKssRlnMc7AxpJRBpnxL6RRK2tLLw9DwAAAAA=') format('woff2'),
+  url('iconfont.woff?t=1561951465905') format('woff'),
+  url('iconfont.ttf?t=1561951465905') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1561951465905#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -15,7 +15,39 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-jia:before {
-  content: "\e643";
+.icondagou-:before {
+  content: "\e62c";
+}
+
+.iconfanhui:before {
+  content: "\e7fa";
+}
+
+.iconshanchu:before {
+  content: "\e697";
+}
+
+.iconyou:before {
+  content: "\e6c6";
+}
+
+.icondagou:before {
+  content: "\e645";
+}
+
+.iconjian:before {
+  content: "\e68a";
+}
+
+.iconjia:before {
+  content: "\e636";
+}
+
+.iconjia-copy:before {
+  content: "\e7fb";
+}
+
+.iconjian-copy:before {
+  content: "\e7fc";
 }
 

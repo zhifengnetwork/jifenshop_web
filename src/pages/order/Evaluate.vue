@@ -1,7 +1,7 @@
 <template>
     <div class="Evaluate">
         <TopHeader custom-title="提交评价" custom-fixed>
-			<i slot="backBtn" class="iconfont icon-fanhui"></i>
+			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</TopHeader>
         <div class="height-88"></div>
         <div class="content">

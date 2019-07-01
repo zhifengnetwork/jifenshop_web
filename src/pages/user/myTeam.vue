@@ -3,7 +3,7 @@
         <!-- 头部组件 -->
 		<Team-Header custom-title="我的团队" custom-fixed>
 			<!-- 返回按钮 -->
-			<i slot="backBtn" class="iconfont icon-fanhui"></i>
+			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Team-Header>
         <div class="content">
             <div class="main">

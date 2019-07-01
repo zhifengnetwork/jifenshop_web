@@ -1,7 +1,7 @@
 <template>
     <div class="AddressView">
         <TopHeader custom-title="收货地址" custom-fixed>
-			<i slot="backBtn" class="iconfont icon-fanhui"></i>
+			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</TopHeader>
 
         <div class="content">
