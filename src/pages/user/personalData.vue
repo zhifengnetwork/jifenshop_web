@@ -18,7 +18,7 @@
                         <div class="text">用户名</div>
                         <div class="name_wrap">
                             <span class="name">风风火火</span>
-                            <i class="iconfont icon-xiangyoujiantou"></i>
+                            <i class="iconfont iconyou"></i>
                         </div>
                     </div>
                 </router-link>
@@ -26,7 +26,7 @@
                     <div class="item_wrap">
                         <div class="text">修改密码</div>
                         <div class="name_wrap">
-                            <i class="iconfont icon-xiangyoujiantou"></i>
+                            <i class="iconfont iconyou"></i>
                         </div>
                     </div>
                 </router-link>    
@@ -76,7 +76,7 @@
                 .text
                     width 130px
                     font-size 30px
-                    text-align right
+                    text-align-last justify
                 .name_wrap
                     font-size 30px
                     float right

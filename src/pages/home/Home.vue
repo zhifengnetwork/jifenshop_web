@@ -31,13 +31,52 @@
   				background="#f92a0f"
 			/>
 		</div>
+		<!-- 分类 -->
+		<div class="classify">
+			<div class="classify_btn">
+				<div class="btn_imgWrap">
+					<img class="btn_img" src="/static/images/home/recommend-goods-img01.png">
+				</div>
+				<div class="btn_text">
+					分类
+				</div>
+			</div>
+			<div class="classify_btn">
+				<div class="btn_imgWrap">
+					<img class="btn_img" src="/static/images/home/recommend-goods-img01.png">
+				</div>
+				<div class="btn_text">
+					分类
+				</div>
+			</div>
+			<div class="classify_btn">
+				<div class="btn_imgWrap">
+					<img class="btn_img" src="/static/images/home/recommend-goods-img01.png">
+				</div>
+				<div class="btn_text">
+					分类
+				</div>
+			</div>
+			<div class="classify_btn">
+				<div class="btn_imgWrap">
+					<img class="btn_img" src="/static/images/home/recommend-goods-img01.png">
+				</div>
+				<div class="btn_text">
+					分类
+				</div>
+			</div>
+		</div>
 
-		<!-- 预售 -->
-		<div class="advance-sale">
-			<a href="#">
-				<h1>50元专区</h1>
-				<span>不包邮</span>
-			</a>
+		<!-- 会员 -->
+		<div class="five">
+			<div class="five_title">
+				抢购会员卡
+			</div>
+			<div class="five_info">
+				<p>会员卡</p>
+				<p>￥1000</p>
+				<span class="buy">立即购买></span>
+			</div>
 		</div>
 
 		<!-- 热销商品 -->
@@ -210,6 +249,7 @@ export default {
 				font-size 28px
 	.banner
 		width 100%
+		line-height 40px
 		padding-top 76px
 		img 
 			width 100% 
@@ -228,29 +268,50 @@ export default {
 			content ''
 		.van-notice-bar >>> .van-notice-bar__left-icon, .van-notice-bar__right-icon
 			min-width 33px
-	.advance-sale
-		width 700px
-		height 150px
-		background url(/static/images/home/advance-sale-img.png) no-repeat
-		background-size 100%
-		margin 0 auto
-		padding 0 .25rem
-		box-sizing border-box
-		a
-			width 100%
-			height 100%
-			display flex
-			align-items center
-			justify-content center
-			h1
-				font-size 48px
-				color #ffffff
-				font-weight normal
-				margin-left 35px
-				margin-right 44px
-			span 
-				font-size 28px
-				color #ffdbd9
+	.classify
+		margin 0 30px
+		display -webkit-box
+		display  -moz-box
+		display  -ms-flexbox
+		display  -webkit-flex
+		display  flex
+		-webkit-justify-content space-around	
+		justify-content space-around
+		-moz-box-pack space-around
+		box-pack space-around
+		.classify_btn
+			width 20%
+			.btn_imgWrap
+				margin auto
+				width 88px
+				height 88px
+				border-radius 50%
+				overflow hidden
+				.btn_img
+					width 100%
+					height 100%
+			.btn_text
+				line-height 50px
+				text-align center
+	.five
+		position relative
+		margin  0 24px
+		height 262px
+		background url('/static/images/home/five_bg.png')
+		background-size contain
+		text-align center
+		font-size 30px
+		font-weight bold
+		.five_title
+			text-align center
+			line-height 88px
+		.five_info
+			margin-top 40px
+			line-height 50px
+		.buy
+			position absolute
+			right 20px
+			bottom 10px
 	.heading
 		height 82px
 		display flex

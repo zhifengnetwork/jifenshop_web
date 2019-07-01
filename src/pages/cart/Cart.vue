@@ -193,6 +193,8 @@ export default {
                     display:flex;
                     align-items :center;
                     box-sizing: border-box;
+                    background #fff
+                    border-radius 10px
                     .-list-img
                         width:201px;
                         height:176px;
@@ -238,12 +240,14 @@ export default {
                                     height:100%;
                                     font-size: 12px;
                                 .puls
+                                    width 48px
                                     border-left:1px solid #e6e6e6;
                                 .subling
+                                    width 48px
                                     border-right:1px solid #e6e6e6;
                                   
                                 .inp
-                                    width:121px;
+                                    width:94px;
                                     text-align: center;
                                     height:inherit;
                                     font-size:24px;
