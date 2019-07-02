@@ -41,6 +41,7 @@
                     <div class="label">详细地址</div>
                     <div class="textarea" contenteditable="true" placeholder ="详细地址，例D座726"></div>
                 </div>
+               
             </div>
 
             <!-- 设置默认地址 -->
@@ -215,5 +216,7 @@ export default {
             bottom 25px
             margin-left -46%
             border-radius 40px  
-
+ .content >>> .van-switch--on
+     background-color:red
+     
 </style>

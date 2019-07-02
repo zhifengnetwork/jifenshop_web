@@ -48,6 +48,18 @@ import lookorder from '@/pages/user/lookorder'
 import myTeam from '@/pages/user/myTeam'
 // 团队列表
 import commissionlist from '@/pages/user/commissionlist'
+// 积分
+import jifeng from '@/pages/user/jifeng'
+//积分明细
+import jifengdetail from "@/pages/user/jifengdetail"
+//积分明细箭头
+import mingxi from "@/pages/user/mingxi"
+// 账户明细
+import accountdetail from "@/pages/user/accountdetail"
+// 账单明细
+import billingdetails from "@/pages/user/billingdetails"
+// 积分转账
+import transfer_accounts from "@/pages/user/transfer_accounts"
 // 收款信息
 import receiptInformation from '@/pages/user/receiptInformation'
 // 我的分享
@@ -233,7 +245,39 @@ export default new Router({
 			name: 'alipay',
 			component:() => import('@/pages/user/modifyUserName'),
 		},
-
+		// 积分
+		{
+			path: '/user/jifeng',
+			name: 'jifeng',
+			component:() => import('@/pages/user/jifeng'),
+		},
+		{
+			path: '/user/jifengdetail',
+			name: 'jifeng',
+			component:() => import('@/pages/user/jifengdetail'),
+		},
+		{
+			path: '/user/accountdetail',
+			name: 'accountdetail',
+			component:() => import('@/pages/user/accountdetail'),
+		},
+		{
+			path: '/user/billingdetails',
+			name: 'billingdetails',
+			component:() => import('@/pages/user/billingdetails'),
+		},
+		//积分转账
+		{
+			path: '/user/transfer_accounts',
+			name: 'transfer_accounts',
+			component:() => import('@/pages/user/transfer_accounts'),
+		},
+		// 积分明细带箭头
+		{
+			path: '/user/mingxi',
+			name: 'mingxi',
+			component:() => import('@/pages/user/mingxi'),
+		},
 		/**
 		 * 地址管理
 		 */

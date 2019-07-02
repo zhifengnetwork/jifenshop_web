@@ -65,14 +65,14 @@
                     </div>
 
                     <!-- 优惠券 -->
-                    <div class="detailCoupons module-wrap">
-                        <van-cell-group class="goods-cell-group">
+                    <!-- <div class="detailCoupons module-wrap"> -->
+                        <!-- <van-cell-group class="goods-cell-group">
                             <van-cell is-link @click="couponShow = true">
                                 <template slot="title">
                                     <span class="label">优惠券</span>
                                     <span class="text size22">领券</span>
                                 </template>
-                            </van-cell>
+                            </van-cell> -->
                             
                             <!-- 领取优惠券上拉菜单 -->
                             <!-- <van-actionsheet v-model="couponShow" title="优惠券"  style="display:none">
@@ -126,8 +126,8 @@
                                 </div> -->
                             <!-- </van-actionsheet> -->
 
-                        </van-cell-group>
-                    </div>
+                        <!-- </van-cell-group> -->
+                    <!-- </div> -->
 
                     <!-- 规格 -->
                     <div class="sku-wrap module-wrap">
