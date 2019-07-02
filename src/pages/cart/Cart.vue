@@ -48,7 +48,7 @@
                     </p>
                 </div>
             </div>
-            <div class="footer-b">结算({{updateNumber}})</div>
+            <div class="footer-b" @click="toPay()">结算({{updateNumber}})</div>
         </div>
         <Navigate></Navigate>
     </div>

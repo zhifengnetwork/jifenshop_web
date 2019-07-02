@@ -73,7 +73,6 @@
                 <strong class="f-a-a"> 实付款：</strong>
                 <div class="f-a-b">
                     <span class="colorRed size-20">￥<strong class="size-36">{{updatePrice}}</strong></span>
-                    <span class="-freight">免运费</span>
                 </div>
             </div>
             <div class="footer-b">立即付款</div>
