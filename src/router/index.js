@@ -36,12 +36,23 @@ import ReturnGoods from '@/pages/order/ReturnGoods'
 // 申请退款
 import ReturnRequest from '@/pages/order/ReturnRequest'
 
+// 确认订单
+import ConfirmOrder from '@/pages/pay/ConfirmOrder'
+
 // 我的
 import User from '@/pages/user/User'
 // 个人资料
 import personalData from '@/pages/user/personalData'
 // 预计收益
 import shouyilist from '@/pages/user/shouyilist'
+// 账户余额
+import theAccountBalance from '@/pages/user/theAccountBalance'
+// 提现明细
+import theWithdrawal from '@/pages/user/theWithdrawal'
+// 账单明细
+import billingDetails from '@/pages/user/billingDetails'
+// 账户提现
+import withdrawal from '@/pages/user/withdrawal'
 // 查看订单
 import lookorder from '@/pages/user/lookorder'
 // 我的团队
@@ -56,6 +67,9 @@ import mySharing from '@/pages/user/mySharing'
 import alipay from '@/pages/user/alipay'
 // 修改用户名
 import modifyUserName from '@/pages/user/modifyUserName'
+
+// 收藏
+import Collect from '@/pages/user/Collect'
 
 // 收货地址
 import Address from '@/pages/user/address/Address'
@@ -168,11 +182,15 @@ export default new Router({
 			name: 'ReturnRequest',
 			component: (resolve) => require(['@/pages/order/ReturnRequest'],resolve),
 		},
-
+		// 确认订单
+		{
+			path: '/Pay/ConfirmOrder',
+			name: 'ConfirmOrder',
+			component: (resolve) => require(['@/pages/pay/ConfirmOrder'],resolve),
+		},
 		/**
 		 * 我的
 		 */
-		// 我的
 		{
 			path: '/User',
 			name: 'User',
@@ -189,6 +207,30 @@ export default new Router({
 			path: '/user/shouyilist',
 			name: 'alipay',
 			component:() => import('@/pages/user/shouyilist'),
+		},
+		// 账户余额
+		{
+			path: '/user/theAccountBalance',
+			name: 'theAccountBalance',
+			component:() => import('@/pages/user/theAccountBalance'),
+		},
+		// 账户提现
+		{
+			path: '/user/withdrawal',
+			name: 'withdrawal',
+			component:() => import('@/pages/user/withdrawal'),
+		},
+		// 提现明细
+		{
+			path: '/user/theWithdrawal',
+			name: 'theWithdrawal',
+			component:() => import('@/pages/user/theWithdrawal'),
+		},
+		// 账单明细
+		{
+			path: '/user/billingDetails',
+			name: 'billingDetails',
+			component:() => import('@/pages/user/billingDetails'),
 		},
 		// 查看订单
 		{
@@ -233,7 +275,12 @@ export default new Router({
 			name: 'alipay',
 			component:() => import('@/pages/user/modifyUserName'),
 		},
-
+		// 收藏
+		{
+			path: '/user/Collect',
+			name: 'alipay',
+			component:() => import('@/pages/user/Collect'),
+		},
 		/**
 		 * 地址管理
 		 */
