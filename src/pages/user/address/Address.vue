@@ -10,9 +10,6 @@
                     <div class="item-name">
                         <span class="name">小腊肉</span>
                         <span class="tel">17875592622</span>
-                        <router-link to="/user/editAddress">
-                            <span class="edit"></span>
-                        </router-link>
                     </div>
                     <div class="item-address">
                         <div class="isDefault">默认</div>
@@ -20,22 +17,25 @@
                             <p>广东省广州市番禺区荷光路快递收藏路15栋28层28层28层28层28层28层28层28层28层</p>
                         </div>
                     </div>
-                    <span class="del-icon"></span>
+                    <router-link class="editAddress" to="/user/editAddress">
+                        <i class="iconfont iconbianji"></i>
+                    </router-link>
+                    <i class="iconfont del-icon iconshanchu1"></i>
                 </div>
                 <div class="address-item">
                     <div class="item-name">
                         <span class="name">荷包蛋</span>
                         <span class="tel">17875592622</span>
-                        <router-link to="/user/editAddress">
-                            <span class="edit"></span>
-                        </router-link>
                     </div>
                     <div class="item-address">
                         <div class="exact-address">
                             <p>广东省广州市番禺区荷光路快递收藏路15栋28层</p>
                         </div>
                     </div>
-                    <span class="del-icon"></span>
+                    <router-link class="editAddress" to="/user/editAddress">
+                        <i class="iconfont iconbianji"></i>
+                    </router-link>
+                    <i class="iconfont del-icon iconshanchu1"></i>
                 </div>
             </div>
             
@@ -110,27 +110,23 @@ export default {
                     margin-bottom 20px
                     .name   
                         margin-right 50px
+                        font-size 36px
                     .tel
                         flex 1
-                    .edit
-                        width 27px
-                        height 27px
-                        display block
-                        background url('/static/images/user/address/address-edit-icon.png') no-repeat
-                        background-size cover   
+                        font-size 28px
                 .item-address
                     display flex
                     .isDefault
-                        width 54px
                         height 28px
                         line-height 28px
                         text-align center
                         font-size 24px
                         color #ffffff
                         background-color #43c439
-                        border-radius 3px
+                        border-radius 6px
                         margin-right 20px
                         margin-top 5px
+                        padding 6px
                     .exact-address
                         flex 1
                         font-size 0
@@ -141,15 +137,22 @@ export default {
                             display -webkit-box
                             -webkit-line-clamp 2
                             -webkit-box-orient vertical
-                .del-icon
-                    width 22px
-                    height 22px
-                    display block
-                    background url('/static/images/user/address/del-icon.png') no-repeat
-                    background-size cover
+                .editAddress
                     position absolute
-                    right 10px
+                    top 10px
+                    right 90px
+                    display block
+                    width 24px
+                    height 24px
+                    color #ccc
+                .del-icon
+                    position absolute
+                    right 20px
                     top 10px 
+                    width 24px
+                    height 24px
+                    display block
+                    color #ccc
         .add-address
             width 92%
             height 88px

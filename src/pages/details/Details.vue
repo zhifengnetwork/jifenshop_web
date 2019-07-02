@@ -276,10 +276,12 @@
                 <van-goods-action-button
                     type="warning"
                     text="加入购物车"
+                    @click="addToCart()"
                 />
                 <van-goods-action-button
                     type="danger"
                     text="立即购买"
+                    @click="toBay()"
                 />
             </van-goods-action>
         </div>
@@ -415,6 +417,12 @@ export default {
         },
         handleScroll () {
             this.head = window.scrollY > 150;
+        },
+        addToCart(){
+            this.$toast("添加成功,可直接去购物车下单")
+        },
+        toBay(){
+            this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
         }
     },
     mounted() {

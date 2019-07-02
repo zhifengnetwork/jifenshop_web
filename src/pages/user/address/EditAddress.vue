@@ -128,7 +128,7 @@ export default {
             box-sizing border-box  
             box-shadow 1px 1px 8px #ccc
             .label
-                width 145px
+                width 180px
                 font-size 24px
                 color #151515
                 margin-right 25px 
