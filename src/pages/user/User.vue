@@ -10,7 +10,7 @@
                 <div class="name_wrap">
                     <p class="name">美美宝宝</p>
                     <p class="id">ID：187514</p>
-                    <p class="joinDate">加入时间：2019.06.12</p>
+                    <!-- <p class="joinDate">加入时间：2019.06.12</p> -->
                 </div>
             </div>
 
@@ -29,19 +29,21 @@
                         </router-link>
                     </div>
                     <div class="balance">
-                        <div class="number">500</div>
-                        <div>
-                            余额
-                            <i class="right_arrow"></i>
-                        </div>
+                        <router-link class="look" to="/user/theAccountBalance">
+                            <div class="number">500</div>
+                            <div>
+                                余额
+                                <i class="right_arrow"></i>
+                            </div>
+                        </router-link>
                     </div>
-                    <div class="collection">
+                    <router-link to="/user/Collect" class="collection">
                         <div class="number">148</div>
                         <div>
                             收藏
                             <i class="right_arrow"></i>
                         </div>
-                    </div>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -93,39 +95,52 @@
                     </ul>
                 </div>
             </div>
+            <!-- 我的团队 -->
+            <div class="my_team">
+                <router-link class="my_look" to="/user/myTeam">
+                    <div class="my_team_title">
+                        <p>我的团队</p>
+                        <p>查看明细<i class="iconfont iconyou"></i></p>
+                    </div>
+                    <div class="my_team_content">
+                        <div class="my_team_item">
+                            <p>40000</p>
+                            <p>总人数</p>
+                        </div>
+                        <div class="my_team_item">
+                            <p>400</p>
+                            <p>推荐奖励积分</p>
+                        </div>
+                        <div class="my_team_item">
+                            <p>400</p>
+                            <p>今日新增人数</p>
+                        </div>
+                    </div>
+                </router-link>
+            </div>
             <!--  -->
             <div class="list_wrap">
-                <div class="arr_wrap">
-                    <router-link class="my_look" to="/user/myTeam">
-                        <span>我的团队</span>
-                        <span class="right_ico"></span>
-                    </router-link>
-                </div>
-                <div class="arr_wrap">
+                <!-- <div class="arr_wrap">
                     <router-link class="my_look" to="/user/receiptInformation">
                         <span>收款信息</span>
                         <span class="right_ico"></span>
                     </router-link> 
-                </div>
-                <div class="arr_wrap">
-                    <span>佣金明细</span>
-                    <span class="right_ico"></span>
-                </div>
+                </div> -->
                 <div class="arr_wrap">
                     <span>手机号绑定</span>
                     <span class="cell">180 8222 8888</span>
                     <span class="right_ico"></span>
                 </div>
-                    <div class="arr_wrap">
-                        <router-link class="my_look" to="/user/Address">
-                            <span>地址管理</span>
-                            <span class="right_ico"></span>
-                        </router-link>
-                    </div>
                 <div class="arr_wrap">
-                    <span>邀请链接</span>
+                    <router-link class="my_look" to="/user/Address">
+                        <span>地址管理</span>
+                        <span class="right_ico"></span>
+                    </router-link>
+                </div>
+                <div class="arr_wrap">
+                    <span>商家入驻</span>
                     <span class="right_ico"></span>
-                </div>               
+                </div>
                 <div class="arr_wrap">
                     <router-link class="my_look" to="/user/mySharing">
                         <span>我的分享</span>
@@ -281,6 +296,48 @@
                         color #fea15a
                         background #ffffff
                         text-align center
+        .my_team
+            margin 20px 24px
+            padding 20px
+            background #fff
+            border-radius 10px
+            box-sizing border-box
+            -moz-box-sizing border-box
+            -webkit-box-sizing border-box
+            .my_team_title
+                color #151515
+                line-height 58px
+                border-bottom 2px solid #ccc
+                display -webkit-box
+                display  -moz-box
+                display  -ms-flexbox
+                display  -webkit-flex
+                display  flex
+                -webkit-justify-content space-between	
+                justify-content space-between
+                -moz-box-pack space-between
+                box-pack space-between
+            .my_team_content
+                height 120px
+                text-align center
+                color #151515
+                display -webkit-box
+                display  -moz-box
+                display  -ms-flexbox
+                display  -webkit-flex
+                display  flex
+                -webkit-justify-content space-between	
+                justify-content space-between
+                -moz-box-pack space-between
+                box-pack space-between
+                .my_team_item
+                    margin-top 20px
+                    width 30%
+                    line-height 50px
+                    &:nth-last-of-type({2})
+                        width 40%
+                        border-left 2px solid #ccc
+                        border-right 2px solid #ccc
         .list_wrap
             margin 0 24px 116px 24px
             padding 16px 22px

@@ -23,7 +23,21 @@
                         </div>
                     </div>
                 </div>
-                <p class="touch">长按二维码保存</p>
+                <!-- <p class="touch">长按二维码保存</p> -->
+                <div class="share">
+                    <div class="share_item">
+                        <div class="share_imgWrap">
+                            <img class="share_img" src="/static/images/user/weixin.png">
+                        </div>
+                        <div>分享好友</div>
+                    </div>
+                    <div class="share_item">
+                        <div class="share_imgWrap">
+                            <img class="share_img" src="/static/images/user/download.png">
+                        </div>
+                        <div>保存图片</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -107,8 +121,29 @@
                 font-size 30px
                 text-align center
                 line-height 105px            
-
-
+            .share
+                width 100%
+                height 160px
+                text-align center
+                font-size 30px
+                display -webkit-box
+                display  -moz-box
+                display  -ms-flexbox
+                display  -webkit-flex
+                display  flex
+                -webkit-justify-content center	
+                justify-content center
+                -moz-box-pack center
+                box-pack center
+                .share_item
+                    margin 0 80px
+                .share_imgWrap
+                    width 70px
+                    height 70px
+                    margin 20px auto
+                    .share_img
+                        width 100%
+                        height 100%
 img
     display block
     margin 0 auto

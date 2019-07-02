@@ -46,7 +46,7 @@
                             </div>
                             <div class="order-btn">
                                 <span class="btn">删除订单</span>
-                                <span class="btn red">查看物流</span>
+                                <span class="btn">查看物流</span>
                             </div>
                         </div>
                         <div class="item-card">
@@ -131,7 +131,7 @@
                                 </div>
                             </div>
                             <div class="order-btn">
-                                <span class="btn red">查看物流</span>
+                                <span class="btn">查看物流</span>
                                 <span class="btn red">确认收货</span>
                             </div>
                         </div>
@@ -280,7 +280,7 @@
                                 </div>
                             </div>
                             <div class="order-btn">
-                                <span class="btn red">查看物流</span>
+                                <span class="btn">查看物流</span>
                                 <span class="btn red">确认收货</span>
                             </div>
                         </div>
@@ -309,7 +309,7 @@
                                 </div>
                             </div>
                             <div class="order-btn">
-                                <span class="btn red">查看物流</span>
+                                <span class="btn">查看物流</span>
                                 <span class="btn red">确认收货</span>
                             </div>
                         </div>
@@ -340,7 +340,7 @@
                                 </div>
                             </div>
                             <div class="order-btn">
-                                <span class="btn red">查看物流</span>
+                                <span class="btn">查看物流</span>
                                 <span class="btn red">去评价</span>
                             </div>
                         </div>
@@ -369,7 +369,7 @@
                                 </div>
                             </div>
                             <div class="order-btn">
-                                <span class="btn red">查看物流</span>
+                                <span class="btn">查看物流</span>
                                 <span class="btn red">去评价</span>
                             </div>
                         </div>
@@ -459,15 +459,15 @@ export default {
             }
             if(this.ispage){
 
-                var url = 'Order/order_list'
-                var token = window.sessionStorage.getItem("token")
-                this.$axios.get( url +'?type='+ type +'&page=' + this.page + '&token='+ token)
-                .then( (res)=>{
-                    console.log(res)
-                })
-                .catch((error) => {
-                    alert('请求错误:'+ error)
-                })
+                // var url = 'Order/order_list'
+                // var token = window.sessionStorage.getItem("token")
+                // this.$axios.get( url +'?type='+ type +'&page=' + this.page + '&token='+ token)
+                // .then( (res)=>{
+                //     console.log(res)
+                // })
+                // .catch((error) => {
+                //     alert('请求错误:'+ error)
+                // })
 
                 // var params = new URLSearchParams()
                     // params.append('type', type)

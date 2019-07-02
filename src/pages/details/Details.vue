@@ -1,10 +1,13 @@
 <template>
     <div class="Details">
         <!-- 头部组件 -->
-		<TopHeader custom-title="商品详情" custom-fixed>
+		<TopHeader custom-title="商品详情" custom-fixed v-if="head">
 			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</TopHeader>
-        <div class="height-88"></div>
+        <TopHeader custom-title="" custom-fixed  v-if="!head" style="background:transparent;color:rgba(200,200,200,.45);">
+			<i slot="backBtn" class="iconfont iconfanhui1" style="font-size:24px;"></i>
+		</TopHeader>
+        <!-- <div class="height-88"></div> -->
         <!-- 产品图轮播 -->
         <div class="detailsSwiper">
             <van-swipe :autoplay="3000" indicator-color="white">
@@ -27,7 +30,8 @@
         <div class="content">
             <div class="price">
                 <span class="discount-price">￥569.00</span>
-                <span class="original-price">原价￥569.00</span>
+                <span class="discount_tag">自营商品</span>
+                <!-- <span class="original-price">原价￥569.00</span> -->
             </div>
             <div class="goodsInfo">
                 <!-- 商品名称 -->
@@ -64,78 +68,13 @@
                         </van-cell-group>
                     </div>
 
-                    <!-- 优惠券 -->
-                    <!-- <div class="detailCoupons module-wrap"> -->
-                        <!-- <van-cell-group class="goods-cell-group">
-                            <van-cell is-link @click="couponShow = true">
-                                <template slot="title">
-                                    <span class="label">优惠券</span>
-                                    <span class="text size22">领券</span>
-                                </template>
-                            </van-cell> -->
-                            
-                            <!-- 领取优惠券上拉菜单 -->
-                            <!-- <van-actionsheet v-model="couponShow" title="优惠券"  style="display:none">
-                                <div class="coupon-list">
-                                    <ul>
-                                        <li>
-                                            <div class="full-reduction">
-                                                <div class="coupon-amount">5<span class="unit">元</span></div>
-                                                <div class="coupon-condition">
-                                                    <p>满100减5元</p>
-                                                </div>
-                                            </div>
-                                            <div class="couponInfo">
-                                                <h2 class="coupon-name">商品优惠劵</h2>
-                                                <p class="validity-date">有效期：2019.05.10-2019.05.20</p>
-                                                <span class="useBtn">去使用</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="full-reduction">
-                                                <div class="coupon-amount">200<span class="unit">元</span></div>
-                                                <div class="coupon-condition">
-                                                    <p>满1000减200元</p>
-                                                </div>
-                                            </div>
-                                            <div class="couponInfo">
-                                                <h2 class="coupon-name">商品优惠劵</h2>
-                                                <p class="validity-date">有效期：2019.05.10-2019.05.20</p>
-                                                <span class="useBtn">去使用</span>
-                                            </div>
-                                        </li>
-                                        <li class="new">
-                                            <div class="full-reduction">
-                                                <div class="coupon-amount">300<span class="unit">元</span></div>
-                                                <div class="coupon-condition">
-                                                    <p>满100减5元</p>
-                                                </div>
-                                            </div>
-                                            <div class="couponInfo">
-                                                <h2 class="coupon-name">新人专享</h2>
-                                                <p class="validity-date">有效期：2019.05.10-2019.05.20</p>
-                                                <span class="useBtn">去使用</span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div> -->
-                                <!-- 暂无可使用优惠券 -->
-                                <!-- <div class="none" style="display:none">
-                                    <img src="/static/img/public/none.png" >
-                                    <p>暂无可使用优惠券</p>
-                                </div> -->
-                            <!-- </van-actionsheet> -->
-
-                        <!-- </van-cell-group> -->
-                    <!-- </div> -->
-
                     <!-- 规格 -->
                     <div class="sku-wrap module-wrap">
                         <van-cell-group class="goods-cell-group">
                             <van-cell is-link>
                                 <template slot="title">
                                     <span class="label">规格</span>
-                                    <span class="wayText size22">S M L XL</span>
+                                    <span class="wayText size22">默认规格显示</span>
                                 </template>
                             </van-cell>
                         </van-cell-group>
@@ -319,89 +258,38 @@
             </div>
 
         </div>
-        
-        <!-- 商品规格1 -->
-        <!-- <div class="sku-wrap" style="display:none">
-            <van-actionsheet v-model="skuShow" title="商品规格">
-                <div class="sku-content"> -->
-                    <!-- 尺寸 -->
-                    <!-- <div class="sku-row">
-                        <div class="sku-row-title">尺寸</div>
-                        <div class="sku-row-con">
-                            <span class="sku-row-item active">S</span>
-                            <span class="sku-row-item">M</span>
-                            <span class="sku-row-item">L</span>
-                        </div>
-                    </div> -->
-
-                    <!-- 颜色 -->
-                    <!-- <div class="sku-row">
-                        <div class="sku-row-title">颜色分类</div>
-                        <div class="sku-row-con">
-                            <span class="sku-row-item active">墨绿色</span>
-                            <span class="sku-row-item">粉红色</span>
-                            <span class="sku-row-item">红色</span>
-                            <span class="sku-row-item">黑色</span>
-                        </div>
-                    </div> -->
-
-                    <!-- 颜色分类 -->
-                    <!-- <div class="sku-row">
-                        <div class="sku-row-title" style="padding-bottom:.25rem">购买数量</div>
-                        <div class="stepper">
-                            <van-stepper v-model="value" />
-                        </div>
-                    </div> -->
-
-                    <!-- 按钮 -->
-                    <!-- <button class="confirmBtn" @click="confirm()">确定</button>
-
-                </div>
-            </van-actionsheet>
-        </div> -->
-
-        <!-- 商品规格2 -->
-        <!-- <van-sku
-            v-model="showBase"
-            :sku="sku"
-            :goods="sku.goods"
-        >
-            <template slot="sku-actions" slot-scope="props">
-                <div class="van-sku-actions">
-                    <van-button
-                        square
-                        size="large"
-                        type="danger"
-                    >
-                        确定
-                    </van-button>
-                </div>
-            </template>
-        </van-sku> -->
-
+        <van-sku
+        v-model="showBase"
+        :sku="sku"
+        :goods="sku.goods"
+        />
         <!-- 底部菜单 -->
-        <!-- <div class="bottom-bar">
+        <div class="bottom-bar">
             <van-goods-action>
-                <goods-action-mini-btn
-                icon="like-o"
-                text="关注"
+                <van-goods-action-icon
+                    icon="shop-o"
+                    text="店铺"
                 />
-                <goods-action-mini-btn
-                icon="service"
-                text="客服"
+                <van-goods-action-icon
+                    icon="like-o"
+                    text="收藏"
                 />
-                <goods-action-big-btn
-                type="warning"
-                text="加入购物车"
-                @click="handleBtn"
+                <van-goods-action-icon
+                    icon="chat-o"
+                    text="客服"
                 />
-                <goods-action-big-btn
-                type="danger"
-                text="马上抢购"
-                @click="handleBtn"
+                <van-goods-action-button
+                    type="warning"
+                    text="加入购物车"
+                    @click="addToCart()"
+                />
+                <van-goods-action-button
+                    type="danger"
+                    text="立即购买"
+                    @click="toBay()"
                 />
             </van-goods-action>
-        </div> -->
+        </div>
 
     </div>
 </template>
@@ -410,16 +298,16 @@
 import Vue from 'vue'
 import AreaList from './area'
 // import {GoodsAction,GoodsActionBigBtn,GoodsActionMiniBtn,Toast,Sku } from 'vant'
-import {GoodsAction,Toast,Sku } from 'vant'
+import {GoodsAction,GoodsActionIcon,GoodsActionButton,Toast,Sku} from 'vant'
 
 import TopHeader from "@/pages/common/header/TopHeader"
 
 Vue.use(
     GoodsAction,
-    // GoodsActionBigBtn,
-    // GoodsActionMiniBtn,
+    GoodsActionIcon,
+    GoodsActionButton,
     Toast,
-    Sku 
+    Sku
     )
 
 export default {
@@ -427,11 +315,12 @@ export default {
     components:{
         TopHeader,
         GoodsAction,
-        // GoodsActionBigBtn,
-        // GoodsActionMiniBtn,
+        // GoodsActionIcon,
+        // GoodsActionButton
     },
     data(){
         return {
+            head:false,//头部隐藏
             goodsId:this.$route.query.goods_id,//商品id
             tabActive: 0,//tab选中
             rateVal: 3,//评分当前分值
@@ -530,9 +419,20 @@ export default {
         // 商品规格选择确定
         confirm(){
             this.close()
+        },
+        handleScroll () {
+            this.head = window.scrollY > 150;
+        },
+        addToCart(){
+            this.$toast("添加成功,可直接去购物车下单")
+        },
+        toBay(){
+            this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
         }
-
-
+    },
+    mounted() {
+        //监听页面滚动事件
+        window.addEventListener('scroll', this.handleScroll);
     }
 }
 </script>
@@ -542,6 +442,7 @@ export default {
     background-color #ffffff
     // 产品主图轮播
     .detailsSwiper
+        height 750px
         img 
             width 100%
             display block
@@ -549,6 +450,8 @@ export default {
         padding-bottom 128px
         box-sizing border-box
         .price
+            position relative
+            margin 0 24px
             height 60px
             line-height 60px
             .discount-price
@@ -557,11 +460,25 @@ export default {
             .original-price
                 font-size 26px
                 color #838383
+            .discount_tag
+                position absolute
+                top 0
+                bottom 0
+                right 24px
+                margin auto
+                height 34px
+                line-height 34px
+                padding 0 4px
+                color #ff0000
+                border 2px solid #ff0000
         .goodsInfo
-            padding 0 25px 25px
             box-sizing border-box
             .goodsName
                 margin 0 auto 30px
+                padding 0 24px
+                box-sizing border-box
+                -moz-box-sizing border-box
+                -webkit-box-sizing border-box
                 h1
                     font-size 26px
                     color #151515
@@ -574,13 +491,19 @@ export default {
             .group-warp
                 background #f8f8f8
                 border-radius 8px
-                padding 10px 20px
+                padding 10px 0
                 box-sizing border-box
+                -moz-box-sizing border-box
+                -webkit-box-sizing border-box
+                .module-wrap
+                    padding 0 24px
+                    background #fff
+                    box-sizing border-box
+                    -moz-box-sizing border-box
+                    -webkit-box-sizing border-box
                 .van-cell-group
-                    background-color #f8f8f8
                     font-size 24px
                     .van-cell
-                        background-color #f8f8f8
                         padding 4px 0
                         .label
                             width 100px

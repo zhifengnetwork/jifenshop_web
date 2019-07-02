@@ -5,7 +5,11 @@
 			<i slot="rightBtn" class="iconfont iconshanchu" @click="deletOption()"></i>
 		</TopHeader>
         <div class="height-88"></div>
-       
+        <!-- No INFO START -->
+        <div v-show="list.length<1" class="no-info">
+            <Nodata :nodatas="nodatas"></Nodata>
+        </div>
+        <!-- GOODS LIST START -->
         <div class="conter">
             <div class="c-list-" v-for="(item,key) in list" :key="key">
                 <van-checkbox v-model="item.isCheck" :check ="item.isCheck" @click="selectGoods($event,key)"></van-checkbox>
@@ -44,7 +48,7 @@
                     </p>
                 </div>
             </div>
-            <div class="footer-b">结算({{updateNumber}})</div>
+            <div class="footer-b" @click="toPay()">结算({{updateNumber}})</div>
         </div>
         <Navigate></Navigate>
     </div>
@@ -53,10 +57,16 @@
 <script>
 import TopHeader from "@/pages/common/header/TopHeader";
 import Navigate from "@/pages/common/footer/Navigate";
+import Nodata from "@/pages/common/nodata/Nodata";
 import { Dialog } from 'vant';
 export default {
     data(){
         return {
+            nodatas:{
+                'imgSrc':'/static/images/cart/cart_icon.png',
+                'text':'购物车空空如也~',
+                'link':'/Hone'
+            },
             list:[
                 {
                     text:'自然堂化妆品补水防晒虎虎生风',
@@ -117,6 +127,10 @@ export default {
              this.$set(data,'isCheck',!data.isCheck);
             if(!data.isCheck){
                 this.allChecked=false
+            }else{
+                if(this.countNumberCheckBoxes().length === this.list.length){
+                    this.allChecked=true
+                }
             }
         },
         reducingNumber(key){
@@ -134,6 +148,15 @@ export default {
                 return;
             }
             this.$set( data,'number',val)
+        },
+        countNumberCheckBoxes(){    //计算选中的复选框的总数
+            let counts =[];
+            this.list.forEach((data)=>{
+                if(data.isCheck){
+                    counts.push('a')    // a 可为任何数，在这里仅用于占位
+                }
+            })
+            return counts;
         },
         deletOption(){
             Dialog.confirm({
@@ -159,10 +182,14 @@ export default {
             val =new Number(val+ 1)
             this.$set( data,'number',val);
         },
+        toPay(){
+            this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+        }
     },
     components: {
         TopHeader,
-        Navigate
+        Navigate,
+        Nodata
 	}
 
 }
@@ -193,6 +220,8 @@ export default {
                     display:flex;
                     align-items :center;
                     box-sizing: border-box;
+                    background #fff
+                    border-radius 10px
                     .-list-img
                         width:201px;
                         height:176px;
@@ -238,12 +267,14 @@ export default {
                                     height:100%;
                                     font-size: 12px;
                                 .puls
+                                    width 48px
                                     border-left:1px solid #e6e6e6;
                                 .subling
+                                    width 48px
                                     border-right:1px solid #e6e6e6;
                                   
                                 .inp
-                                    width:121px;
+                                    width:94px;
                                     text-align: center;
                                     height:inherit;
                                     font-size:24px;
