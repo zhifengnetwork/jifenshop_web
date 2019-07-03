@@ -8,8 +8,8 @@
                     </div>
                 </router-link>    
                 <div class="name_wrap">
-                    <p class="name">{{data.nickname}}</p>
-                    <p class="id">ID:{{data.id}}</p>
+                    <p class="name">美美宝宝</p>
+                    <p class="id">ID：{{list.alipay}}</p>
                     <!-- <p class="joinDate">加入时间：2019.06.12</p> -->
                 </div>
             </div>
@@ -21,7 +21,7 @@
                     <div class="earnings">
                          <!-- <router-link class="look" to="/user/shouyilist"> -->
                         <router-link class="look" to="/user/jifeng">
-                            <div class="number">{{data.point}}</div>
+                            <div class="number">{{list.point}}</div>
                             <div>
                                 积分
                                 <i class="right_arrow"></i>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="balance">
                         <router-link class="look" to="/user/theAccountBalance">
-                            <div class="number">{{data.money}}</div>
+                            <div class="number">{{list.money}}</div>
                             <div>
                                 余额
                                 <i class="right_arrow"></i>
@@ -164,28 +164,25 @@
         name: "user",
         data() {
             return {
-                data:''
+                list: '',
             };
         },
         components: {
             userFooter,
         },
-        mounted(){
-            let _this = this;
-            this.$axios.get('/home/index',{
-                params:{
-                    token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+        created() {
+            this.$axios({
+                method: 'post',
+                url: 'home/get_user_info',
+                data: {
+                     "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA' 
                 }
             })
-            .then(function(response){
-                console.log(response);
-                _this.data = response.data.data;
-                console.log(_this.data)
+            .then((res) => {
+                this.list = res.data.data
+                console.log(this.list)
             })
-            .catch(function(error){
-                console.log(error);
-            })
-        }
+        },
     };
 </script>
 
