@@ -11,19 +11,19 @@
 				<div class="name_wrap">
 					<div class="name">支付宝账号</div>
 					<div class="inp_wrap">
-						<input type="text" placeholder="请输入支付宝账号"/>
+						<input type="text" placeholder="请输入支付宝账号" v-model="Num" />
 					</div>
 				</div>
 				<!-- 真实姓名 -->
 				<div class="name_wrap">
 					<div class="name">真实姓名</div>
 					<div class="inp_wrap">
-						<input type="text" placeholder="请输入真实姓名"/>
+						<input type="text" placeholder="请输入真实姓名" v-model="Name" />
 					</div>
 				</div>
 			</div>
 			<!-- 确认按钮 -->
-			<div class="submit_btn">确认</div>
+			<div class="submit_btn" @click="btn">确认</div>
 		</div>
 
 	</div>
@@ -35,13 +35,32 @@
 		name: "alipay",
 		data() {
 			return{
-                
+				list: '',
+				Num: '',
+				Name: ''
 			}
 		},
 		components: {
 			PayHeader,
 		},
-		
+		methods:{
+			btn:function (){
+				// console.log(this.abc)
+					this.$axios({
+				method: 'post',
+				url: 'home/bind_alipay',
+				data: {
+					number: this.Num,
+					name: this.Name,
+					"token": 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+				}
+			})
+			.then((res) => {
+				console.log(res)
+			})
+		}
+			
+		}
 	}
 </script>
 

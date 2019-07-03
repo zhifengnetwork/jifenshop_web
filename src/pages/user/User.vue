@@ -9,7 +9,7 @@
                 </router-link>    
                 <div class="name_wrap">
                     <p class="name">美美宝宝</p>
-                    <p class="id">ID：187514</p>
+                    <p class="id">ID：{{list.alipay}}</p>
                     <!-- <p class="joinDate">加入时间：2019.06.12</p> -->
                 </div>
             </div>
@@ -21,7 +21,7 @@
                     <div class="earnings">
                          <!-- <router-link class="look" to="/user/shouyilist"> -->
                         <router-link class="look" to="/user/jifeng">
-                            <div class="number">100</div>
+                            <div class="number">{{list.point}}</div>
                             <div>
                                 积分
                                 <i class="right_arrow"></i>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="balance">
                         <router-link class="look" to="/user/theAccountBalance">
-                            <div class="number">500</div>
+                            <div class="number">{{list.money}}</div>
                             <div>
                                 余额
                                 <i class="right_arrow"></i>
@@ -159,11 +159,26 @@
     export default {
         name: "user",
         data() {
-            return {};
+            return {
+                list: '',
+            };
         },
         components: {
             userFooter,
-        }
+        },
+        created() {
+            this.$axios({
+                method: 'post',
+                url: 'home/get_user_info',
+                data: {
+                     "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA' 
+                }
+            })
+            .then((res) => {
+                this.list = res.data.data
+                console.log(this.list)
+            })
+        },
     };
 </script>
 

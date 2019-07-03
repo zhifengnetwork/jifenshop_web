@@ -12,19 +12,19 @@
         <!-- GOODS LIST START -->
         <div class="conter">
             <div class="c-list-" v-for="(item,key) in list" :key="key">
-                <van-checkbox v-model="item.isCheck" :check ="item.isCheck" @click="selectGoods($event,key)"></van-checkbox>
+                <van-checkbox v-model="item.selected" :check ="item.selected" @click="selectGoods($event,key)"></van-checkbox>
                 <div class="-list-img">
                     <router-link to="/Details"><img :src="item.img" /></router-link>
                 </div>
                 <div class="goods-info">
-                     <router-link to="/Details"><p class="-info-msg">{{item.text}}</p></router-link>
+                     <router-link to="/Details"><p class="-info-msg">{{item.goods_name}}</p></router-link>
                     <div class="-info-option"> 
                         <span class="price">
-                            ￥<strong>{{item.price}}</strong>
+                            ￥<strong>{{item.goods_price}}</strong>
                         </span>
                         <span class="-option-">
                             <i class="subling iconfont iconjian-copy" @click="reducingNumber(key)"></i>
-                            <input class="inp" type="text" :value="item.number" @change="changNumber($event,key)"/>
+                            <input class="inp" type="text" :value="item.goods_num" @change="changNumber($event,key)"/>
                             <i class="puls iconfont iconjia-copy" @click="addNumber(key)" ></i>
                         </span>
                     </div>
@@ -67,30 +67,8 @@ export default {
                 'text':'购物车空空如也~',
                 'link':'/Hone'
             },
-            list:[
-                {
-                    text:'自然堂化妆品补水防晒虎虎生风',
-                    img:'/static/images/cart/goods_img.jpg',
-                    price:'360.00',
-                    number:1,
-                    isCheck:true
-                },
-               {
-                    text:'自然堂化妆品补水防晒虎虎生风',
-                    img:'/static/images/cart/goods_img.jpg',
-                    price:'380.00',
-                    number:6,
-                    isCheck:false
-                },
-                {
-                    text:'自然堂化妆品补水防晒虎虎生风',
-                    img:'/static/images/cart/goods_img.jpg',
-                    price:'360.00',
-                    number:1,
-                    isCheck:true
-                }
-            ],
-            allChecked: false,
+            list: [],
+            allChecked: 0,
         };
     },
 
@@ -100,19 +78,21 @@ export default {
         [Dialog.Component.name]: Dialog.Component
     },
     computed:{
+        //选中时计算总价
         updatePrice(){
             let totalPrice=0;
             this.list.forEach((data)=>{
-                if(data.isCheck){
-                    totalPrice += new Number(data.price) * new Number(data.number);
+                if(data.selected){
+                    totalPrice += new Number(data.goods_price) * new Number(data.goods_num);
                 }
             })
             return totalPrice;
         },
+        //选中时计算总数量
         updateNumber(){
             let count =0;
             this.list.forEach((data)=>{
-                if(data.isCheck){
+                if(data.selected){
                     count ++
                 }
             })
@@ -120,29 +100,42 @@ export default {
         }
     },
     methods:{
-        selectAll(_flag){
+        
+        // 全选
+        selectAll(allChecked){
+            console.log(allChecked)
             for(var i =0;i<this.list.length;i++){
-                this.list[i].isCheck = ! _flag;
-            }
-        },
-        selectGoods(e,key){
-            var data =this.list[key];
-             this.$set(data,'isCheck',!data.isCheck);
-            if(!data.isCheck){
-                this.allChecked=false
-            }else{
-                if(this.countNumberCheckBoxes().length === this.list.length){
-                    this.allChecked=true
+                //当所有的selseced为0的时候，点击全选按钮将所有的selected改为1，即选中状态
+                if(!allChecked){
+                    this.list[i].selected = 1;
+                }
+                else if(allChecked){
+                    this.list[i].selected = 0
                 }
             }
         },
+        // 单选
+        selectGoods(e,key){
+            var data =this.list[key];
+            console.log(data.goods_id)
+             this.$set(data,'selected',!data.selected);
+             console.log(this.list)
+            if(!data.selected){
+                this.allChecked=0
+            }else{
+                if(this.countNumberCheckBoxes().length === this.list.length){
+                    this.allChecked=1
+                }
+            }
+        },
+        // 减
         reducingNumber(key){
             var data =this.list[key];
-            var val =parseInt(data.number - 1) 
+            var val =parseInt(data.goods_num - 1) 
            if(val<=1){
                val =1
            }
-           this.$set( data,'number',val )
+           this.$set( data,'goods_num',val )
            console.log(val)
         },
         changNumber(e,key){
@@ -151,7 +144,7 @@ export default {
             if(val<=1){
                 return;
             }
-            this.$set( data,'number',val)
+            this.$set( data,'goods_num',val)
         },
         countNumberCheckBoxes(){    //计算选中的复选框的总数
             let counts =[];
@@ -182,9 +175,9 @@ export default {
         },
         addNumber(key){
             var data =this.list[key];
-            var val =parseInt(data.number) 
+            var val =parseInt(data.goods_num) 
             val =new Number(val+ 1)
-            this.$set( data,'number',val);
+            this.$set( data,'goods_num',val);
             console.log(val)
         },
         toPay(){
@@ -193,15 +186,15 @@ export default {
     },
     created() {
         this.$axios({
-            method:'get',
-            url: 'goods/categoryList',
-            // data: {
-            // "textbook_id":id,
-            //     "token":token
-            // }
+            method:'post',
+            url: 'cart/cartlist',
+            data: {
+                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+            }
             })
-            .then((response) => {
-                resolve(response);
+            .then((res) => {
+                this.list = res.data.data
+                console.log(this.list)
             })
     },
     components: {
@@ -316,7 +309,7 @@ export default {
                     padding-left:28px;
                     .f-a-a
                         display:flex;
-                        margin-right:96px;
+                        margin-right:80px;
                     .f-a-b
                         margin :14px 26px 8px 0;
                     .f-a-b p:nth-child(1)  
