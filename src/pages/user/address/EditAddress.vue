@@ -6,32 +6,30 @@
 
         <div class="content">
             <div class="address-info">
+                {{item}}
                 <div class="form-group">
                     <div class="label">收货人</div>
                     <div class="input-group">
-                        <input type="text" placeholder="小腊肉">
+                        <input type="text" v-model="item.consignee">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="label">手机号码</div>
                     <div class="input-group">
-                        <input type="number" placeholder="17875592633">
+                        <input type="number" v-model="item.mobile">
                     </div>
                 </div>
-                <router-link to="/user/selectPoint">
-                    <div class="form-group">
-                        <div class="label">收货地址 </div>
-                            <div class="input-group">
-                                <h3>嘉禾汇大厦</h3>
-                                <p>点击选择地址</p>
-                            </div>
-                        <div class="right-arrow"></div>
-                    </div>
-                </router-link>
+                <div class="form-group" @click="to()">
+                    <div class="label">收货地址</div>
+                        <div class="input-group">
+                            <h3>{{item.province}}&nbsp;{{item.city}}&nbsp;{{item.district}}</h3>
+                        </div>
+                    <div class="right-arrow"></div>
+                </div>
                 <div class="form-group">
                     <div class="label">详细地址</div>
                     <div class="input-group">
-                        <textarea placeholder="嘉禾汇726" rows="1"></textarea>
+                        <textarea placeholder="输入详细地址" v-model="item.address" rows="1"></textarea>
                     </div>
                 </div>
             </div>
@@ -46,7 +44,7 @@
             </div>
 
             <!-- 保存按钮 -->
-            <div class="saveBtn">保存</div>
+            <div class="saveBtn" @click="send()">保存</div>
             
         </div>
 
@@ -62,13 +60,66 @@ export default {
     },
     data(){
         return {
-            checked: false 
+            checked: false
+        }
+    },
+    created: function(){
+        // 返回的位置信息赋值
+        this.item = JSON.parse(sessionStorage.getItem('item'));
+        console.log(this.item)
+        if(sessionStorage.getItem('data')==''){
+            return false;
+        }
+        // 获取源数据
+        let data = JSON.parse(sessionStorage.getItem('data'));
+        // Object.assign方法 赋值 （目标对象， 源对象）
+        Object.assign(this, data)
+    },
+    mounted(){
+        if(this.item.is_default==1){
+            this.checked = true;
+        }else{
+            this.checked = false;
         }
     },
     methods:{
         //选择默认地址时触发
         onCheack(val){
             console.log(val)
+        },
+        // 发送请求
+        send(){
+			// let _this = this;
+            // let is_default = null;
+            // if(_this.checked){
+            //     is_default = 1;
+            // }else{
+            //     is_default = 0;
+            // }
+            // this.$axios.post('home/edit_address',{
+            //         token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+            //         id:_this.item.id,
+            //         lat:_this.location.latlng.lat,   
+            //         lng:_this.location.latlng.lng,   
+            //         consignee:_this.consignee,
+            //         mobile:_this.mobile,
+            //         is_default:is_default,
+            //         address:_this.address
+            //     }
+			// )
+			// .then(function(response){
+            //     sessionStorage.setItem('data','');
+            //     this.$router.push({name:'Address'})
+			// 	console.log(response);
+			// })
+			// .catch(function(error){
+			// 	console.log(error);
+			// })
+        },
+        to(){
+            // 保存当前页面上data数据
+            sessionStorage.setItem('data', JSON.stringify(this.$data))
+            this.$router.push({name:'SelectPoint',params:{'router':'EditAddress'}})
         }
     }
 

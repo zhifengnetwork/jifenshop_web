@@ -53,26 +53,7 @@ export default {
                 'text':'收藏夹空空如也~',
                 'link':'/Hone'
             },
-            list:[
-                {
-                    text:'自然堂化妆品补水防晒虎虎生风',
-                    img:'/static/images/user/goods_3.png',
-                    price:'360.00',
-                    isCheck:false
-                },
-               {
-                    text:'自然堂化妆品补水防晒虎虎生风',
-                    img:'/static/images/user/goods_3.png',
-                    price:'380.00',
-                    isCheck:false
-                },
-                {
-                    text:'自然堂化妆品补水防晒虎虎生风',
-                    img:'/static/images/user/goods_3.png',
-                    price:'360.00',
-                    isCheck:false
-                }
-            ],
+            list:[],
             allChecked: false,
             showTrash: false
         };
@@ -128,7 +109,20 @@ export default {
             }).then(() => {
                 let newArry=[];
                 this.list.forEach((data,index)=>{
-                    if(!data.isCheck){
+                    if(data.isCheck){
+                        // 删除数据
+                        this.$axios.post('home/del_collect',{
+                                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                                ids:data.id
+                            }
+                        )
+                        .then(function(response){
+                            console.log(response,'666');
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
+                    }else{
                         newArry.push(data)
                     }
                 })
@@ -145,7 +139,34 @@ export default {
     components: {
         TopHeader,
         Nodata
-	}
+    },
+    mounted(){
+        let _this = this;
+        // 请求数据
+        this.$axios.get('home/collection',{
+            params:{
+                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                p:'1'
+            }
+        })
+        .then(function(response){
+            console.log(response);
+            for(let i = 0;i<response.data.data.list.length;i++){
+                _this.list.push({
+                    'text':response.data.data.list[i].goods_name,
+                    'img':response.data.data.list[i].picture,
+                    'price':response.data.data.list[i].price,
+                    'id':response.data.data.list[i].id,
+                    'isCheck':false
+                })
+            }
+            console.log(_this.list)
+            // _this.data = response.data.data.list;
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    }
 
 }
 </script>
@@ -184,8 +205,8 @@ export default {
                         height 176px
                         margin 0 10px 0 4px
                         img
-                            max-width 100%
-                            max-height 100%
+                            width 100%
+                            height 100%
                     .goods-info
                         width 445px
                         .-info-msg

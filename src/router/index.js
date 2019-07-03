@@ -250,6 +250,12 @@ export default new Router({
 			name: 'theWithdrawal',
 			component:() => import('@/pages/user/theWithdrawal'),
 		},
+		// 账单明细
+		{
+			path: '/user/billingDetails',
+			name: 'billingDetails',
+			component:() => import('@/pages/user/billingDetails'),
+		},
 		// 查看订单
 		{
 			path: '/user/lookorder',

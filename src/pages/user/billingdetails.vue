@@ -84,6 +84,23 @@
              handleClick(index){
                 this.nowIndex = index;
             },
+		},
+		mounted(){
+			let _this = this;
+			this.$axios.get('home/balance_list',{
+				params:{
+					token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+				}
+			}
+			)
+			.then(function(response){
+				console.log(response);
+				// _this.data = response.data.data;
+				// console.log(_this.data)
+			})
+			.catch(function(error){
+				console.log(error);
+			})
 		}
 	}
 </script>
