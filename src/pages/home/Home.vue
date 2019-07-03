@@ -118,7 +118,7 @@ export default {
 	components: {
 		Navigate
 	},
-	created(){
+	mounted(){
 		let _this = this;
 		this.$axios.get('/index')
 		.then((response)=>{
