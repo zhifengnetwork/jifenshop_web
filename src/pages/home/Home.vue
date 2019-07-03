@@ -4,7 +4,7 @@
 		<div class="top-bar">
 			<div class="search">
 				<span class="search-icon"></span>
-				<span class="text">搜索	</span>
+				<span class="text">搜索</span>
 			</div>
 		</div>
 		<!-- 轮播图 -->
@@ -21,7 +21,7 @@
 		<!-- 公告 -->
 		<div class="notice" v-for="(item,index) in data.notice" :key="index">
 			<van-notice-bar
-				text="通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容"
+				:text="item.value"
 				left-icon="volume-o"
 				color="#ffffff"
   				background="#f92a0f"
@@ -63,10 +63,10 @@
 				<div class="single-item" v-for="(item,index) in data.hotgoods" :key="index">
 					<router-link to="/Details">
 						<div class="img-wrap">
-							<img src="/static/images/home/hot-img01.png" />
+							<img :src="item.picture" />
 						</div>
 						<div class="main">
-							<h3>韩后化妆品 面膏 </h3>
+							<h3>{{item.goods_name}}</h3>
 							<div class="price">
 								<p class="discount-price">￥{{item.price}}</p>
 								<p class="original-price">原价:￥{{item.original_price}}</p>
@@ -87,13 +87,13 @@
 				<div class="single-item" v-for="(item,index) in data.commendgoods" :key="index">
 					<router-link to="/Details">
 						<div class="img-wrap">
-							<img src="/static/images/home/recommend-goods-img01.png" />
+							<img :src="item.picture" />
 						</div>
 						<div class="main">
-							<h3>自然堂化妆品补水防晒虎自然堂化...</h3>
+							<h3>{{item.goods_name}}</h3>
 							<div class="price">
-								<p class="discount-price">￥360.00</p>
-								<p class="original-price">原价:￥500.00</p>
+								<p class="discount-price">￥{{item.price}}</p>
+								<p class="original-price">原价:￥{{item.original_price}}</p>
 							</div>
 						</div>
 					</router-link>
