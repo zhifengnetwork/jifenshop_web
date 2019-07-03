@@ -13,26 +13,16 @@ module.exports = {
     // proxyTable: {},
 
     // 代理跨域
-    // proxyTable: {
-		//   "/api": {
-    //     target: "https://jifen.zhifengwangluo.com/api",//接口的域名
-		//     secure: true,  //如果是https接口，需要配置这个参数
-		//     changeOrigin: true, //如果接口跨域，需要进行这个参数配置
-		//     pathRewrite: {
-		//     	"^/api" : ""
-		//     	}
-		//   }
-    // },
     proxyTable: {
-           "/api": {
-      target: "https://jifen.zhifengwangluo.com/api",//接口的域名
-           secure: true, //如果是https接口，需要配置这个参数
-           changeOrigin: true, //如果接口跨域，需要进行这个参数配置
-           pathRewrite: {
-             "^/api" : ""
-             }
-           }
-          },    
+		  "/api": {
+        target: "https://jifen.zhifengwangluo.com/api",//接口的域名
+		    secure: true,  //如果是https接口，需要配置这个参数
+		    changeOrigin: true, //如果接口跨域，需要进行这个参数配置
+		    pathRewrite: {
+		    	"^/api" : ""
+		    	}
+		  }
+		},
 
     // Various Dev Server settings
     host: '127.0.0.1', // can be overwritten by process.env.HOST

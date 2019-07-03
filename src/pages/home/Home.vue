@@ -119,6 +119,7 @@ export default {
 		Navigate
 	},
 	mounted(){
+		let _this = this;
 		this.$axios.get('/index')
 		.then((response)=>{
 			console.log(response.data);
