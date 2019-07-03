@@ -40,7 +40,7 @@ body
     .selectPoint
         min-height 100vh
         background-color #ffffff
-
+       
     
 
             

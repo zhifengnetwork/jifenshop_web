@@ -19,10 +19,11 @@
             <div class="article">
                 <div class="user_item">
                     <div class="earnings">
-                        <router-link class="look" to="/user/shouyilist">
+                         <!-- <router-link class="look" to="/user/shouyilist"> -->
+                        <router-link class="look" to="/user/jifeng">
                             <div class="number">100</div>
                             <div>
-                                预计收益
+                                积分
                                 <i class="right_arrow"></i>
                             </div>
                         </router-link>
