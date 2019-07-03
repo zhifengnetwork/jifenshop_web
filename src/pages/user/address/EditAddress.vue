@@ -65,7 +65,9 @@ export default {
     },
     created: function(){
         // 返回的位置信息赋值
+        this.location = this.$route.params.location;
         this.item = JSON.parse(sessionStorage.getItem('item'));
+        console.log(this.location)
         console.log(this.item)
         if(sessionStorage.getItem('data')==''){
             return false;
@@ -89,6 +91,7 @@ export default {
         },
         // 发送请求
         send(){
+            console.log(this.item)
 			// let _this = this;
             // let is_default = null;
             // if(_this.checked){
