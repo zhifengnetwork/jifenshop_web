@@ -9,7 +9,7 @@
                 </router-link>    
                 <div class="name_wrap">
                     <p class="name">{{data.nickname}}</p>
-                    <p class="id">ID:{{data.id}}</p>
+                    <p class="id">ID：{{data.alipay}}</p>
                     <!-- <p class="joinDate">加入时间：2019.06.12</p> -->
                 </div>
             </div>
@@ -164,7 +164,7 @@
         name: "user",
         data() {
             return {
-                data:''
+                data: '',
             };
         },
         components: {
