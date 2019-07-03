@@ -1,10 +1,10 @@
 <template>
 	<div class="zd_wrap">
 		<!-- 头部组件 -->
-		<Bill-Header custom-title="账单明细" custom-fixed>
+		<List-Header custom-title="账单明细" custom-fixed>
 			<!-- 返回按钮 -->
 			<i slot="backBtn" class="iconfont iconfanhui"></i>
-		</Bill-Header>
+		</List-Header>
 		<div class="content">
 			<div class="ft_wrap">
 				<div class="tit_wrap">
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-	import BillHeader from "@/pages/common/header/TopHeader"
+	import ListHeader from "@/pages/common/header/TopHeader"
 	export default {
         name: 'billingDetails',
 		data() {
@@ -78,7 +78,7 @@
 			}
 		},
 		components: {
-			BillHeader,
+			ListHeader,
 		},
 		methods: {
              handleClick(index){

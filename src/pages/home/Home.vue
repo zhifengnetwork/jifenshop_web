@@ -214,18 +214,6 @@ export default {
 	components: {
 		Navigate
 	},
-<<<<<<< HEAD
-=======
-	mounted(){
-		this.$axios.get('/index')
-		.then((response)=>{
-			console.log(response.data);
-		})
-		.catch((error)=>{
-			console.log(error);
-		})
-	}
->>>>>>> f74b799ac168c8b3f726d2fdc19c859e5bdbd6f7
 };
 </script>
 

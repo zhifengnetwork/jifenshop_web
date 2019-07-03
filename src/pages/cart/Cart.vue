@@ -93,6 +93,9 @@ export default {
             allChecked: false,
         };
     },
+
+    
+
     components: {
         [Dialog.Component.name]: Dialog.Component
     },
@@ -140,6 +143,7 @@ export default {
                val =1
            }
            this.$set( data,'number',val )
+           console.log(val)
         },
         changNumber(e,key){
             var val =e.target.value;
@@ -181,10 +185,24 @@ export default {
             var val =parseInt(data.number) 
             val =new Number(val+ 1)
             this.$set( data,'number',val);
+            console.log(val)
         },
         toPay(){
             this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
         }
+    },
+    created() {
+        this.$axios({
+            method:'get',
+            url: 'goods/categoryList',
+            // data: {
+            // "textbook_id":id,
+            //     "token":token
+            // }
+            })
+            .then((response) => {
+                resolve(response);
+            })
     },
     components: {
         TopHeader,

@@ -49,8 +49,6 @@ import shouyilist from '@/pages/user/shouyilist'
 import theAccountBalance from '@/pages/user/theAccountBalance'
 // 提现明细
 import theWithdrawal from '@/pages/user/theWithdrawal'
-// 账单明细
-import billingDetails from '@/pages/user/billingDetails'
 // 账户提现
 import withdrawal from '@/pages/user/withdrawal'
 //提现方式
@@ -253,12 +251,6 @@ export default new Router({
 			path: '/user/theWithdrawal',
 			name: 'theWithdrawal',
 			component:() => import('@/pages/user/theWithdrawal'),
-		},
-		// 账单明细
-		{
-			path: '/user/billingDetails',
-			name: 'billingDetails',
-			component:() => import('@/pages/user/billingDetails'),
 		},
 		// 查看订单
 		{

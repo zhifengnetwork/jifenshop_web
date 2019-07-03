@@ -15,8 +15,8 @@ module.exports = {
     // 代理跨域
     proxyTable: {
 		  "/api": {
-        target: "http://jifen.zhifengwangluo.com",//接口的域名
-		    secure: false,  //如果是https接口，需要配置这个参数
+        target: "http://jifen.zhifengwangluo.com/api",//接口的域名
+		    secure: true,  //如果是https接口，需要配置这个参数
 		    changeOrigin: true, //如果接口跨域，需要进行这个参数配置
 		    pathRewrite: {
 		    	"^/api" : ""
@@ -25,7 +25,7 @@ module.exports = {
 		},
 
     // Various Dev Server settings
-    host: '192.168.1.111', // can be overwritten by process.env.HOST
+    host: '127.0.0.1', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
