@@ -182,6 +182,17 @@ export default {
 			],
 		};
 	},
+	created(){
+		// this.$axios({
+		// 			method:"get",
+		// 			url:'/api/goods/categoryList',
+		// 		}).then((res)=>{
+		// 		if(res.data.status===1){
+		// 		  console.log("dd")
+		// 		}
+		// 		})
+
+	},
 	methods:{
 		// 根据索引点击跳至对应内容
 		handleClick(i){

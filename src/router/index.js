@@ -69,8 +69,6 @@ import jifengdetail from "@/pages/user/jifengdetail"
 import mingxi from "@/pages/user/mingxi"
 // 账户明细
 import accountdetail from "@/pages/user/accountdetail"
-// 账单明细
-import billingdetails from "@/pages/user/billingdetails"
 // 积分转账
 import transfer_accounts from "@/pages/user/transfer_accounts"
 // 收款信息
@@ -219,7 +217,7 @@ export default new Router({
 		// 预计收益
 		{
 			path: '/user/shouyilist',
-			name: 'alipay',
+			name: 'shouyilist',
 			component:() => import('@/pages/user/shouyilist'),
 		},
 		// 账户余额
@@ -255,7 +253,7 @@ export default new Router({
 		// 查看订单
 		{
 			path: '/user/lookorder',
-			name: 'alipay',
+			name: 'lookorder',
 			component:() => import('@/pages/user/lookorder'),
 		},
 		
@@ -292,7 +290,7 @@ export default new Router({
 		// 修改用户名
 		{
 			path: '/user/modifyUserName',
-			name: 'alipay',
+			name: 'modifyUserName',
 			component:() => import('@/pages/user/modifyUserName'),
 		},
 		// 积分
@@ -311,11 +309,6 @@ export default new Router({
 			name: 'accountdetail',
 			component:() => import('@/pages/user/accountdetail'),
 		},
-		{
-			path: '/user/billingdetails',
-			name: 'billingdetails',
-			component:() => import('@/pages/user/billingdetails'),
-		},
 		//积分转账
 		{
 			path: '/user/transfer_accounts',
@@ -331,7 +324,7 @@ export default new Router({
 		// 收藏
 		{
 			path: '/user/Collect',
-			name: 'alipay',
+			name: 'Collect',
 			component:() => import('@/pages/user/Collect'),
 		},
 		/**
@@ -361,8 +354,6 @@ export default new Router({
 			name: 'SelectPoint',
 			component: (resolve) => require(['@/pages/user/address/SelectPoint'],resolve),
 		},
-
-
 		// 重定向
 		{
 			path: '*',
