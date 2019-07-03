@@ -9,37 +9,34 @@
                 <div class="form-group">
                     <div class="label">收货人</div>
                     <div class="input-group">
-                        <input type="text" placeholder="收货人姓名">
+                        <input type="text" v-model="consignee" placeholder="收货人姓名">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="label">手机号码</div>
                     <div class="input-group">
-                        <input type="number" placeholder="输入电话号码">
+                        <input type="number" v-model="mobile" placeholder="输入电话号码">
                     </div>
                 </div>
-                <router-link to="/user/selectPoint">
-                    <div class="form-group">
-                        <div class="label">收货地址 </div>
-                            <!-- <div class="input-group">
-                                <p v-if="!this.$route.params.poiname">点击选择地址</p>
-                                <h3 v-if="this.$route.params.poiname">{{this.$route.params.poiname}}</h3>
-                                <p v-if="this.$route.params.poiaddress">{{this.$route.params.poiaddress}}</p>
-                            </div> -->
-                             <div class="input-group">
-                                <p v-if="!this.location">点击选择地址</p>
-                                <template v-else>
-                                    <h3>{{this.location.poiname}}</h3>
-                                    <p>{{this.location.poiaddress}}</p>
-                                </template>
-                                
-                            </div>
-                        <div class="right-arrow"></div>
-                    </div>
-                </router-link>
+                <div class="form-group" @click="to()">
+                    <div class="label">收货地址 </div>
+                        <!-- <div class="input-group">
+                            <p v-if="!this.$route.params.poiname">点击选择地址</p>
+                            <h3 v-if="this.$route.params.poiname">{{this.$route.params.poiname}}</h3>
+                            <p v-if="this.$route.params.poiaddress">{{this.$route.params.poiaddress}}</p>
+                        </div> -->
+                            <div class="input-group">
+                            <p v-if="!this.location">点击选择地址</p>
+                            <template v-else>
+                                <h3>{{this.location.poiname}}</h3>
+                                <p>{{this.location.poiaddress}}</p>
+                            </template>
+                        </div>
+                    <div class="right-arrow"></div>
+                </div>
                 <div class="details-address">
                     <div class="label">详细地址</div>
-                    <div class="textarea" contenteditable="true" placeholder ="详细地址，例D座726"></div>
+                    <div class="textarea" contenteditable="true" v-html="address" @input="address=$event.target.innerHTML" placeholder="详细地址，例D座726"></div>
                 </div>
                
             </div>
@@ -71,41 +68,67 @@ export default {
     },
     data(){
         return {
+            consignee:'',
+            mobile:'',
+            address:'',
             checked: false,
-            location:{}
+            location:{},
         }
     },
-     created: function(){
+    created: function(){
         // 返回的位置信息赋值
-        this.location = this.$route.params.location
-        console.log(this.location)
+        this.location = this.$route.params.location;
+        if(sessionStorage.getItem('data')==''){
+            return false;
+        }
+        // 获取源数据
+        let data = JSON.parse(sessionStorage.getItem('data'));
+        // Object.assign方法 赋值 （目标对象， 源对象）
+        Object.assign(this, data)
     },
     methods:{
         // 点击保存按钮时触发
         onSave(addressData){
-        
+            this.requestData();
         },
         // 请求数据
-        // requestData(){
-        //     this.$axios.post('user/add_address',{
-        //         consignee:"",
-        //         token:window.sessionStorage.getItem("token")
-        //     })
-        //     .then( (res)=>{
-        //         console.log(res)
-        //     })
-        //     .catch( (error) => {
-        //         alert("请求错误:" + error)
-        //     })
-
-        // },
+        requestData(){
+            let _this = this;
+            let is_default = null;
+            if(_this.checked){
+                is_default = 1;
+            }else{
+                is_default = 0;
+            }
+            this.$axios.post('home/edit_address',{
+                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                id:'',
+                lat:_this.location.latlng.lat,   
+                lng:_this.location.latlng.lng,   
+                consignee:_this.consignee,
+                mobile:_this.mobile,
+                is_default:is_default,
+                address:_this.address
+            })
+			.then(function(response){
+                _this.$router.push({name:'Address'})
+                sessionStorage.setItem('data','');
+				console.log(response,'555');
+			})
+			.catch(function(error){
+				console.log(error);
+			})
+        },
         //选择默认地址时触发
         onCheack(val){
             console.log(val)
         },
-      
+        to(){
+            // 保存当前页面上data数据
+            sessionStorage.setItem('data', JSON.stringify(this.$data))
+            this.$router.push({name:'SelectPoint',params:{'router':'AddAddress'}})
+        }
     }
-
 }
 </script>
 
