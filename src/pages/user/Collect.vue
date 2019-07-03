@@ -45,6 +45,7 @@
 import TopHeader from "@/pages/common/header/TopHeader";
 import Nodata from "@/pages/common/nodata/Nodata";
 export default {
+    name:'Collect',
     data(){
         return {
             nodatas:{
