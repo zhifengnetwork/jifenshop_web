@@ -10,7 +10,7 @@
 		<!-- 轮播图 -->
 		<div class="banner">
 			<van-swipe :autoplay="3000" indicator-color="white">
-				<van-swipe-item v-for="(item,index) in data.data.banner" :key="index">
+				<van-swipe-item v-for="(item,index) in data.banner" :key="index">
 					<router-link :to="item.url" :pid="item.id">
 						<img :src="item.picture"/>
 					</router-link>
@@ -19,7 +19,7 @@
 		</div>
 
 		<!-- 公告 -->
-		<div class="notice" v-for="(item,index) in data.data.notice" :key="index">
+		<div class="notice" v-for="(item,index) in data.notice" :key="index">
 			<van-notice-bar
 				:text="item.value"
 				left-icon="volume-o"
@@ -29,7 +29,7 @@
 		</div>
 		<!-- 分类 -->
 		<div class="classify">
-			<div class="classify_btn" v-for="(item,index) in data.data.catenav" :key="index">
+			<div class="classify_btn" v-for="(item,index) in data.catenav" :key="index">
 				<router-link :to="item.url">
 					<div class="btn_imgWrap">
 						<img class="btn_img" :src="item.image">
@@ -60,7 +60,7 @@
 				<h3>热销商品</h3>
 			</div>
 			<div class="hot-list">
-				<div class="single-item" v-for="(item,index) in data.data.hotgoods" :key="index">
+				<div class="single-item" v-for="(item,index) in data.hotgoods" :key="index">
 					<router-link to="/Details">
 						<div class="img-wrap">
 							<img :src="item.picture"/>
@@ -68,7 +68,7 @@
 						<div class="main">
 							<h3>{{item.goods_name}}</h3>
 							<div class="price">
-								<p class="discount-price">￥{{item.price}}</p>{{item.goods_id}}
+								<p class="discount-price">￥{{item.price}}</p>
 								<p class="original-price">原价:￥{{item.original_price}}</p>
 							</div>
 						</div>
@@ -84,7 +84,7 @@
 				<h3>推荐商品</h3>
 			</div>
 			<div class="recommend-list">
-				<div class="single-item" v-for="(item,index) in data.data.commendgoods" :key="index">
+				<div class="single-item" v-for="(item,index) in data.commendgoods" :key="index">
 					<router-link to="/Details">
 						<div class="img-wrap">
 							<img :src="item.picture"/>
@@ -118,12 +118,12 @@ export default {
 	components: {
 		Navigate
 	},
-	mounted(){
+	created(){
 		let _this = this;
 		this.$axios.get('/index')
 		.then((response)=>{
 			console.log(response.data);
-			_this.data = response.data;
+			_this.data = response.data.data;
 		})
 		.catch((error)=>{
 			console.log(error);
