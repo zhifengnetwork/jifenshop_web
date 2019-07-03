@@ -258,6 +258,11 @@
             </div>
 
         </div>
+        <van-sku
+        v-model="showBase"
+        :sku="sku"
+        :goods="sku.goods"
+        />
         <!-- 底部菜单 -->
         <div class="bottom-bar">
             <van-goods-action>

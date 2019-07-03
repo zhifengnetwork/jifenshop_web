@@ -48,7 +48,7 @@
                     </p>
                 </div>
             </div>
-            <div class="footer-b">结算({{updateNumber}})</div>
+            <div class="footer-b" @click="toPay()">结算({{updateNumber}})</div>
         </div>
         <Navigate></Navigate>
     </div>
@@ -203,8 +203,8 @@ export default {
         .size-30
             font-size:30px;
         .van-checkbox__icon--checked .van-icon
-            background-color: #f30c0c;
-            border-color: #fff;
+            background-color: #f30c0c !important;
+            border-color: #fff !important;
         .cart
             width:100%;
             min-height:100%;
