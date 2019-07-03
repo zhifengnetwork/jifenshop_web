@@ -17,13 +17,18 @@
                 </div>
 				<!-- 提现方式 -->
 				<div class="way_wrap">
-					<h4>提现方式</h4>
+					<router-link to="/user/bankcard">
+                        <div class="mode">
+                        <h4>提现方式</h4>
+                        <span>></span>
+                    </div>
+                    </router-link>
 					<!-- 选择方式 -->
-					<div class="mode">
+					<!-- <div class="mode">
 						<div class="wechat" v-for="(item,index) in pay" :key="index" @click="cur=index" :class="{on:cur==index}">
 							<img :src="item.img"/>
 						</div>
-					</div>
+					</div> -->
 					<div class="play_wrap">
 						<!-- 微信/支付宝-提现金额 -->
 						<div class="sum_wrap" v-for="(list,index) in as" :key="index" v-show="cur===index">
@@ -82,10 +87,10 @@
 		},
 		data() {
 			return{
-                pay:[
-					{id:1,img:'/static/images/user/weixi.png'},
-					{id:2,img:'/static/images/user/zfb.png'},
-				],
+                // pay:[
+				// 	{id:1,img:'/static/images/user/weixi.png'},
+				// 	{id:2,img:'/static/images/user/zfb.png'},
+				// ],
 				as:[
 					{id:1,num:0,mas:92.20},
 					{id:2,num:0,mas:92.20},
@@ -120,27 +125,15 @@
                 font-size 30px
                 color #ffe1e2
         .way_wrap
-            h4
-                margin 26px 0 26px
-                color #151515
-                font-size 26px
-                line-height 65px
             .mode
-                font-size 0
-            .mode img
-                margin 0 auto
-                display block
-                max-width 100%
-            .mode .wechat
-                margin 0 37px 0 0	
-            .mode .wechat,.alipay
-                display inline-block
-                vertical-align middle
-                width 58px
-                height 58px
-            .mode .on
-                width 70px
-                height 70px
+                h4
+                    color #151515
+                    font-size 26px
+                    display inline-block
+                    margin 22px 0 40px
+                span
+                    float right
+                    margin-top 22px
             .sum_wrap
                 .sum_wrap
                 .put

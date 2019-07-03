@@ -211,7 +211,7 @@ export default {
 	},
 	components: {
 		Navigate
-	}
+	},
 };
 </script>
 
