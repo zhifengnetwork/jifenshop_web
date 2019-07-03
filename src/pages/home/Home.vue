@@ -10,20 +10,16 @@
 		<!-- 轮播图 -->
 		<div class="banner">
 			<van-swipe :autoplay="3000" indicator-color="white">
-				<van-swipe-item>
-					<img src="/static/images/home/banner01.png" />
-				</van-swipe-item>
-				<van-swipe-item>
-					<img src="/static/images/home/banner01.png" />
-				</van-swipe-item>
-				<van-swipe-item>
-					<img src="/static/images/home/banner01.png" />
+				<van-swipe-item v-for="(item,index) in data.banner" :key="index">
+					<router-link :to="item.url" :pid="item.id">
+						<img :src="item.picture"/>
+					</router-link>
 				</van-swipe-item>
 			</van-swipe>
 		</div>
 
 		<!-- 公告 -->
-		<div class="notice">
+		<div class="notice" v-for="(item,index) in data.notice" :key="index">
 			<van-notice-bar
 				text="通知内容通知内容通知内容通知内容通知内容通知内容通知内容通知内容"
 				left-icon="volume-o"
@@ -33,37 +29,15 @@
 		</div>
 		<!-- 分类 -->
 		<div class="classify">
-			<div class="classify_btn">
-				<div class="btn_imgWrap">
-					<img class="btn_img" src="/static/images/home/recommend-goods-img01.png">
-				</div>
-				<div class="btn_text">
-					分类
-				</div>
-			</div>
-			<div class="classify_btn">
-				<div class="btn_imgWrap">
-					<img class="btn_img" src="/static/images/home/recommend-goods-img01.png">
-				</div>
-				<div class="btn_text">
-					分类
-				</div>
-			</div>
-			<div class="classify_btn">
-				<div class="btn_imgWrap">
-					<img class="btn_img" src="/static/images/home/recommend-goods-img01.png">
-				</div>
-				<div class="btn_text">
-					分类
-				</div>
-			</div>
-			<div class="classify_btn">
-				<div class="btn_imgWrap">
-					<img class="btn_img" src="/static/images/home/recommend-goods-img01.png">
-				</div>
-				<div class="btn_text">
-					分类
-				</div>
+			<div class="classify_btn" v-for="(item,index) in data.catenav" :key="index">
+				<router-link :to="item.url">
+					<div class="btn_imgWrap">
+						<img class="btn_img" :src="item.image">
+					</div>
+					<div class="btn_text">
+						{{item.title}}
+					</div>
+				</router-link>
 			</div>
 		</div>
 
@@ -86,7 +60,7 @@
 				<h3>热销商品</h3>
 			</div>
 			<div class="hot-list">
-				<div class="single-item">
+				<div class="single-item" v-for="(item,index) in data.hotgoods" :key="index">
 					<router-link to="/Details">
 						<div class="img-wrap">
 							<img src="/static/images/home/hot-img01.png" />
@@ -94,50 +68,8 @@
 						<div class="main">
 							<h3>韩后化妆品 面膏 </h3>
 							<div class="price">
-								<p class="discount-price">￥1569.00</p>
-								<p class="original-price">原价:￥2500.00</p>
-							</div>
-						</div>
-					</router-link>
-				</div>
-				<div class="single-item">
-					<router-link to="/Details">
-						<div class="img-wrap">
-							<img src="/static/images/home/hot-img01.png" />
-						</div>
-						<div class="main">
-							<h3>韩后化妆品 面膏 </h3>
-							<div class="price">
-								<p class="discount-price">￥1569.00</p>
-								<p class="original-price">原价:￥2500.00</p>
-							</div>
-						</div>
-					</router-link>
-				</div>
-				<div class="single-item">
-					<router-link to="/Details">
-						<div class="img-wrap">
-							<img src="/static/images/home/hot-img01.png" />
-						</div>
-						<div class="main">
-							<h3>韩后化妆品 面膏 </h3>
-							<div class="price">
-								<p class="discount-price">￥1569.00</p>
-								<p class="original-price">原价:￥2500.00</p>
-							</div>
-						</div>
-					</router-link>
-				</div>
-				<div class="single-item">
-					<router-link to="/Details">
-						<div class="img-wrap">
-							<img src="/static/images/home/hot-img01.png" />
-						</div>
-						<div class="main">
-							<h3>韩后化妆品 面膏 </h3>
-							<div class="price">
-								<p class="discount-price">￥1569.00</p>
-								<p class="original-price">原价:￥2500.00</p>
+								<p class="discount-price">￥{{item.price}}</p>
+								<p class="original-price">原价:￥{{item.original_price}}</p>
 							</div>
 						</div>
 					</router-link>
@@ -152,35 +84,7 @@
 				<h3>推荐商品</h3>
 			</div>
 			<div class="recommend-list">
-				<div class="single-item">
-					<router-link to="/Details">
-						<div class="img-wrap">
-							<img src="/static/images/home/recommend-goods-img01.png" />
-						</div>
-						<div class="main">
-							<h3>自然堂化妆品补水防晒虎自然堂化...</h3>
-							<div class="price">
-								<p class="discount-price">￥360.00</p>
-								<p class="original-price">原价:￥500.00</p>
-							</div>
-						</div>
-					</router-link>
-				</div>
-				<div class="single-item">
-					<router-link to="/Details">
-						<div class="img-wrap">
-							<img src="/static/images/home/recommend-goods-img01.png" />
-						</div>
-						<div class="main">
-							<h3>自然堂化妆品补水防晒虎自然堂化...</h3>
-							<div class="price">
-								<p class="discount-price">￥360.00</p>
-								<p class="original-price">原价:￥500.00</p>
-							</div>
-						</div>
-					</router-link>
-				</div>
-				<div class="single-item">
+				<div class="single-item" v-for="(item,index) in data.commendgoods" :key="index">
 					<router-link to="/Details">
 						<div class="img-wrap">
 							<img src="/static/images/home/recommend-goods-img01.png" />
@@ -218,6 +122,7 @@ export default {
 		this.$axios.get('/index')
 		.then((response)=>{
 			console.log(response.data);
+			_this.data = response.data.data;
 		})
 		.catch((error)=>{
 			console.log(error);
