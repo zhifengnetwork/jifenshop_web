@@ -207,10 +207,21 @@ import Navigate from "@/pages/common/footer/Navigate";
 export default {
 	name: "home",
 	data() {
-		return {};
+		return {
+			data:''
+		};
 	},
 	components: {
 		Navigate
+	},
+	mounted(){
+		this.$axios.get('/index')
+		.then((response)=>{
+			console.log(response.data);
+		})
+		.catch((error)=>{
+			console.log(error);
+		})
 	}
 };
 </script>
