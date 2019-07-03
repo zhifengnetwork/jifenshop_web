@@ -4,12 +4,12 @@
             <div class="info_wrap">
                 <router-link class="my_look" to="/user/personalData">
                     <div class="portrait">
-                        <img src="/static/images/user/002.png"/>
+                        <img :src="data.avatar"/>
                     </div>
                 </router-link>    
                 <div class="name_wrap">
                     <p class="name">美美宝宝</p>
-                    <p class="id">ID：187514</p>
+                    <p class="id">ID：{{list.alipay}}</p>
                     <!-- <p class="joinDate">加入时间：2019.06.12</p> -->
                 </div>
             </div>
@@ -21,7 +21,7 @@
                     <div class="earnings">
                          <!-- <router-link class="look" to="/user/shouyilist"> -->
                         <router-link class="look" to="/user/jifeng">
-                            <div class="number">100</div>
+                            <div class="number">{{list.point}}</div>
                             <div>
                                 积分
                                 <i class="right_arrow"></i>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="balance">
                         <router-link class="look" to="/user/theAccountBalance">
-                            <div class="number">500</div>
+                            <div class="number">{{list.money}}</div>
                             <div>
                                 余额
                                 <i class="right_arrow"></i>
@@ -38,7 +38,7 @@
                         </router-link>
                     </div>
                     <router-link to="/user/Collect" class="collection">
-                        <div class="number">148</div>
+                        <div class="number">{{data.collect}}</div>
                         <div>
                             收藏
                             <i class="right_arrow"></i>
@@ -64,31 +64,35 @@
                         <li>
                             <div class="img">
                                 <img src="/static/images/user/payment.png"/>
-                                <div class="info-icon van-info">10</div>
+                                <div class="info-icon van-info" v-if="data.waitPay">{{data.waitPay}}</div>
                             </div>
                             <div>待付款</div>
                         </li>
                         <li>
                             <div class="img">
                                 <img src="/static/images/user/dropShipping.png"/>
+                                <div class="info-icon van-info" v-if="data.waitSend">{{data.waitSend}}</div>
                             </div>
                             <div>待发货</div>
                         </li>
                         <li>
                             <div class="img">
                                 <img src="/static/images/user/goods.png"/>
+                                <div class="info-icon van-info" v-if="data.waitReceive">{{data.waitReceive}}</div>
                             </div>
                             <div>待收货</div>
                         </li>
                         <li>
                             <div class="img">
                                 <img src="/static/images/user/evaluation.png"/>
+                                <div class="info-icon van-info" v-if="data.waitComment">{{data.waitComment}}</div>
                             </div>
                             <div>待评价</div>
                         </li>
                         <li>
                             <div class="img">
                                 <img src="/static/images/user/return.png"/>
+                                <div class="info-icon van-info" v-if="data.return">{{data.return}}</div>
                             </div>
                             <div>退货</div>
                         </li>
@@ -104,15 +108,15 @@
                     </div>
                     <div class="my_team_content">
                         <div class="my_team_item">
-                            <p>40000</p>
+                            <p>{{data.team_underling}}</p>
                             <p>总人数</p>
                         </div>
                         <div class="my_team_item">
-                            <p>400</p>
+                            <p>{{data.team_point}}</p>
                             <p>推荐奖励积分</p>
                         </div>
                         <div class="my_team_item">
-                            <p>400</p>
+                            <p>{{data.team_today}}</p>
                             <p>今日新增人数</p>
                         </div>
                     </div>
@@ -128,7 +132,7 @@
                 </div> -->
                 <div class="arr_wrap">
                     <span>手机号绑定</span>
-                    <span class="cell">180 8222 8888</span>
+                    <span class="cell">{{data.mobile}}</span>
                     <span class="right_ico"></span>
                 </div>
                 <div class="arr_wrap">
@@ -159,11 +163,26 @@
     export default {
         name: "user",
         data() {
-            return {};
+            return {
+                list: '',
+            };
         },
         components: {
             userFooter,
-        }
+        },
+        created() {
+            this.$axios({
+                method: 'post',
+                url: 'home/get_user_info',
+                data: {
+                     "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA' 
+                }
+            })
+            .then((res) => {
+                this.list = res.data.data
+                console.log(this.list)
+            })
+        },
     };
 </script>
 

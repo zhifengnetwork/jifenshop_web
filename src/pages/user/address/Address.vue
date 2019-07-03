@@ -6,36 +6,21 @@
 
         <div class="content">
             <div class="address-list">
-                <div class="address-item">
+                <div class="address-item" v-for="(item,index) in data" :key="index">
                     <div class="item-name">
-                        <span class="name">小腊肉</span>
-                        <span class="tel">17875592622</span>
+                        <span class="name">{{item.consignee}}</span>
+                        <span class="tel">{{item.mobile}}</span>
                     </div>
                     <div class="item-address">
-                        <div class="isDefault">默认</div>
+                        <div class="isDefault" v-if="item.is_default==1">默认</div>
                         <div class="exact-address">
-                            <p>广东省广州市番禺区荷光路快递收藏路15栋28层28层28层28层28层28层28层28层28层</p>
+                            <p>{{item.province}}&nbsp;{{item.city}}&nbsp;{{item.district}}&nbsp;{{item.address}}</p>
                         </div>
                     </div>
-                    <router-link class="editAddress" to="/user/editAddress">
+                    <div class="editAddress" @click="edit(item)">
                         <i class="iconfont iconbianji"></i>
-                    </router-link>
-                    <i class="iconfont del-icon iconshanchu1"></i>
-                </div>
-                <div class="address-item">
-                    <div class="item-name">
-                        <span class="name">荷包蛋</span>
-                        <span class="tel">17875592622</span>
                     </div>
-                    <div class="item-address">
-                        <div class="exact-address">
-                            <p>广东省广州市番禺区荷光路快递收藏路15栋28层</p>
-                        </div>
-                    </div>
-                    <router-link class="editAddress" to="/user/editAddress">
-                        <i class="iconfont iconbianji"></i>
-                    </router-link>
-                    <i class="iconfont del-icon iconshanchu1"></i>
+                    <i class="iconfont del-icon iconshanchu1" @click="del(item.id)"></i>
                 </div>
             </div>
             
@@ -60,7 +45,7 @@ export default {
     },
     data(){
         return {
-           
+           data:''
         }
     },
    
@@ -70,16 +55,42 @@ export default {
     methods:{
         // 请求数据
         requestData(){
-            // this.$axios.post('user/address_list',{
-            //     token:window.sessionStorage.getItem("token")
-            // })
-            // .then( (res)=>{
-            //     console.log(res)
-            // })
-            // .catch( (error) => {
-            //     alert("请求错误:" + error)
-            // })
+			let _this = this;
+			this.$axios.get('home/address_list',{
+				params:{
+					token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+				}
+			})
+			.then(function(response){
+				console.log(response);
+				_this.data = response.data.data;
+				console.log(_this.data)
+			})
+			.catch(function(error){
+				console.log(error);
+			})
+        },
+        edit(item){
+            this.$router.push({name:'EditAddress'})
+            sessionStorage.setItem('item',JSON.stringify(item))
+        },
+        // 删除数据
+        del(id){
+            if(confirm("是否删除地址?删除后不可恢复")){
+                this.$axios.post('home/del_address',{
+                    token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                    id:id
+                })
+                .then(function(response){
+                    console.log(response);
+                    location.reload();
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            }else{
 
+            }
         }
     }
 

@@ -49,10 +49,12 @@ import shouyilist from '@/pages/user/shouyilist'
 import theAccountBalance from '@/pages/user/theAccountBalance'
 // 提现明细
 import theWithdrawal from '@/pages/user/theWithdrawal'
-// 账单明细
-import billingDetails from '@/pages/user/billingDetails'
 // 账户提现
 import withdrawal from '@/pages/user/withdrawal'
+//提现方式
+import embody from '@/pages/user/embody'
+//提现方式银行卡
+import bankcard from '@/pages/user/bankcard'
 // 查看订单
 import lookorder from '@/pages/user/lookorder'
 // 我的团队
@@ -229,6 +231,18 @@ export default new Router({
 			path: '/user/withdrawal',
 			name: 'withdrawal',
 			component:() => import('@/pages/user/withdrawal'),
+		},
+		//提现方式
+		{
+			path: '/user/embody',
+			name: 'embody',
+			component:() => import('@/pages/user/embody'),
+		},
+		//提现方式-银行卡
+		{
+			path: '/user/bankcard',
+			name: 'bankcard',
+			component:() => import('@/pages/user/bankcard'),
 		},
 		// 提现明细
 		{

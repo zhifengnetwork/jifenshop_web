@@ -11,7 +11,10 @@
         <!-- 产品图轮播 -->
         <div class="detailsSwiper">
             <van-swipe :autoplay="3000" indicator-color="white">
-                <van-swipe-item>
+                <van-swipe-item v-for="(item,key) in datalist.img" :key="key" >
+                    <img :src="item.picture" />
+                </van-swipe-item>
+                <!-- <van-swipe-item>
                     <img src="/static/images/details/00detailsSwiper-img01.png" />
                 </van-swipe-item>
                 <van-swipe-item>
@@ -19,18 +22,15 @@
                 </van-swipe-item>
                 <van-swipe-item>
                     <img src="/static/images/details/00detailsSwiper-img01.png" />
-                </van-swipe-item>
-                <van-swipe-item>
-                    <img src="/static/images/details/00detailsSwiper-img01.png" />
-                </van-swipe-item>
+                </van-swipe-item> -->
             </van-swipe>
         </div>
 
          <!-- 主内容 -->
         <div class="content">
             <div class="price">
-                <span class="discount-price">￥569.00</span>
-                <span class="discount_tag">自营商品</span>
+                <span class="discount-price">￥{{goodsinfo.original_price}}</span>
+                <span class="discount_tag" v-if="!goodsinfo.is_own===0">自营商品</span>
                 <!-- <span class="original-price">原价￥569.00</span> -->
             </div>
             <div class="goodsInfo">
@@ -46,7 +46,7 @@
                             <van-cell is-link @click="areaSelect">
                                 <template slot="title">
                                     <span class="label">配送</span>
-                                    <span class="text">{{this.address}}</span>
+                                    <span class="text">{{datalist.shipping}}</span>
                                 </template>
                             </van-cell>
                         
@@ -62,7 +62,7 @@
                             <van-cell is-link  @click="freightShow = true">
                                 <template slot="title">
                                     <span class="label">运费</span>
-                                    <span class="text">免运费</span>
+                                    <span class="text">{{datalist.freight}}</span>
                                 </template>
                             </van-cell>
                         </van-cell-group>
@@ -125,14 +125,14 @@
                     <van-tab title="商品评价(891)">
                         <div class="comment-wrap">
                             <ul class="comment-list">
-                                <li>
+                                <li v-for="(item,key) in commentlist" :key="key">
                                     <div class="eval-user">
                                         <div class="user">
                                             <div class="avatar">
-                                                <img src="/static/images/details/00avatar01.png" />
+                                                <img :src="item.img" />
                                             </div>
                                             <div class="text">
-                                                <span class="name">小腊肉</span>
+                                                <span class="name">{{item.nickname}}</span>
                                                 <span class="date">2019-05-06</span>
                                             </div>
                                         </div>
@@ -147,7 +147,7 @@
                                         </div>
                                     </div> 
                                     <div class="eval-content">
-                                        <p>你的衣服最好的 快递也好快</p>
+                                        <p>{{item.content}}</p>
                                     </div>
                                     <div class="imgView">
                                         <span><img src="static/images/details/evaluation-img01.png"></span>
@@ -155,7 +155,7 @@
                                         <span><img src="static/images/details/evaluation-img01.png"></span>
                                     </div>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <div class="eval-user">
                                         <div class="user">
                                             <div class="avatar">
@@ -244,7 +244,7 @@
                                         <span><img src="static/images/details/evaluation-img01.png"></span>
                                         <span><img src="static/images/details/evaluation-img01.png"></span>
                                     </div>
-                                </li>
+                                </li> -->
                             </ul>
 
                              <!-- 数据加载完提示 -->
@@ -330,8 +330,11 @@ export default {
             couponShow:false,//优惠券上拉菜单
             skuShow:false,//规格
             value: 1,//步进器默认值
-            
+            datalist: '',
             showBase:false,
+            goodsinfo: '',
+            spec: '',
+            commentlist:'',
             sku: {
                 // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
                 // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
@@ -433,7 +436,24 @@ export default {
     mounted() {
         //监听页面滚动事件
         window.addEventListener('scroll', this.handleScroll);
-    }
+    },
+    created() {
+        this.$axios({
+            method:'post',
+            url: 'goods/goodsDetail',
+            data: {
+                goods_id: 24,
+                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+            }
+            })
+            .then((res) => {
+                this.datalist = res.data.data
+                this.goodsinfo= res.data.data.goodsinfo
+                this.spec = res.data.data.spec
+                this.commentlist = res.data.data.commentlist
+                console.log(this.datalist)
+            })
+    },
 }
 </script>
 
