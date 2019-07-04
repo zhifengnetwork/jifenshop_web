@@ -33,7 +33,7 @@
                   <span class="to_name">转账记录</span>
                   <img src="/static/images/user/youjian.png" class="to"/>
                </router-link> 
-               <router-link class="bottom_ear_item" to="/user/billingdetails">
+               <router-link class="bottom_ear_item" to="/user/billingDetails">
                   <span class="to_name">积分记录</span>
                   <img src="/static/images/user/youjian.png" class="to"/>
                </router-link>  

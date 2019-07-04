@@ -1,7 +1,7 @@
 <template>
     <div class="max_div">
         <!-- 头部组件 -->
-		<Comm-Header custom-title="账户明细" custom-fixed>
+		<Comm-Header custom-title="转账记录" custom-fixed>
 			<!-- 返回按钮 -->
 			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Comm-Header>

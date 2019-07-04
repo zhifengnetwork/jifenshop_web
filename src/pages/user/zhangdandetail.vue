@@ -51,7 +51,7 @@
 <script>
 	import BillHeader from "@/pages/common/header/TopHeader"
 	export default {
-        name: 'billingDetails',
+        name: 'zhangdandetail',
 		data() {
 			return{
                 tabList:[
@@ -126,7 +126,7 @@
             .tit_wrap ul li.on
                 color #ef1010
             .item_wrap .title
-                background #ffc9b4
+                background #c6e1ff
                 color #151515
                 font-size 0
             .item_wrap .title ul li
@@ -149,7 +149,9 @@
 				white-space nowrap
 				overflow hidden
 				text-overflow ellipsis
-            .item_wrap .list ul:nth-child(even)
-                background #ffede7
+			.item_wrap .list ul:nth-child(odd)
+				background #f3f9ff
+			.item_wrap .list ul:nth-child(even)
+            	background #ecf4fc
 
 </style>

@@ -6,7 +6,6 @@
 
         <div class="content">
             <div class="address-info">
-                {{item}}
                 <div class="form-group">
                     <div class="label">收货人</div>
                     <div class="input-group">
@@ -22,7 +21,8 @@
                 <div class="form-group" @click="to()">
                     <div class="label">收货地址</div>
                         <div class="input-group">
-                            <h3>{{item.province}}&nbsp;{{item.city}}&nbsp;{{item.district}}</h3>
+                            <!-- <h3 v-if="!this.location">{{item.province}}&nbsp;{{item.city}}&nbsp;{{item.district}}</h3> -->
+                            <h3 v-if="this.location">{{this.location.poiname}}</h3>
                         </div>
                     <div class="right-arrow"></div>
                 </div>
@@ -67,15 +67,10 @@ export default {
         // 返回的位置信息赋值
         this.location = this.$route.params.location;
         this.item = JSON.parse(sessionStorage.getItem('item'));
-        console.log(this.location)
-        console.log(this.item)
-        if(sessionStorage.getItem('data')==''){
+        if(!this.location){
             return false;
         }
-        // 获取源数据
-        let data = JSON.parse(sessionStorage.getItem('data'));
-        // Object.assign方法 赋值 （目标对象， 源对象）
-        Object.assign(this, data)
+        this.item.address = this.location.poiaddress;
     },
     mounted(){
         if(this.item.is_default==1){
@@ -91,37 +86,48 @@ export default {
         },
         // 发送请求
         send(){
-            console.log(this.item)
-			// let _this = this;
-            // let is_default = null;
-            // if(_this.checked){
-            //     is_default = 1;
-            // }else{
-            //     is_default = 0;
-            // }
-            // this.$axios.post('home/edit_address',{
-            //         token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
-            //         id:_this.item.id,
-            //         lat:_this.location.latlng.lat,   
-            //         lng:_this.location.latlng.lng,   
-            //         consignee:_this.consignee,
-            //         mobile:_this.mobile,
-            //         is_default:is_default,
-            //         address:_this.address
-            //     }
-			// )
-			// .then(function(response){
-            //     sessionStorage.setItem('data','');
-            //     this.$router.push({name:'Address'})
-			// 	console.log(response);
-			// })
-			// .catch(function(error){
-			// 	console.log(error);
-			// })
+            let _this = this;
+            if(!_this.item.consignee){
+                alert('收件人不能为空');
+                return false;
+            }else if(!_this.item.mobile){
+                alert('手机号不能为空');
+                return false;
+            }else if(!_this.location){
+                alert('地址不能为空');
+                return false;
+            }else if(!_this.item.address){
+                alert('详细地址不能为空');
+                return false;
+            }
+            let is_default = null;
+            if(_this.checked){
+                is_default = 1;
+            }else{
+                is_default = 0;
+            }
+            this.$axios.post('home/edit_address',{
+                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                    id:_this.item.id,
+                    lat:_this.location.latlng.lat,   
+                    lng:_this.location.latlng.lng,   
+                    consignee:_this.item.consignee,
+                    mobile:_this.item.mobile,
+                    is_default:is_default,
+                    address:_this.item.address
+                }
+			)
+			.then(function(response){
+                sessionStorage.removeItem('data');
+                _this.$router.push({name:'Address'})
+				console.log(response);
+			})
+			.catch(function(error){
+				console.log(error);
+			})
         },
         to(){
-            // 保存当前页面上data数据
-            sessionStorage.setItem('data', JSON.stringify(this.$data))
+            sessionStorage.setItem('item',JSON.stringify(this.item))
             this.$router.push({name:'SelectPoint',params:{'router':'EditAddress'}})
         }
     }

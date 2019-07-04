@@ -84,6 +84,23 @@
              handleClick(index){
                 this.nowIndex = index;
             },
+		},
+		mounted(){
+			let _this = this;
+			this.$axios.get('home/balance_list',{
+				params:{
+					token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+				}
+			}
+			)
+			.then(function(response){
+				console.log(response);
+				// _this.data = response.data.data;
+				// console.log(_this.data)
+			})
+			.catch(function(error){
+				console.log(error);
+			})
 		}
 	}
 </script>
@@ -109,7 +126,7 @@
             .tit_wrap ul li.on
                 color #ef1010
             .item_wrap .title
-                background #ffc9b4
+                background #c6e1ff
                 color #151515
                 font-size 0
             .item_wrap .title ul li
@@ -132,7 +149,11 @@
 				white-space nowrap
 				overflow hidden
 				text-overflow ellipsis
-            .item_wrap .list ul:nth-child(even)
-                background #ffede7
+			.item_wrap .list ul:nth-child(odd)
+				background #f3f9ff
+			.item_wrap .list ul:nth-child(even)
+            	background #ecf4fc
+
+				
 
 </style>
