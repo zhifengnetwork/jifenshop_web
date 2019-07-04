@@ -32,7 +32,7 @@
                         </div>
                     </router-link>   
                     <!-- 账单 -->
-                    <router-link to="/user/billingDetails">
+                    <router-link to="/user/zhangdandetail">
                         <div class="dep">
                             <div class="the">账单明细</div>
                             <div class="icon"></div>

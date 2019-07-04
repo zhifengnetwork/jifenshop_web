@@ -61,7 +61,7 @@
 			</div>
 			<div class="hot-list">
 				<div class="single-item" v-for="(item,index) in data.hotgoods" :key="index">
-					<router-link to="/Details">
+					<router-link :to="{path:'/Details',query:{id:item.goods_id}}">
 						<div class="img-wrap">
 							<img :src="item.picture" />
 						</div>
@@ -85,7 +85,7 @@
 			</div>
 			<div class="recommend-list">
 				<div class="single-item" v-for="(item,index) in data.commendgoods" :key="index">
-					<router-link to="/Details">
+					<router-link :to="{path:'/Details',query:{id:item.goods_id}}">
 						<div class="img-wrap">
 							<img :src="item.picture" />
 						</div>

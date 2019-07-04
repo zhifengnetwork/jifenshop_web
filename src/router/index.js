@@ -69,6 +69,10 @@ import jifengdetail from "@/pages/user/jifengdetail"
 import mingxi from "@/pages/user/mingxi"
 // 账户明细
 import accountdetail from "@/pages/user/accountdetail"
+// 账单明细
+import billingDetails from "@/pages/user/billingDetails"
+//账单明细-余额
+import zhangdandetail from "@/pages/user/zhangdandetail"
 // 积分转账
 import transfer_accounts from "@/pages/user/transfer_accounts"
 // 收款信息
@@ -262,7 +266,12 @@ export default new Router({
 			name: 'lookorder',
 			component:() => import('@/pages/user/lookorder'),
 		},
-		
+		//余额-账单明细
+		{
+			path: '/user/zhangdandetail',
+			name: 'zhangdandetail',
+			component:() => import('@/pages/user/zhangdandetail'),
+		},
 		// 我的团队
 		{
 			path: '/user/myTeam',
