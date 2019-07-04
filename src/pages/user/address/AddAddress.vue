@@ -29,14 +29,14 @@
                             <p v-if="!this.location">点击选择地址</p>
                             <template v-else>
                                 <h3>{{this.location.poiname}}</h3>
-                                <p>{{this.location.poiaddress}}</p>
                             </template>
                         </div>
                     <div class="right-arrow"></div>
                 </div>
                 <div class="details-address">
                     <div class="label">详细地址</div>
-                    <div class="textarea" contenteditable="true" v-html="address" @input="address=$event.target.innerHTML" placeholder="详细地址，例D座726"></div>
+                    <textarea class="textarea" placeholder="输入详细地址" v-model="address" rows="3"></textarea>
+                    <!-- <div class="textarea" contenteditable="true" v-html="address" @input="address=$event.target.innerHTML"></div> -->
                 </div>
                
             </div>
@@ -76,8 +76,6 @@ export default {
         }
     },
     created: function(){
-        // 返回的位置信息赋值
-        this.location = this.$route.params.location;
         if(sessionStorage.getItem('data')==''){
             return false;
         }
@@ -85,6 +83,12 @@ export default {
         let data = JSON.parse(sessionStorage.getItem('data'));
         // Object.assign方法 赋值 （目标对象， 源对象）
         Object.assign(this, data)
+        // 返回的位置信息赋值
+        this.location = this.$route.params.location;
+        if(!this.location){
+            return false;
+        }
+        this.address = this.location.poiaddress;
     },
     methods:{
         // 点击保存按钮时触发
@@ -95,6 +99,26 @@ export default {
         requestData(){
             let _this = this;
             let is_default = null;
+            let telStr = /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/;
+            if(!_this.consignee){
+                alert('收件人不能为空');
+                return false;
+            }else if(!_this.mobile){
+                alert('手机号不能为空');
+                return false;
+            }else if(!_this.location){
+                alert('地址不能为空');
+                return false;
+            }else if(!_this.address){
+                alert('详细地址不能为空');
+                return false;
+            }
+            // 检测手机号
+            if (!(telStr.test(_this.mobile))){
+                alert('手机号码输入不规范');
+                return false;
+            }
+            // 判断是否为默认地址
             if(_this.checked){
                 is_default = 1;
             }else{
@@ -112,7 +136,7 @@ export default {
             })
 			.then(function(response){
                 _this.$router.push({name:'Address'})
-                sessionStorage.setItem('data','');
+                sessionStorage.removeItem('data');
 				console.log(response,'555');
 			})
 			.catch(function(error){
@@ -194,8 +218,9 @@ export default {
                     font-size 24px
                     color #858585
                     min-height 30px
-                    line-height 30px
+                    line-height 50px
                     max-height 140px
+                    border 0
                     _height 120px
                     margin-left auto
                     margin-right auto

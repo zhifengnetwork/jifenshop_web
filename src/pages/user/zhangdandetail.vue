@@ -154,6 +154,4 @@
 			.item_wrap .list ul:nth-child(even)
             	background #ecf4fc
 
-				
-
 </style>
