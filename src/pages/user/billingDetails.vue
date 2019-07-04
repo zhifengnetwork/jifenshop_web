@@ -126,7 +126,7 @@
 		},
 		mounted(){
 			this.requestData();
-			window.addEventListener('scroll', this.scrollBottom)
+			window.addEventListener('scroll', this.scrollBottom);
 		}
 	}
 </script>
