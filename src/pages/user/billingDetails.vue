@@ -25,19 +25,19 @@
 						</ul>
 					</div>
 					<div class="list" v-show="nowIndex===0">
-						<ul v-for="(tes,index) in reduce" :key="index">
-							<li>{{tes.no}}</li>
-							<li>{{tes.date}}</li>
-							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.money}}</li>
-							<li>{{tes.note}}</li>
+						<ul v-for="(tes,index) in tits" :key="index">
+							<li>{{tes.zhi}}</li>
+							<li>{{tes.title}}</li>
+							<li>{{tes.ge}}</li>
+							<li>{{tes.tips}}</li>
 						</ul>
 					</div>
 					<div class="list" v-show="nowIndex===1">
-						<ul v-for="(tes,index) in increase" :key="index">
-							<li>{{tes.no}}</li>
-							<li>{{tes.date}}</li>
-							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.money}}</li>
-							<li>{{tes.note}}</li>
+						<ul v-for="(list,index) in futits" :key="index">
+							<li>{{list.zi}}</li>
+							<li>{{list.itle}}</li>
+							<li>{{list.gs}}</li>
+							<li>{{list.tips}}</li>
 						</ul>
 					</div>
 
@@ -45,7 +45,6 @@
 
 			</div>
 		</div>
-		<div class="foot" v-if="flag">我是有底线的哦~~</div>
     </div>    
 </template>
 
@@ -55,8 +54,6 @@
         name: 'billingDetails',
 		data() {
 			return{
-				reduce:'',
-				increase:'',
                 tabList:[
 					{
 						tabTitle:"消费"
@@ -65,68 +62,45 @@
 						tabTitle:"赚取"
 					}
 				],
+				tits:[
+					{id:1,zhi:'012345678',title:'2019-06-03',ge:'-￥4584.00',tips:'购买商品'},
+					{id:2,zhi:'012345678',title:'2019-06-03',ge:'-￥4584.00',tips:'购买商品'},
+					{id:3,zhi:'012345678',title:'2019-06-03',ge:'-￥4584.00',tips:'购买商品'},
+					{id:4,zhi:'012345678',title:'2019-06-03',ge:'-￥4584.00',tips:'购买商品'}
+				],
+				futits:[
+					{id:1,zi:'012345678',itle:'2019-06-03',gs:'+￥4584.00',tips:'推荐奖励'},
+					{id:2,zi:'012345678',itle:'2019-06-03',gs:'+￥4584.00',tips:'推荐奖励'},
+					{id:3,zi:'012345678',itle:'2019-06-03',gs:'+￥4584.00',tips:'推荐奖励'},
+					{id:4,zi:'012345678',itle:'2019-06-03',gs:'+￥4584.00',tips:'推荐奖励'}
+				],
 				nowIndex:0,
-				page:1,
-				flag:false
 			}
 		},
 		components: {
 			BillHeader,
 		},
 		methods: {
-			handleClick(index){
-				this.nowIndex = index;
-				this.page = 1;
-				this.flag = false;
-				this.requestData();
-			},
-			requestData(){
-				let _this = this;
-				this.$axios.post('home/balance_list',{
-					token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
-					type:_this.nowIndex,
-					p:_this.page
-				})
-				.then(function(response){
-					console.log(response);
-					if(_this.page>1){
-						for(let i=0;i<response.data.data.length;i++){
-							if(response.data.data.length<20){
-								_this.flag = true;
-							}
-							if(_this.nowIndex==0){
-								_this.reduce.push(response.data.data[i]);
-							}else{
-								_this.increase.push(response.data.data[i]);
-							}
-						}
-					}else{
-						if(_this.nowIndex==0){
-							_this.reduce = response.data.data;
-						}else{
-							_this.increase = response.data.data;
-						}
-					}
-					console.log(_this.reduce)
-				})
-				.catch(function(error){
-					console.log(error);
-				})
-			},
-			scrollBottom(){
-				let _this = this;
-				let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-				let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-				let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-				if(scrollTop + windowHeight == scrollHeight){
-					_this.page++;
-					_this.requestData();
-				}
-			}
+             handleClick(index){
+                this.nowIndex = index;
+            },
 		},
 		mounted(){
-			this.requestData();
-			window.addEventListener('scroll', this.scrollBottom)
+			let _this = this;
+			this.$axios.get('home/balance_list',{
+				params:{
+					token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+				}
+			}
+			)
+			.then(function(response){
+				console.log(response);
+				// _this.data = response.data.data;
+				// console.log(_this.data)
+			})
+			.catch(function(error){
+				console.log(error);
+			})
 		}
 	}
 </script>
@@ -152,7 +126,7 @@
             .tit_wrap ul li.on
                 color #ef1010
             .item_wrap .title
-                background #ffc9b4
+                background #c6e1ff
                 color #151515
                 font-size 0
             .item_wrap .title ul li
@@ -172,10 +146,14 @@
                 font-size 18px
                 text-align center
                 line-height 68px
-            .item_wrap .list ul:nth-child(even)
-                background #ffede7
-	.foot
-		line-height 100px
-		text-align center
-		
+				white-space nowrap
+				overflow hidden
+				text-overflow ellipsis
+			.item_wrap .list ul:nth-child(odd)
+				background #f3f9ff
+			.item_wrap .list ul:nth-child(even)
+            	background #ecf4fc
+
+				
+
 </style>
