@@ -82,7 +82,7 @@
 		},
 		methods: {
              handleClick(index){
-                this.nowIndex = index;
+                // this.nowIndex = index;
             },
 		},
 		mounted(){
