@@ -71,7 +71,7 @@
                     <!-- 规格 -->
                     <div class="sku-wrap module-wrap">
                         <van-cell-group class="goods-cell-group">
-                            <van-cell is-link>
+                            <van-cell is-link @click="handleBtn()">
                                 <template slot="title">
                                     <span class="label">规格</span>
                                     <span class="wayText size22">默认规格显示</span>
@@ -87,8 +87,9 @@
             <div class="tab-content">
                 <van-tabs v-model="tabActive">
                     <van-tab title="商品详情">
-                        <div class="details-wrap">
-                            <img src="/static/images/details/00details-img01.png" />
+                        <div class="details-wrap" v-html="goodsinfo.content">
+                            <!-- <img src="/static/images/details/00details-img01.png" /> -->
+                            {{goodsinfo.content}}
                         </div>
                     </van-tab>
                     <van-tab title="参数">
@@ -250,6 +251,7 @@
                              <!-- 数据加载完提示 -->
                             <div class="end-wrap">
                                 <p>我是有底线哦~~</p>
+                                {{msg}}
                             </div>
 
                         </div>
@@ -258,21 +260,26 @@
             </div>
 
         </div>
-        <van-sku
+        <!-- 商品规格 -->
+        <!-- <van-sku
         v-model="showBase"
         :sku="sku"
         :goods="sku.goods"
-        />
+        /> -->
         <!-- 底部菜单 -->
         <div class="bottom-bar">
+            
             <van-goods-action>
                 <van-goods-action-icon
                     icon="shop-o"
                     text="店铺"
                 />
                 <van-goods-action-icon
+                    :style="{'color': ( msg == '收藏成功！' ? 'red':'')}"
                     icon="like-o"
+                    icon-class="like-red"
                     text="收藏"
+                    @click="shoucang()"
                 />
                 <van-goods-action-icon
                     icon="chat-o"
@@ -290,7 +297,28 @@
                 />
             </van-goods-action>
         </div>
-
+        <div v-show="guige">
+            <div class="guige" ></div>
+            <div class="guige_box">
+                <div class="guibox">
+                    <h3>尺寸</h3>
+                    <ul>
+                        <li>s</li>
+                        <li>b</li>
+                    </ul>
+                </div>
+                <div class="guigenum">
+                    <h3>购买数量</h3>
+                    <span class="-option-">
+                        <i class="subling iconfont iconjian" @click="reducingNumber()"></i>
+                        <input class="inp" type="text" :value="goodsNumber" @change="changNumber($event)"/>
+                        <i class="puls iconfont iconjia"  @click="addNumber()"></i>
+                    </span>
+                </div>
+                <div class="guigegd">确定</div>
+                <div class="guige_bottom" @click="handleBtn()">x</div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -320,6 +348,7 @@ export default {
     },
     data(){
         return {
+            goodsNumber: 1,
             head:false,//头部隐藏
             goodsId:this.$route.query.goods_id,//商品id
             tabActive: 0,//tab选中
@@ -335,65 +364,68 @@ export default {
             goodsinfo: '',
             spec: '',
             commentlist:'',
-            sku: {
-                // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
-                // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
-                tree: [
-                    {
-                        k: '颜色', // skuKeyName：规格类目名称
-                        v: [
-                            {
-                            id: '30349', // skuValueId：规格值 id
-                            name: '红色', // skuValueName：规格值名称
-                            imgUrl: 'https://img.yzcdn.cn/1.jpg' // 规格类目图片，只有第一个规格类目可以定义图片
-                            },
-                            {
-                            id: '1215',
-                            name: '蓝色',
-                            imgUrl: 'https://img.yzcdn.cn/2.jpg'
-                            }
-                        ],
-                        k_s: 's1' // skuKeyStr：sku 组合列表（下方 list）中当前类目对应的 key 值，value 值会是从属于当前类目的一个规格值 id
-                    },
-                    {
-                        k: '尺码',
-                        v: [
-                            {
-                                id: '1193',
-                                name: 'S',
-                            },
-                            {
-                                id: '222',
-                                name: 'M',
-                            }
-                        ],
-                        k_s: 's2'
-                    }
-                ],
-                // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
-                list: [
-                    {
-                    id: 2259, // skuId，下单时后端需要
-                    price: 100, // 价格（单位分）
-                    s1: '1215', // 规格类目 k_s 为 s1 的对应规格值 id
-                    s2: '1193', // 规格类目 k_s 为 s2 的对应规格值 id
-                    s3: '0', // 最多包含3个规格值，为0表示不存在该规格
-                    stock_num: 110 // 当前 sku 组合对应的库存
-                    }
-                ],
-                price: '1.00', // 默认价格（单位元）
-                stock_num: 227, // 商品总库存
-                collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
-                none_sku: false, // 是否无规格商品
-                hide_stock: false, // 是否隐藏剩余库存
-                goods: {
-                    // 商品标题
-                    title: '测试商品',
-                    // 默认商品 sku 缩略图
-                    picture: 'https://img.yzcdn.cn/2.jpg'
-                },
-            },
-
+            likeo: '',
+            msg: '',
+            guige: false,
+            guigeNumber:'',
+            // sku: {
+            //     // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
+            //     // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
+            //     tree: [
+            //         {
+            //             k: '尺寸', // skuKeyName：规格类目名称
+            //             v: [
+            //                 {
+            //                 id: '30349', // skuValueId：规格值 id
+            //                 name: '红色', // skuValueName：规格值名称
+            //                 imgUrl: 'https://img.yzcdn.cn/1.jpg' // 规格类目图片，只有第一个规格类目可以定义图片
+            //                 },
+            //                 {
+            //                 id: '1215',
+            //                 name: '蓝色',
+            //                 imgUrl: 'https://img.yzcdn.cn/2.jpg'
+            //                 }
+            //             ],
+            //             k_s: 's1' // skuKeyStr：sku 组合列表（下方 list）中当前类目对应的 key 值，value 值会是从属于当前类目的一个规格值 id
+            //         },
+            //         {
+            //             k: '颜色分类',
+            //             v: [
+            //                 {
+            //                     id: '1193',
+            //                     name: 'S',
+            //                 },
+            //                 {
+            //                     id: '222',
+            //                     name: 'M',
+            //                 }
+            //             ],
+            //             k_s: 's2'
+            //         }
+            //     ],
+            //     // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
+            //     list: [
+            //         {
+            //         id: 2259, // skuId，下单时后端需要
+            //         price: 100, // 价格（单位分）
+            //         s1: '1215', // 规格类目 k_s 为 s1 的对应规格值 id
+            //         s2: '1193', // 规格类目 k_s 为 s2 的对应规格值 id
+            //         s3: '0', // 最多包含3个规格值，为0表示不存在该规格
+            //         stock_num: 110 // 当前 sku 组合对应的库存
+            //         }
+            //     ],
+            //     price: '1.00', // 默认价格（单位元）
+            //     stock_num: 227, // 商品总库存
+            //     collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
+            //     none_sku: false, // 是否无规格商品
+            //     hide_stock: false, // 是否隐藏剩余库存
+            //     goods: {
+            //         // 商品标题
+            //         title: '测试商品',
+            //         // 默认商品 sku 缩略图
+            //         picture: 'https://img.yzcdn.cn/2.jpg'
+            //     },
+            // },
         }
     },
     methods:{
@@ -412,8 +444,7 @@ export default {
         },
         // 显示规格
         handleBtn(){
-            // this.skuShow = true
-            this.showBase = true
+            this.guige = !this.guige
         },
         // 关闭规格选择
         close(){
@@ -426,23 +457,88 @@ export default {
         handleScroll () {
             this.head = window.scrollY > 150;
         },
+        // 收藏
+        shoucang(){
+            let goods_id = this.$route.query.id
+            this.$axios({
+            method:'post',
+            url: 'collection/collection',
+            data: {
+                goods_id: goods_id,
+                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+            }
+            })
+            .then((res) => {
+                this.likeo = res.data
+                // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
+                sessionStorage.setItem("msg",this.likeo.msg);
+                this.msg = sessionStorage.getItem('msg'); 
+                })
+            
+        },
+        //点击加入到购物车
         addToCart(){
-            this.$toast("添加成功,可直接去购物车下单")
+            // this.$toast("添加成功,可直接去购物车下单")
+            this.guigeNumber = sessionStorage.getItem('guigeNumber');
+            console.log(this.guigeNumber)
+            this.$axios({
+            method:'post',
+            url: 'cart/addCart',
+            data: {
+                sku_id: 25,
+               cart_number: this.guigeNumber,
+                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+            }
+            })
+            .then((res) => {
+                this.likeo = res.data
+                // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
+                sessionStorage.setItem("msg",this.likeo.msg);
+                this.msg = sessionStorage.getItem('msg'); 
+                })
         },
         toBay(){
             this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+        },
+         reducingNumber(){
+            var val =parseInt(this.goodsNumber) - 1 
+           if(val<=1){val =1}
+           this.goodsNumber=val
+        },
+        changNumber(e){
+            var val =e.target.value;
+            if(val<1){return;}
+            this.goodsNumber=val
+        },
+        addNumber(){
+            var val =parseInt(this.goodsNumber) + 1
+            this.goodsNumber=val
+            console.log(this.goodsNumber)
         }
+    },
+    //更新渲染前
+        beforeUpdate() {
+        sessionStorage.setItem("guigeNumber",this.goodsNumber);
+    },
+    // 挂载前
+    beforeMount() {
+        // 挂载前取出msg数据
+        this.msg = sessionStorage.getItem('msg');
+        this.guigeNumber = sessionStorage.getItem('guigeNumber');
+        console.log(this.msg)
+        console.log(this.guigeNumber)
     },
     mounted() {
         //监听页面滚动事件
         window.addEventListener('scroll', this.handleScroll);
     },
     created() {
+        let goods_id = this.$route.query.id
         this.$axios({
             method:'post',
             url: 'goods/goodsDetail',
             data: {
-                goods_id: 24,
+                goods_id: goods_id,
                 "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
             }
             })
@@ -755,7 +851,103 @@ export default {
     .bottom-bar
         .van-goods-action
             z-index 99
-            
-    
-        
+    .guige
+        height 100%
+        width 100%
+        position absolute
+        top 0
+        left 0
+    .guige
+        height 100%
+        width:100%
+        background #000
+        z-index 1000
+        opacity 0.4
+    .guige_box
+        z-index 1001
+        background #fff
+        width 90%
+        height 600px
+        position absolute
+        bottom 0
+        left 0
+        padding 5%
+        .guibox
+            margin 20px 0
+            overflow hidden
+            h3
+                font-size 30px
+                line-height 60px
+            ul
+                margin 20px
+                li
+                    float left
+                    width 160px
+                    height 40px
+                    font-size 26px
+                    line-height 40px
+                    background #f3f3f3
+                    text-align center
+                    margin 10px
+                    color #151515;
+        .guigenum
+            margin-top 20px
+            height 100px
+            position relative
+            h3
+                font-size 30px
+                line-height 100px
+                float left
+            .-option-
+                border  2px solid #e6e6e6
+                width  200px
+                height  40px
+                line-height  40px
+                display  flex
+                align-items  center
+                justify-content space-between
+                border-radius  20px
+                text-align center
+                position absolute
+                right 50px
+                top 50%;
+                transform translate(0,-50%)
+                .iconfont
+                    width 41px
+                    height 100%
+                    font-size  12px
+                .puls
+                    border-left 1px solid #e6e6e6
+                .subling
+                    border-right 1px solid #e6e6e6
+                    
+                .inp
+                    width 121px
+                    text-align  center
+                    height inherit
+                    font-size 24px
+                    font-weight bold
+        .guigegd{
+            position absolute
+            bottom 50px
+            width  90%
+            height  88px
+            background #ff2d10
+            line-height 88px
+            font-size 30px
+            text-align center
+            border-radius 44px
+        }
+        .guige_bottom
+             position absolute
+             top 50px
+             right 50px
+             width 50px
+             height 50px
+             border-radius 50px
+             border 1px solid #5f5f5f
+             color #5f5f5f
+             font-size 30px
+             line-height 50px
+             text-align center
 </style>
