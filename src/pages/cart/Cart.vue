@@ -12,7 +12,7 @@
         <!-- GOODS LIST START -->
         <div class="conter">
             <div class="c-list-" v-for="(item,key) in list" :key="key">
-                <van-checkbox v-model="item.selected" :check ="item.selected" @click="selectGoods($event,key)"></van-checkbox>
+                <van-checkbox v-model="item.selected" :check ="item.selected" @click="selectGoods($event,key,item.id)" checked-color="red" data-radius="item.id"></van-checkbox>
                 <div class="-list-img">
                     <router-link to="/Details"><img :src="item.img" /></router-link>
                 </div>
@@ -36,12 +36,12 @@
         <div class="footer">
             <div class="footer-a">
                 <span class="f-a-a">
-                     <van-checkbox ref="allCheck" v-model="allChecked" @click="selectAll(allChecked)"><strong>全选</strong></van-checkbox>
+                     <van-checkbox ref="allCheck" v-model="allChecked" @click="selectAll(allChecked)" checked-color="red"><strong>全选</strong></van-checkbox>
                 </span>
                 <div class="f-a-b">
                     <p class="size-30">
                         <strong>总计：</strong>
-                        <span class="colorRed">￥<strong class="size-35">{{updatePrice}}</strong></span>
+                        <span class="colorRed">￥<strong class="size-35">{{updatePrice | numFilter}}</strong></span>
                     </p>
                     <p class="size-24">
                         节省: <span class="size-20">￥</span><span class="size-30">10.00</span>
@@ -69,6 +69,7 @@ export default {
             },
             list: [],
             allChecked: 0,
+            xuanze_shop:[]  //选择要删除商品的购物车id
         };
     },
 
@@ -113,13 +114,20 @@ export default {
                     this.list[i].selected = 0
                 }
             }
+                
+
         },
         // 单选
-        selectGoods(e,key){
+        selectGoods(ev,key,ifc){
+            console.log("dsss")
+            console.log(ifc)
+            console.log("dsss")
             var data =this.list[key];
-            console.log(data.goods_id)
+             console.log(data.goods_id)
              this.$set(data,'selected',!data.selected);
+             console.log("------") 
              console.log(this.list)
+             console.log("------") 
             if(!data.selected){
                 this.allChecked=0
             }else{
@@ -127,7 +135,24 @@ export default {
                     this.allChecked=1
                 }
             }
-        },
+            //将选择的id传过去,则传购物车的id过去
+                var shopid=ifc;
+                this.$axios({
+                method: "post",
+                url: "/cart/selected?cart_id="+shopid,
+                 data: {
+                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                     }
+                }).then(res => {
+                    console.log(res.data)
+                  if(res.data.status===1){
+                     console.log("Chenggongle8888888")
+                  }
+                }); 
+
+          
+         
+           },
         // 减
         reducingNumber(key){
             var data =this.list[key];
@@ -149,24 +174,44 @@ export default {
         countNumberCheckBoxes(){    //计算选中的复选框的总数
             let counts =[];
             this.list.forEach((data)=>{
-                if(data.isCheck){
+                if(data.selected){
                     counts.push('a')    // a 可为任何数，在这里仅用于占位
                 }
             })
             return counts;
         },
+        //删除
         deletOption(){
             Dialog.confirm({
             title: '信息提醒',
             message: '亲，再考虑考虑吧?'
             }).then(() => {
-                let newArry=[];
+
+                let newArry=[]; //存储没有选中的项-item
+                let arrid=[];  //存储选中的id
                 this.list.forEach((data,index)=>{
-                    if(!data.isCheck){
-                        newArry.push(data)
+                    if(!data.selected){
+                        newArry.push(data);
                     }
-                })
-                this.list =newArry;
+                    else{
+                        arrid.push(data.id);
+                    }
+                    })
+                    this.list =newArry;
+                    var a,b;
+                    // 将数组arrid,转化成字符串,并且用逗号隔开
+                    b= arrid.join(",");   
+                    console.log(b) 
+                    this.$axios({
+                        method:'post',
+                        url: '/cart/delCart?cart_id='+b,
+                        data: {
+                            "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                        }
+                        })
+                        .then((res) => {
+                            console.log("zhangyunfei")
+                        })
 
             // on confirm
             }).catch(() => {
@@ -197,6 +242,15 @@ export default {
                 console.log(this.list)
             })
     },
+   
+    // 商品总价过滤器
+    filters: {
+        numFilter (value) {
+            // 截取当前数据到小数点后两位
+            let realVal = parseFloat(value).toFixed(2)
+            return realVal
+        }
+    },
     components: {
         TopHeader,
         Navigate,
@@ -206,7 +260,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
         .colorRed
             color:#ff112f
         .size-35
@@ -226,7 +280,7 @@ export default {
                     width:100%;
                     margin-bottom:12px;
                     border-radius:6px;
-                    padding: 20px 40px 20px 6px;
+                    padding: 20px 20px 20px 6px;
                     height:238px;
                     display:flex;
                     align-items :center;
@@ -236,12 +290,13 @@ export default {
                     .-list-img
                         width:201px;
                         height:176px;
-                        margin:0 10px 0 4px;
+                        margin-left 30px
                         img
-                            max-width:100%;
-                            max-height 100%;
+                            width:100%;
+                            height 100%;
                     .goods-info
                         width:445px;
+                        margin-left:30px;
                         .-info-msg
                             width:100%;
                             height:80px;
@@ -309,9 +364,9 @@ export default {
                     padding-left:28px;
                     .f-a-a
                         display:flex;
-                        margin-right:80px;
+                        margin-right:60px;
                     .f-a-b
-                        margin :14px 26px 8px 0;
+                        margin :14px 5px 8px 0;
                     .f-a-b p:nth-child(1)  
                         margin-bottom :2px;
                 .footer-b
@@ -321,7 +376,12 @@ export default {
                     line-height:120px;
                     text-align: center;
                     font-size:30px;
-                    font-weight:bold;
-
+                    font-weight:bold;                 
+.c-list- >>> .van-checkbox__icon
+    width 70px
+    margin-left 10px
+// .c-list- >>> .van-icon
+    
+    
 </style>    
 

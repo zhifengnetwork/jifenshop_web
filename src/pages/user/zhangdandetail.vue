@@ -51,7 +51,7 @@
 <script>
 	import BillHeader from "@/pages/common/header/TopHeader"
 	export default {
-        name: 'billingDetails',
+        name: 'zhangdandetail',
 		data() {
 			return{
                 tabList:[
