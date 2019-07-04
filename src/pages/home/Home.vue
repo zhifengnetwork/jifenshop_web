@@ -120,7 +120,7 @@ export default {
 	},
 	mounted(){
 		let _this = this;
-		this.$axios.get('/index')
+		this.$axios.get('index')
 		.then(function(response){
 			console.log(response.data);
 			_this.data = response.data.data;

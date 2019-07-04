@@ -79,7 +79,7 @@ export default {
 		});
 		this.$axios({
 		method: "get",
-		url: "/goods/categoryList"
+		url: "goods/categoryList"
 		}).then(res => {
 		if (res.data.status === 1) {
 			console.log(res.data.data);
@@ -95,7 +95,7 @@ export default {
       this.activeIndex = index;
       this.$axios({
         method: "get",
-        url: "/goods/categoryGetGoods?cat_id=" + i + "&page=1"
+        url: "goods/categoryGetGoods?cat_id=" + i + "&page=1"
       }).then(res => {
         if (res.data.status === 1) {
           console.log(res.data.data);
@@ -110,7 +110,7 @@ export default {
         console.log("xixi" + this.xixi);
         this.$axios({
           method: "get",
-          url: "/goods/categoryGetGoods?cat_id=" + this.xixi + "&page="+this.page
+          url: "goods/categoryGetGoods?cat_id=" + this.xixi + "&page="+this.page
         }).then(res => {
           if (res.data.data.length > 0) {
 			this.upLoading = true;
