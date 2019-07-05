@@ -9,13 +9,12 @@
             <li class="li">
                 <span class="user_id">时间</span><span class="user_name">名称</span><span class="user_phone">积分</span><span class="beizhu">备注</span>
             </li>
-            <li class="li">
-                <span class="user_id">2019-01-03 12:06:03</span><span class="user_name">冷漠之秋二小姐89</span><span class="user_phone">18488885975</span><span class="beizhu">18488885975</span>
+            <li class="li" v-for="(item,index) in data" :key="index">
+                <span class="user_id">{{item.time}}</span><span class="user_name">{{item.nickname}}</span><span class="user_phone">{{item.point}}</span><span class="beizhu">{{item.remark}}</span>
             </li>
-            <li class="li">
-                <span class="user_id">789895</span><span class="user_name">冷漠之秋二小姐89</span><span class="user_phone">18488885975</span><span class="beizhu">18488885975</span>
-            </li>
-        </ul>          
+        </ul>     
+
+        <div class="foot" v-if="flag">我是有底线的哦~~</div>     
     </div>
 </template>
 
@@ -25,14 +24,61 @@
 		name: 'accountdetail',
 		data(){
             return{
-                
+                data:'',
+                page:1,
+                flag:false
             }
 			
 		},
         components:{
             CommHeader,
         },
-        
+        mounted(){
+            this.requestData();
+			window.addEventListener('scroll', this.scrollBottom);
+        },
+        methods:{
+            requestData(){
+                let _this = this;
+                this.$axios.get('home/transfer_list',{
+                    params:{
+                        token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                        p:_this.page
+                    }
+                })
+                .then(function(response){
+                    console.log(response.data);
+                    if(_this.page>1){
+                        for(let i=0;i<response.data.data.length;i++){
+							if(response.data.data.length<20){
+								_this.flag = true;
+							}
+                            _this.data.push(response.data.data[i]);
+						}
+                        console.log(_this.data)
+                    }else{
+                        _this.data = response.data.data;
+                    }
+                    console.log(_this.data)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            },
+            scrollBottom(){
+                let _this = this;
+				let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+				let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+				let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+				if(scrollTop + windowHeight == scrollHeight){
+                    _this.requestData();
+					_this.page++;
+				}
+            }
+        },
+        destroyed: function () {
+            window.removeEventListener('scroll', this.scrollBottom);
+        },
     }
 </script>
 
@@ -74,7 +120,8 @@
             background #ecf4fc   
         .li:first-child  
             background #c6e1ff 
-
-        
+.foot
+    line-height 100px
+    text-align center
 
 </style>

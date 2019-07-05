@@ -9,7 +9,7 @@
             <div class="tab-tit">
                 <ul>
                     <li v-for="(item,index) in tabList"
-                        :class="{active:index === nowIndex}"
+                        :class="{active:index == nowIndex}"
                         @click="handleClick(index)"
                         :key="index">
                         {{item.tabTitle}}
@@ -18,371 +18,42 @@
             </div>
 
             <div class="tab-con">
-                <ul>
-                    <li v-show="nowIndex === 0">
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">交易成功</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn">删除订单</span>
-                                <span class="btn">查看物流</span>
+                <div class="item-card" v-for="(item,index) in data" :key="index">
+                    <div class="card-head">
+                        <span class="order-date">{{item.add_time}}</span>
+                        <span class="order-state">{{tabList[item.status].tabTitle}}</span>
+                    </div>
+                    <div class="goods-item">
+                        <div class="img-wrap">
+                            <img :src="item.img" />
+                        </div>
+                        <div class="text">
+                            <h3>{{item.goods_name}}</h3>
+                            <div class="good-sku">
+                                <span class="sku-coll">{{item.spec_key_name}}</span>
+                                <span class="price">￥{{item.goods_price}}</span>
                             </div>
                         </div>
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待付款</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn">取消订单</span>
-                                <span class="btn red">去付款</span>
-                            </div>
+                    </div>
+                    <div class="total-bar">
+                        <div class="total-count">共{{item.goods_num}}件商品</div>
+                        <div class="payment">
+                            <span class="label">合计 : </span>
+                            <span class="price">￥{{item.goods_price*item.goods_num}}</span>
                         </div>
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待发货</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn red">退款</span>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待收货</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn">查看物流</span>
-                                <span class="btn red">确认收货</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li v-show="nowIndex === 1">
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待付款</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn">取消订单</span>
-                                <span class="btn red">去付款</span>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待付款</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn">取消订单</span>
-                                <span class="btn red">去付款</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li v-show="nowIndex === 2">
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待发货</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn red">退款</span>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待发货</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn red">退款</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li v-show="nowIndex === 3">
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待收货</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn">查看物流</span>
-                                <span class="btn red">确认收货</span>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待收货</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn">查看物流</span>
-                                <span class="btn red">确认收货</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li v-show="nowIndex === 4">
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待评价</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn">查看物流</span>
-                                <span class="btn red">去评价</span>
-                            </div>
-                        </div>
-                        <div class="item-card">
-                            <div class="card-head">
-                                <span class="order-date">2019-02-03 00:28:20</span>
-                                <span class="order-state">待评价</span>
-                            </div>
-                            <div class="goods-item">
-                                <div class="img-wrap">
-                                    <img src="/static/images/order/00order-goods-img01.png" />
-                                </div>
-                                <div class="text">
-                                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                                    <div class="good-sku">
-                                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                                        <span class="price">￥368</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="total-bar">
-                                <div class="total-count">共2件商品 </div>
-                                <div class="payment">
-                                    <span class="label">合计 : </span>
-                                    <span class="price">￥736.00</span>
-                                </div>
-                            </div>
-                            <div class="order-btn">
-                                <span class="btn">查看物流</span>
-                                <span class="btn red">去评价</span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-
+                    </div>
+                    <div class="order-btn">
+                        <span class="btn" v-if="shop_btn[item.status].btn">{{shop_btn[item.status].btn}}</span>
+                        <span class="btn red">{{shop_btn[item.status].btns}}</span>
+                    </div>
+                </div>
                  <!-- 数据加载完提示 -->
-                <div class="end-wrap">
+                <div class="end-wrap" v-if="flag">
                     <p>我是有底线哦~~</p>
                 </div>
 
                 <!-- 无数据 -->
-                <div class="none" style="display:none">
+                <div class="none" v-if="data.length==0">
                     <img src="/static/images/order/orderNone.png"/>
                     <p>亲，订单空空如也~</p>
                 </div>
@@ -423,66 +94,97 @@ export default {
                     tabTitle:"待评价"
                 }
             ],
+            shop_btn:[
+                {
+
+                },
+                {
+                    btn:'取消订单',
+                    btns:'去付款',
+                },
+                {
+                    btns:'退货'
+                },
+                {
+                    btn:'查看物流',
+                    btns:'确认收货',
+                },
+                {
+                    btn:'查看物流',
+                    btns:'去评价',
+                }
+            ],
             baseUrl:[],// 商品图片路径
             page:1,//页数
             ispage:true,//是否请求数据
-            token:window.sessionStorage.getItem("token")
+            token:window.sessionStorage.getItem("token"),
+            data:'',
+            page:1,
+            flag:false
         }
     },
+    mounted(){
+        this.nowIndex = this.$route.query.type
+        this.requestData();
+        // window.addEventListener('scroll', this.scrollBottom);
+    },
     methods:{
+        requestData(){
+            let _this = this;
+            let type = null;
+            switch(this.$route.query.type){
+                case '1':
+                    type = 'dfk'
+                    break;
+                case '2':
+                    type = 'dfh'
+                    break;
+                case '3':
+                    type = 'dsh'
+                    break;
+                case '4':
+                    type = 'dpj'
+                    break;
+            }
+            console.log(this.page)
+            this.$axios.post('order/order_list',{
+                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                type:type,
+                p:_this.page
+            })
+            .then(function(response){
+                console.log(response.data);
+                if(response.data.status===1){
+                    _this.data = response.data.data;
+                }
+                console.log(_this.data)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        },
         // tab切换标题
         handleClick(index){
-            this.nowIndex = index
-            this.$router.push('/order?type='+index)
-            this.type = this.$route.query.type
-            this.dataRendering()
+            this.nowIndex = index;
+            this.$router.replace('/order?type='+index);
+            this.type = this.$route.query.type;
+            this.requestData();
+            this.page = 1;
         },
-        // 页面数据渲染
-        dataRendering(){
-            this.baseUrl = this.url
-            this.nowIndex = parseInt(this.type)
-            var type;
-            if (this.nowIndex === 0) {
-                type = "all"
-            }
-            if (this.nowIndex === 1) {
-                type = "dfk"
-            }
-            if (this.nowIndex === 2) {
-                type = "dfh"
-            }
-            if (this.nowIndex === 3) {
-                type = "dsh"
-            }
-            if (this.nowIndex === 4) {
-                type = "dpj"
-            }
-            if(this.ispage){
-
-                // var url = 'Order/order_list'
-                // var token = window.sessionStorage.getItem("token")
-                // this.$axios.get( url +'?type='+ type +'&page=' + this.page + '&token='+ token)
-                // .then( (res)=>{
-                //     console.log(res)
-                // })
-                // .catch((error) => {
-                //     alert('请求错误:'+ error)
-                // })
-
-                // var params = new URLSearchParams()
-                    // params.append('type', type)
-                    // params.append('page', this.page)
-                    // params.append('token', this.token)
-
-                // this.$axios({
-                //     method: "post",
-				// 	   url: url,
-				// 	   data: params
-                // })
-               
-            }
-        }
-    }
+        // scrollBottom(){
+        //     let _this = this;
+        //     let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        //     let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        //     let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+        //     if(scrollTop + windowHeight == scrollHeight){
+        //         _this.requestData();
+        //         _this.page++;
+        //     }
+        // }
+    },
+    destroyed: function () {
+        window.removeEventListener('scroll', this.scrollBottom);
+    },
 
 }
 </script>
