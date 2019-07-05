@@ -538,6 +538,7 @@ export default {
         },
         //点击加入到购物车
         addToCart(){
+            let that = this;
             // this.$toast("添加成功,可直接去购物车下单")
             this.guigeNumber = sessionStorage.getItem('guigeNumber');
             console.log(this.guigeNumber)
@@ -547,7 +548,7 @@ export default {
             data: {
                 sku_id: this.zongshu,
                cart_number: this.guigeNumber,
-                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                "token":that.$store.state.token
             }
             })
             .then((res) => {
@@ -616,7 +617,8 @@ export default {
             url: 'goods/goodsDetail',
             data: {
                 goods_id: this.goods_id,
-                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                // "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                "token":that.$store.state.token
             }
             })
             .then((res) => {

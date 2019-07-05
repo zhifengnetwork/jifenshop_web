@@ -24,7 +24,7 @@ export default {
             var loc = event.data;
             if (loc && loc.module == 'locationPicker') {//防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
                 // 跳转路由
-                that.$router.push({name:that.router,params:{'location':loc}})
+                that.$router.replace({name:that.router,params:{'location':loc}})
             }
         }, false);
     },

@@ -7,19 +7,10 @@
 		</List-Header>
         <div class="height-88"></div>
         <div class="center_box">
-            <div class="center_item">
-                <p><span>释放时间:</span><span>2019-06-23</span><span class="time">12:02:10</span></p>
-                <p><span>已释放积分:</span><span>15</span> <span class="time">待释放积分:</span> <span>85</span></p>
+            <div class="center_item" v-for="(item,index) in data" :key="index">
+                <p><span>释放时间:</span><span>{{item.time}}</span></p>
+                <p><span>已释放积分:</span><span>{{item.released}}</span> <span class="time">待释放积分:</span> <span>{{item.unreleased}}</span></p>
             </div>
-            <div class="center_item">
-                <p><span>释放时间:</span><span>2019-06-23</span><span class="time">12:02:10</span></p>
-                <p><span>已释放积分:</span><span>15</span> <span class="time">待释放积分:</span> <span>85</span></p>
-            </div>
-            <div class="center_item">
-                <p><span>释放时间:</span><span>2019-06-23</span><span class="time">12:02:10</span></p>
-                <p><span>已释放积分:</span><span>15</span> <span class="time">待释放积分:</span> <span>85</span></p>
-            </div>
-           
         </div>
         
     </div>
@@ -32,13 +23,39 @@
 		name: 'jifengdetail',
 		data(){
             return{
-                
+                id:null,
+                data:''
             }
-			
 		},
         components:{
             ListHeader,
         },
+        created() {
+            this.id = this.$route.query.id;//获取上个页面传递的id,在下面获取数据的时候先提交id
+        },
+        mounted(){
+            this.requestData();
+        },
+        methods:{
+            requestData(){
+                let _this = this;
+                this.$axios.get('home/point_release_log',{
+                    params:{
+                        token:_this.$store.state.token,
+                        id:_this.id,
+                        p:1
+                    }
+                })
+                .then(function(response){
+                    console.log(response.data);
+                    _this.data = response.data.data;
+                    console.log(_this.data)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            }
+        }
     }
 </script>
 

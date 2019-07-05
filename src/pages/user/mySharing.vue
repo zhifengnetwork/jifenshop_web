@@ -9,17 +9,17 @@
             <div class="main">
                 <div class="img_head">
                     <div class="img">
-                        <img src="/static/images/user/002.png"/>
+                        <img :src="data.avatar"/>
                     </div>
                     <div class="name">
                         <span>我是</span>
-                        <span>风风火火</span>
+                        <span>{{data.nickname}}</span>
                     </div>
                 </div>
                 <div class="mark_wrap">
                     <div class="mark">
                         <div class="mark_img">
-                            <img src="/static/images/user/mark.png"/>
+                            <img :src="data.share_img"/>
                         </div>
                     </div>
                 </div>
@@ -48,11 +48,34 @@
     export default {
 	name: "mySharing",
 	data() {
-		return {};
+		return {
+            data:''
+        };
 	},
 	components: {
 		MyHeader,
-	}
+    },
+    mounted(){
+        this.requestData();
+    },
+    methods:{
+        requestData(){
+            let _this = this;
+            this.$axios.post('team/share',{
+                token:_this.$store.state.token
+            })
+            .then(function(response){
+                console.log(response.data);
+                if(response.data.status===1){
+                    _this.data = response.data.data;
+                }
+                console.log(_this.data)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        },
+    }
 };
 </script>
 

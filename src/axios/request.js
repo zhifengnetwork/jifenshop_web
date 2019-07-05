@@ -6,6 +6,9 @@ const axios = Axios.create();
 import { Dialog } from 'vant';
 let cancel ,promiseArr = {} 
 /*设置 axios拦截器*/
+
+
+
 axios.interceptors.request.use(
 	config => {
 		//请求之前重新拼装url
@@ -36,21 +39,24 @@ axios.interceptors.request.use(
 // http response 拦截器 //响应拦截器即异常处理
 axios.interceptors.response.use(
 	response => {
-		if(response.data['status'] === -1) {
+
+
+		// console.log('拦截器');
+		if(response.data['status'] == -1) {
 			console.log('拦截器-状态');
 			Dialog.alert({
-				message: '用户信息过期，请重新授权'
+				message: response.data['msg']
 			}).then(() => {
-				window.sessionStorage.setItem("token",null);
-				console.log('token,初始化: ',window.sessionStorage.getItem("token"));
-				/**存储当前路由（用来授权后，返回该页面） */
-				window.sessionStorage.setItem("this_router",window.location.href)
-				console.log('存储当前路由 this_router: ',window.sessionStorage.getItem("this_router"));
+
+				//window.sessionStorage.setItem("token",null);
+			
+			
 				router.replace({  	
 					path: '/index',
 				})
 			})
 		}
+		// console.log('拦截器-正常');
 		return response;
 	},
 	error => {
@@ -63,5 +69,6 @@ axios.interceptors.response.use(
 		// console.log(Promise.reject(error.response.data))
 		return Promise.reject(error.response.data)
 	});
-
+	
+	
 export default axios;

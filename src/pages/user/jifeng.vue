@@ -11,14 +11,14 @@
                 
                 <div class="left_nei">
                   <p class="keyong">可用积分<p>
-                  <p class="jifeng">214.52</p>
+                  <p class="jifeng">{{data.point}}</p>
                 </div>
                 </div>
              
               <div class="jifeng_ear_right"> 
                   <div>
                   <p class="keyong">待收积分<p>
-                  <p class="jifeng">514.52</p>
+                  <p class="jifeng">{{data.ds_point}}</p>
                   </div> 
               </div>
         </div>
@@ -37,9 +37,7 @@
                   <span class="to_name">积分记录</span>
                   <img src="/static/images/user/youjian.png" class="to"/>
                </router-link>  
-
         </div>
-       
     </div>
 </template>
 
@@ -50,13 +48,33 @@
 		name: 'jifeng',
 		data(){
             return{
-                
+                data:''
             }
-			
 		},
         components:{
             ListHeader,
         },
+        mounted(){
+            this.requestData();
+        },
+        methods:{
+            requestData(){
+                let _this = this;
+                this.$axios.get('home/get_user_info',{
+                    params:{
+                        token:_this.$store.state.token
+                    }
+                })
+                .then(function(response){
+                    console.log(response.data);
+                    _this.data = response.data.data;
+                    console.log(_this.data)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            },
+        }
     }
 </script>
 

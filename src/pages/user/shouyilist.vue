@@ -9,25 +9,25 @@
     <div class="top_ear">
       <div class="jifeng_ear">
         <p>我的积分</p>
-        <p class="jifeng_shu">214.52</p>
+        <p class="jifeng_shu">{{data.point}}</p>
       </div>
     </div>
     <div class="center_ear">
       <div class="first_zhuangei">
         <span class="zhuang">转给</span>
-        <img src="/static/images/user/002.png" class="touxiang" />
+        <img :src="item.avatar" class="touxiang" />
         <div class="youbian">
-          <p>昵称：倾城小美人</p>
-          <p class="idzi">DI：81345</p>
+          <p>昵称:{{item.nickname}}</p>
+          <p class="idzi">DI:{{item.id}}</p>
         </div>
       </div>
       <div class="second_ear">
         <span class="jife">积分</span>
-        <div contenteditable="true" placeholder="10000.00" class="box"></div>
+        <input class="box" placeholder="10000.00" v-model="point" type="text">
       </div>
       <div class="bottom_ear">
         <span class="jife">备注</span>
-        <div contenteditable="true" class="box"></div>
+        <input class="box" type="text" v-model="tips">
       </div>
       <div class="btn" @click="surezhuang">确认转账</div>
 
@@ -35,12 +35,12 @@
 <!-- 支付密码输入--s -->
  <div class="pay-tool"  v-show="isshow">
     <div class="pay-tool-title border-bottom">
-      <img src="/static/images/user/002.png" class="touxiang" />
+      <img :src="item.avatar" class="touxiang" />
       <span style="float:right;margin-right:20px;font-size: 30px;line-height: 30px;margin-left:-2rem;width:20px"	@click="hello"><img src="/static/images/user/X.png" class="x"/></span>
-      <span class="zh">向倾城小美人转账</span>
+      <span class="zh">向{{item.nickname}}转账</span>
     </div>
     <p class="jifeng">积分</p>
-    <p class="qian">1000.00</p>
+    <p class="qian">{{point}}</p>
     <div class="pay-tool-content">
       <div class="pay-tool-inputs">
         <div class="item" v-for="(index,i) in items" :key="i">
@@ -79,42 +79,112 @@ export default {
         keys: keys(),
        	Span:-1,
         password: [],
-        isshow: false
+        isshow: false,
+        data:'',
+        point:'',
+        tips:''
        
       }
   },
-   methods: {
-    	hello(){
-          // this.$emit('change-type');
-           this.isshow=false
-    	},
-      keyUpHandle (e) {
-        let text = e.currentTarget.innerText
-        let len = this.password.length
-        if (!text || len >= 6) return
-        this.password.push(text)
-        this.Span=len;
-        this.ajaxData()
-     				   },
-      delHandle () {
-        if (this.password.length <= 0) return false
-        this.password.shift()
-        this.Span--;
-      },
-      ajaxData () {
-        if (this.password.length >= 6) {
-          console.log(parseInt(this.password.join(' ').replace(/\s/g, '')));
-
-        }
-        return false
-      },
-      clearPasswordHandle: function () {
-        this.password = []
-      },
-      surezhuang:function(){
-         this.isshow=true
-      }
+  created: function(){
+        // 返回的位置信息赋值
+        this.item = this.$route.params.item
+        console.log(this.item)
+  },
+  mounted(){
+      this.requestData();
+  },
+  methods: {
+    requestData(){
+        let _this = this;
+        this.$axios.get('home/get_user_info',{
+            params:{
+                token:_this.$store.state.token
+            }
+        })
+        .then(function(response){
+            console.log(response.data);
+            _this.data = response.data.data;
+            console.log(_this.data)
+        })
+        .catch(function(error){
+            console.log(error);
+        })
     },
+    hello(){
+        // this.$emit('change-type');
+          this.isshow=false
+    },
+    keyUpHandle (e) {
+      let text = e.currentTarget.innerText
+      let len = this.password.length
+      if (!text || len >= 6) return
+      this.password.push(text)
+      this.Span=len;
+      this.ajaxData()
+    },
+    delHandle () {
+      if (this.password.length <= 0) return false
+      this.password.shift()
+      this.Span--;
+    },
+    ajaxData () {
+      let _this = this;
+      let pwd =parseInt(this.password.join(' ').replace(/\s/g, ''))
+      if (this.password.length >= 6) {
+        this.$axios.post('home/point_pay',{
+          token:_this.$store.state.token,
+          to_user:_this.item.id,
+          pwd:pwd
+				})
+				.then(function(response){
+          console.log(response);
+          alert(response.data.msg);
+          if(response.data.status===1){
+            _this.$router.replace({name:'jifeng'})
+          }else{
+            _this.Span = -1;
+            _this.password = [];
+          }
+				})
+				.catch(function(error){
+					console.log(error);
+				})
+
+      }
+      return false
+    },
+    clearPasswordHandle: function () {
+      this.password = []
+    },
+    surezhuang:function(){
+      if(this.point>this.data.point){
+        alert('超出最大额度');
+        return false;
+      }
+      let _this = this;
+      if(this.point){
+        this.$axios.post('home/point',{
+          token:_this.$store.state.token,
+          to_user:_this.item.id,
+          point:_this.point,
+          remark:_this.tips
+        })
+        .then(function(response){
+          if(response.data.status===1){
+            _this.isshow=true
+          }
+          console.log(response);
+        })
+        .catch(function(error){
+          console.log(error);
+        })
+      }else{
+        alert('积分数量不能为空')
+      }
+    }
+  },
+        
 
   
   components: {

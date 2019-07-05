@@ -41,11 +41,12 @@ export default {
     WithHeader
   },
   created() {
+    let that = this;
     this.$axios({
       method:'post',
             url: 'home/withdraw_way',
             data: {
-                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                "token":that.$store.state.token
             }
             })
             .then((res) => {

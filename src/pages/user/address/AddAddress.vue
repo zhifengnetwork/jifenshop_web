@@ -125,7 +125,7 @@ export default {
                 is_default = 0;
             }
             this.$axios.post('home/edit_address',{
-                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                token:_this.$store.state.token,
                 id:'',
                 lat:_this.location.latlng.lat,   
                 lng:_this.location.latlng.lng,   

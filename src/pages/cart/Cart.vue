@@ -24,7 +24,7 @@
                         </span>
                         <span class="-option-">
                             <i class="subling iconfont iconjian-copy" @click="reducingNumber(key)"></i>
-                            <input class="inp" type="text" :value="item.goods_num" @change="changNumber($event,key)"/>
+                            <input class="inp" type="text" :value="item.goods_num" @change="changNumber($event,key)" disabled/>
                             <i class="puls iconfont iconjia-copy" @click="addNumber(key)" ></i>
                         </span>
                     </div>
@@ -98,7 +98,8 @@ export default {
                 }
             })
             return count;
-        }
+        },
+        
     },
     methods:{
         
@@ -137,11 +138,12 @@ export default {
             }
             //将选择的id传过去,则传购物车的id过去
                 var shopid=ifc;
+                let that = this;
                 this.$axios({
                 method: "post",
                 url: "/cart/selected?cart_id="+shopid,
                  data: {
-                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                "token":that.$store.state.token
                      }
                 }).then(res => {
                     console.log(res.data)
@@ -156,12 +158,27 @@ export default {
         // 减
         reducingNumber(key){
             var data =this.list[key];
+            var idzhi=data.id;
             var val =parseInt(data.goods_num - 1) 
+            let that = this;
            if(val<=1){
                val =1
            }
            this.$set( data,'goods_num',val )
-           console.log(val)
+           console.log(val);
+           this.$axios({
+                        method:'post',
+                        url: '/cart/reduce_num?cart_id='+idzhi,
+                        data: {
+                            "token":that.$store.state.token
+                        }
+                        })
+                        .then((res) => {
+                           console.log("resresres")
+                        })
+        
+
+
         },
         changNumber(e,key){
             var val =e.target.value;
@@ -169,7 +186,12 @@ export default {
             if(val<=1){
                 return;
             }
-            this.$set( data,'goods_num',val)
+            this.$set( data,'goods_num',val);
+
+
+
+
+
         },
         countNumberCheckBoxes(){    //计算选中的复选框的总数
             let counts =[];
@@ -198,6 +220,7 @@ export default {
                     }
                     })
                     this.list =newArry;
+                    let that = this;
                     var a,b;
                     // 将数组arrid,转化成字符串,并且用逗号隔开
                     b= arrid.join(",");   
@@ -206,7 +229,7 @@ export default {
                         method:'post',
                         url: '/cart/delCart?cart_id='+b,
                         data: {
-                            "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                            "token":that.$store.state.token
                         }
                         })
                         .then((res) => {
@@ -220,30 +243,82 @@ export default {
         },
         addNumber(key){
             var data =this.list[key];
+            var idzhiadd=data.id
+            let that = this;
             var val =parseInt(data.goods_num) 
             val =new Number(val+ 1)
             this.$set( data,'goods_num',val);
-            console.log(val)
+            console.log(val);
+             this.$axios({
+                method:'post',
+                url: '/cart/change_num?cart_id='+ idzhiadd+'act=j',
+                data: {
+                    "token":that.$store.state.token
+                }
+                })
+                .then((res) => {
+                    console.log("resresres")
+                })
         },
-        toPay(){
+        //结算
+        toPay(){     
+            console.log("buibui")
+            let newArry=[]; //存储没有选中的项-item
+            let arrid=[];  //存储选中的id
+            let that = this;
+            this.list.forEach((data,index)=>{
+                if(!data.selected){
+                    newArry.push(data);
+                }
+                else{
+                    arrid.push(data.id);
+                }
+                })
+                this.list =newArry;
+                var a,b;
+                // 将数组arrid,转化成字符串,并且用逗号隔开
+                b= arrid.join(",");   
+                console.log(b) 
+                this.$axios({
+                    method:'post',
+                    url: '/order/temporary?cart_id='+b,
+                    data: {
+                        "token":that.$store.state.token
+                    }
+                    })
+                    .then((res) => {
+                        console.log("dsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
+                    })
+
             this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
         }
     },
-    created() {
+    mounted() {
+        var num=0;
+        let that = this;
         this.$axios({
             method:'post',
             url: 'cart/cartlist',
             data: {
-                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                "token":that.$store.state.token
             }
             })
             .then((res) => {
                 this.list = res.data.data
                 console.log(this.list)
+                this.list.forEach((data)=>{
+                if(data.selected){
+                    num++   
+                }
+            })
+            if(this.list.length==num){
+                this.allChecked=1
+            }
+
+
             })
     },
-   
-    // 商品总价过滤器
+    // 商品总价保留小数点后两位,过滤器
     filters: {
         numFilter (value) {
             // 截取当前数据到小数点后两位
@@ -380,7 +455,6 @@ export default {
 .c-list- >>> .van-checkbox__icon
     width 70px
     margin-left 10px
-// .c-list- >>> .van-icon
     
     
 </style>    
