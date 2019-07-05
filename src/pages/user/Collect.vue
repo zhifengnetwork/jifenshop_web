@@ -108,11 +108,12 @@ export default {
             message: '亲，再考虑考虑吧?'
             }).then(() => {
                 let newArry=[];
+                let that = this;
                 this.list.forEach((data,index)=>{
                     if(data.isCheck){
                         // 删除数据
                         this.$axios.post('home/del_collect',{
-                                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                                token:that.$store.state.token,
                                 ids:data.id
                             }
                         )
@@ -145,7 +146,7 @@ export default {
         // 请求数据
         this.$axios.get('home/collection',{
             params:{
-                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                token:_this.$store.state.token,
                 p:'1'
             }
         })

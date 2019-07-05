@@ -99,7 +99,7 @@ export default {
         let _this = this;
         this.$axios.get('home/get_user_info',{
             params:{
-                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                token:_this.$store.state.token
             }
         })
         .then(function(response){
@@ -133,7 +133,7 @@ export default {
       let pwd =parseInt(this.password.join(' ').replace(/\s/g, ''))
       if (this.password.length >= 6) {
         this.$axios.post('home/point_pay',{
-          token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+          token:_this.$store.state.token,
           to_user:_this.item.id,
           pwd:pwd
 				})
@@ -164,8 +164,8 @@ export default {
       }
       let _this = this;
       if(this.point){
-        _this.$axios.post('home/point',{
-          token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+        this.$axios.post('home/point',{
+          token:_this.$store.state.token,
           to_user:_this.item.id,
           point:_this.point,
           remark:_this.tips

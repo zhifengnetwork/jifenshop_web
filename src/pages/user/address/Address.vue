@@ -58,7 +58,7 @@ export default {
 			let _this = this;
 			this.$axios.get('home/address_list',{
 				params:{
-					token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+					token:_this.$store.state.token
 				}
 			})
 			.then(function(response){
@@ -76,9 +76,10 @@ export default {
         },
         // 删除数据
         del(id){
+			let _this = this;
             if(confirm("是否删除地址?删除后不可恢复")){
                 this.$axios.post('home/del_address',{
-                    token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                    token:_this.$store.state.token,
                     id:id
                 })
                 .then(function(response){

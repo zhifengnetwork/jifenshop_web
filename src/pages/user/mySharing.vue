@@ -62,7 +62,7 @@
         requestData(){
             let _this = this;
             this.$axios.post('team/share',{
-                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                token:_this.$store.state.tokens
             })
             .then(function(response){
                 console.log(response.data);

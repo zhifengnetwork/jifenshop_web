@@ -138,11 +138,12 @@ export default {
             }
             //将选择的id传过去,则传购物车的id过去
                 var shopid=ifc;
+                let that = this;
                 this.$axios({
                 method: "post",
                 url: "/cart/selected?cart_id="+shopid,
                  data: {
-                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                "token":that.$store.state.token
                      }
                 }).then(res => {
                     console.log(res.data)
@@ -159,6 +160,7 @@ export default {
             var data =this.list[key];
             var idzhi=data.id;
             var val =parseInt(data.goods_num - 1) 
+            let that = this;
            if(val<=1){
                val =1
            }
@@ -168,7 +170,7 @@ export default {
                         method:'post',
                         url: '/cart/reduce_num?cart_id='+idzhi,
                         data: {
-                            "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                            "token":that.$store.state.token
                         }
                         })
                         .then((res) => {
@@ -218,6 +220,7 @@ export default {
                     }
                     })
                     this.list =newArry;
+                    let that = this;
                     var a,b;
                     // 将数组arrid,转化成字符串,并且用逗号隔开
                     b= arrid.join(",");   
@@ -226,7 +229,7 @@ export default {
                         method:'post',
                         url: '/cart/delCart?cart_id='+b,
                         data: {
-                            "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                            "token":that.$store.state.token
                         }
                         })
                         .then((res) => {
@@ -241,6 +244,7 @@ export default {
         addNumber(key){
             var data =this.list[key];
             var idzhiadd=data.id
+            let that = this;
             var val =parseInt(data.goods_num) 
             val =new Number(val+ 1)
             this.$set( data,'goods_num',val);
@@ -249,7 +253,7 @@ export default {
                 method:'post',
                 url: '/cart/change_num?cart_id='+ idzhiadd+'act=j',
                 data: {
-                    "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                    "token":that.$store.state.token
                 }
                 })
                 .then((res) => {
@@ -261,6 +265,7 @@ export default {
             console.log("buibui")
             let newArry=[]; //存储没有选中的项-item
             let arrid=[];  //存储选中的id
+            let that = this;
             this.list.forEach((data,index)=>{
                 if(!data.selected){
                     newArry.push(data);
@@ -278,7 +283,7 @@ export default {
                     method:'post',
                     url: '/order/temporary?cart_id='+b,
                     data: {
-                        "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                        "token":that.$store.state.token
                     }
                     })
                     .then((res) => {
@@ -290,11 +295,12 @@ export default {
     },
     mounted() {
         var num=0;
+        let that = this;
         this.$axios({
             method:'post',
             url: 'cart/cartlist',
             data: {
-                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                "token":that.$store.state.token
             }
             })
             .then((res) => {

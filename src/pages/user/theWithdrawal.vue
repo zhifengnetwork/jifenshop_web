@@ -78,8 +78,7 @@ export default {
       data: {
         // window.localStorage.getItem('token') 　由于是多页面应用所以token存储在本地localStorage中
         p: 1,
-        token:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA"
+        token:that.$store.state.token
       }
     }).then(res => {
       if (res.data.status === 1) {
@@ -93,13 +92,13 @@ export default {
       this.page++;
       if (this.upLoading) {
         console.log("xixi" + this.xixi);
+        let that = this
         this.$axios({
-         method: "post",
-		 url: "home/withdraw_list?p="+this.page,
-		 data:{
-			
-            token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA"
-		 }
+          method: "post",
+          url: "home/withdraw_list?p="+this.page,
+          data:{
+            token:that.$store.state.token
+          }
         }).then(res => {
           if (res.data.data.length > 0) {
             this.upLoading = true;

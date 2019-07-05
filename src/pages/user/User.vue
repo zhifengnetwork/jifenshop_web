@@ -210,14 +210,13 @@
             let ord = ['waitPay','waitSend','waitReceive','waitComment','return']
             this.$axios.get('home/index',{
                 params:{
-                    token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                    token:_this.$store.state.token
                 }
             })
             .then(function(response){
                 console.log(response);
                 _this.data = response.data.data;
                 for(let i=0;i<ord.length;i++){
-                    console.log(response.data.data.ord[i])
                     // _this.order[i].icon = response.data.data.ord[i];
                 }
                 // _this.order[0].icon = response.data.data.waitPay;

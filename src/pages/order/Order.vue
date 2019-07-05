@@ -148,7 +148,7 @@ export default {
             }
             console.log(this.page)
             this.$axios.post('order/order_list',{
-                token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                token:_this.$store.state.token,
                 type:type,
                 p:_this.page
             })

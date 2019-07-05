@@ -45,6 +45,7 @@
 		},
 		methods:{
 			btn:function (){
+				let that = this;
 				// console.log(this.abc)
 					this.$axios({
 				method: 'post',
@@ -52,7 +53,7 @@
 				data: {
 					number: this.Num,
 					name: this.Name,
-					"token": 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+					"token": that.$store.state.token
 				}
 			})
 			.then((res) => {
