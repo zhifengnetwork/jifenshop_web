@@ -16,7 +16,7 @@
       <div class="bankcard_button">确定</div>
     </div>
     <!-- 无银行卡支付宝账号时 -->
-     <div class="embody_box" v-if="!list.length>0">
+     <div class="embody_box" v-if="list.length>0">
         <div class="embody_top">
             <b>+</b><span>添加银行账号</span>
         </div>
