@@ -11,7 +11,7 @@ export default {
     //判断是否为微信环境
     var ua = navigator.userAgent.toLowerCase();
     if (ua.match(/MicroMessenger/i) == "micromessenger") {
-
+			alert("ssss")
 		var code = window.location.href.indexOf('code');
 		if(code == null || code === ''){
               var local = window.location.href // 获取页面url
