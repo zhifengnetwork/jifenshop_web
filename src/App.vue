@@ -41,7 +41,7 @@ export default {
 
 		} else {
 
-		console.log('不是微信环境');
+		alert('不是微信环境');
        
 		
 		
