@@ -19,6 +19,8 @@ Vue.use(Vant);
 import axios from "./axios/request";
 Vue.prototype.$axios = axios
 
+
+
 // 引入vuex管理数据
 import store from '@/store/store.js'
 
@@ -30,5 +32,6 @@ new Vue({
   router,
   store,// 全局注册 vuex状态管理
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
 })
+
