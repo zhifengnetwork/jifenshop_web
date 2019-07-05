@@ -36,7 +36,7 @@
             <div class="goodsInfo">
                 <!-- 商品名称 -->
                 <div class="goodsName">
-                    <h1>青年说是你发手机话费连衣裙连衣裙青年说是你发手机话费连衣裙连衣裙</h1>
+                    <h1>{{goodsinfo.goods_name}}</h1>
                 </div>
 
                 <div class="group-warp">
@@ -520,12 +520,13 @@ export default {
         // 收藏
         shoucang(){
             // this.goods_id = this.$route.query.id
+             let that = this;
             this.$axios({
             method:'post',
             url: 'collection/collection',
             data: {
                 goods_id: this.goods_id,
-                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                 "token":that.$store.state.token
             }
             })
             .then((res) => {
@@ -568,7 +569,7 @@ export default {
             // data: {
             //     sku_id: this.zongshu,
             //    cart_number: this.guigeNumber,
-            //     "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+            //     "token":''
             // }
             // })
             // .then((res) => {
@@ -611,13 +612,12 @@ export default {
         window.addEventListener('scroll', this.handleScroll);
     },
     created() {
-        
+        var that = this
         this.$axios({
             method:'post',
             url: 'goods/goodsDetail',
             data: {
                 goods_id: this.goods_id,
-                // "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
                 "token":that.$store.state.token
             }
             })

@@ -36,13 +36,37 @@ axios.interceptors.request.use(
 		return Promise.reject(error)
 	})
 
+	
+	console.log('--%%%%%%%%')
+
+
 // http response 拦截器 //响应拦截器即异常处理
 axios.interceptors.response.use(
 	response => {
 
+		console.log('-------')
+		console.log(response)
+		console.log('-------')
+
+
+		if(response.status == 401){
+			//token出问题了
+			Dialog.alert({
+				message: '登录过期'
+			}).then(() => {
+
+				window.sessionStorage.setItem("token",null);
+			
+				router.replace({  	
+					path: '/index',
+				})
+			})
+		}
+
+
 
 		// console.log('拦截器');
-		if(response.data['status'] == -1) {
+		if(response.data['status'] < 0) {
 			console.log('拦截器-状态');
 			Dialog.alert({
 				message: response.data['msg']
@@ -50,12 +74,12 @@ axios.interceptors.response.use(
 
 				//window.sessionStorage.setItem("token",null);
 			
-			
-				router.replace({  	
-					path: '/index',
-				})
+				// router.replace({  	
+				// 	path: '/index',
+				// })
 			})
 		}
+
 		// console.log('拦截器-正常');
 		return response;
 	},
