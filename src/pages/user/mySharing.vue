@@ -62,7 +62,7 @@
         requestData(){
             let _this = this;
             this.$axios.post('team/share',{
-                token:_this.$store.state.tokens
+                token:_this.$store.state.token
             })
             .then(function(response){
                 console.log(response.data);

@@ -70,40 +70,6 @@
                                 <div>{{item.text}}</div>
                             </router-link>
                         </li>
-                        <!-- <li>
-                            <router-link class="look" to="/order?type=2">
-                                <div class="img">
-                                    <img src="/static/images/user/dropShipping.png"/>
-                                    <div class="info-icon van-info" v-if="data.waitSend">{{data.waitSend}}</div>
-                                </div>
-                                <div>待发货</div>
-                            </router-link>
-                        </li>
-                        <li>
-                            <router-link class="look" to="/order?type=3">
-                                <div class="img">
-                                    <img src="/static/images/user/goods.png"/>
-                                    <div class="info-icon van-info" v-if="data.waitReceive">{{data.waitReceive}}</div>
-                                </div>
-                                <div>待收货</div>
-                            </router-link>
-                        </li>
-                        <li>
-                            <router-link class="look" to="/order?type=4">
-                                <div class="img">
-                                    <img src="/static/images/user/evaluation.png"/>
-                                    <div class="info-icon van-info" v-if="data.waitComment">{{data.waitComment}}</div>
-                                </div>
-                                <div>待评价</div>
-                            </router-link>
-                        </li>
-                        <li>
-                            <div class="img">
-                                <img src="/static/images/user/return.png"/>
-                                <div class="info-icon van-info" v-if="data.return">{{data.return}}</div>
-                            </div>
-                            <div>退货</div>
-                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -217,14 +183,8 @@
                 console.log(response);
                 _this.data = response.data.data;
                 for(let i=0;i<ord.length;i++){
-                    console.log()
-                    // _this.order[i].icon = response.data.data.ord[i];
+                    _this.order[i].icon = response.data.data[ord[i]];
                 }
-                // _this.order[0].icon = response.data.data.waitPay;
-                // _this.order[1].icon = response.data.data.waitSend;
-                // _this.order[2].icon = response.data.data.waitReceive;
-                // _this.order[3].icon = response.data.data.waitComment;
-                // _this.order[4].icon = response.data.data.return;
                 console.log(_this.data)
             })
             .catch(function(error){
