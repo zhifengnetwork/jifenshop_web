@@ -217,6 +217,7 @@
                 console.log(response);
                 _this.data = response.data.data;
                 for(let i=0;i<ord.length;i++){
+                    console.log()
                     // _this.order[i].icon = response.data.data.ord[i];
                 }
                 // _this.order[0].icon = response.data.data.waitPay;
