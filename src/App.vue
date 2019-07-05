@@ -35,6 +35,7 @@ export default {
             //获取token,储存到本地
             if (res.data.status == 1) {
               window.sessionStorage.setItem("token", res.data.data.token);
+              this.$store.state.token = res.data.data.token;
             }
           });
         }

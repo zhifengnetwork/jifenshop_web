@@ -180,12 +180,16 @@
                 }
             })
             .then(function(response){
-                console.log(response);
-                _this.data = response.data.data;
-                for(let i=0;i<ord.length;i++){
-                    _this.order[i].icon = response.data.data[ord[i]];
+                if(response.data.status==1){
+                    console.log(response);
+                    _this.data = response.data.data;
+                    for(let i=0;i<ord.length;i++){
+                        _this.order[i].icon = response.data.data[ord[i]];
+                    }
+                    console.log(_this.data)
+                }else{
+                    alert(response.data.msg)
                 }
-                console.log(_this.data)
             })
             .catch(function(error){
                 console.log(error);
