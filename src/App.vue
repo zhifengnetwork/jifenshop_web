@@ -9,20 +9,25 @@ export default {
   name: "App",
   mounted() {
     //判断是否为微信环境
-    var ua = navigator.userAgent.toLowerCase();
+	var ua = navigator.userAgent.toLowerCase();
+	alert(ua)
+
     if (ua.match(/MicroMessenger/i) == "micromessenger") {
-			alert("ssss")
+
+		alert("micromessenger")
+
 		var code = window.location.href.indexOf('code');
-		if(code == null || code === ''){
-              var local = window.location.href // 获取页面url
-				this.$axios({
-						method: "post",
-						url: "/login/get_code_url?baseUrl=" + local
-					}).then(res => {
-						console.log(res.data.data);
-						var lianjie = res.data.data;
-						window.location.href = local;
-					});
+		alert(code)
+		if(code == null || code === '' || code == undefined){
+			var local = window.location.href // 获取页面url
+			this.$axios({
+					method: "post",
+					url: "/login/get_code_url?baseUrl=" + local
+				}).then(res => {
+					console.log(res.data.data);
+					var lianjie = res.data.data;
+					window.location.href = local;
+				});
 
 		}else{
 			alert("ssss")
@@ -43,7 +48,7 @@ export default {
 
 		alert('不是微信环境');
        
-		
+	
 		
 		// if (this.code == null || this.code === '') { // 如果没有code，则去请求
 		// 	// window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(local)}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`
