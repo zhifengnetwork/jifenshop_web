@@ -297,13 +297,21 @@
                 />
             </van-goods-action>
         </div>
-        <div v-show="guige">
+         <!-- <div class="productConten">
+        <div class="product-delcom" v-for="(ProductItem,n) in simulatedDATA.specifications">
+            <p>{{ProductItem.name}}</p>
+            <ul class="product-footerlist clearfix">
+                <li v-for="(oItem,index) in ProductItem.item" v-on:click="specificationBtn(oItem.name,n,$event,index)" v-bind:class="[oItem.isShow?'':'noneActive',subIndex[n] == index?'productActive':'']">{{oItem.name}}</li>
+            </ul>
+        </div> -->
+
+        <div v-show="guige" id="guige">
             <div class="guige"></div>
             <div class="guige_box">
-                <div class="guibox" v-for="(item,index) in spec.spec_attr" :key="index" >
-                    <h3>{{item.spec_name}}</h3>
+                <div class="guibox" v-for="(ProductItem,n) in spec.spec_attr" :key="n" >
+                    <h3>{{ProductItem.spec_name}}</h3>
                     <ul>
-                        <li :data-id="items.attr_id" v-for="(items,ind) in item.res" :key="ind" :class="{'cur':sel[index] == ind}"  @click="dianji($event,index,ind)" >{{items.attr_name}}</li>
+                        <li :data-id="oItem.attr_id" v-for="(oItem,index) in ProductItem.res" :key="index" @click="specificationBtn(oItem.attr_id,n,$event,index)" :class="[oItem.isShow?'':'noneActive',subIndex[n] == index?'productActive':'']">{{oItem.attr_name}}</li>
                     </ul>
                 </div>
                 <div class="guigenum">
@@ -314,7 +322,7 @@
                         <i class="puls iconfont iconjia"  @click="addNumber()"></i>
                     </span>
                 </div>
-                <div class="guigegd">确定</div>
+                <div class="guigegd" @click="confirm()">确定</div>
                 <div class="guige_bottom" @click="handleBtn()">x</div>
             </div>
         </div>
@@ -349,14 +357,13 @@ export default {
         return {
             goodsNumber: 1,
             head:false,//头部隐藏
-            goodsId:this.$route.query.goods_id,//商品id
+            goods_id:this.$route.query.id,//商品id
             tabActive: 0,//tab选中
             rateVal: 3,//评分当前分值
             areaShow:false,//省市区上拉
             address:'广州白云区',//地址
             areaList:AreaList,// 指定数据源
             couponShow:false,//优惠券上拉菜单
-            skuShow:false,//规格
             value: 1,//步进器默认值
             datalist: '',
             showBase:false,
@@ -368,64 +375,11 @@ export default {
             guige: false,
             guigeNumber:'',
             sel: [],
-            // sku: {
-            //     // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
-            //     // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
-            //     tree: [
-            //         {
-            //             k: '尺寸', // skuKeyName：规格类目名称
-            //             v: [
-            //                 {
-            //                 id: '30349', // skuValueId：规格值 id
-            //                 name: '红色', // skuValueName：规格值名称
-            //                 imgUrl: 'https://img.yzcdn.cn/1.jpg' // 规格类目图片，只有第一个规格类目可以定义图片
-            //                 },
-            //                 {
-            //                 id: '1215',
-            //                 name: '蓝色',
-            //                 imgUrl: 'https://img.yzcdn.cn/2.jpg'
-            //                 }
-            //             ],
-            //             k_s: 's1' // skuKeyStr：sku 组合列表（下方 list）中当前类目对应的 key 值，value 值会是从属于当前类目的一个规格值 id
-            //         },
-            //         {
-            //             k: '颜色分类',
-            //             v: [
-            //                 {
-            //                     id: '1193',
-            //                     name: 'S',
-            //                 },
-            //                 {
-            //                     id: '222',
-            //                     name: 'M',
-            //                 }
-            //             ],
-            //             k_s: 's2'
-            //         }
-            //     ],
-            //     // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
-            //     list: [
-            //         {
-            //         id: 2259, // skuId，下单时后端需要
-            //         price: 100, // 价格（单位分）
-            //         s1: '1215', // 规格类目 k_s 为 s1 的对应规格值 id
-            //         s2: '1193', // 规格类目 k_s 为 s2 的对应规格值 id
-            //         s3: '0', // 最多包含3个规格值，为0表示不存在该规格
-            //         stock_num: 110 // 当前 sku 组合对应的库存
-            //         }
-            //     ],
-            //     price: '1.00', // 默认价格（单位元）
-            //     stock_num: 227, // 商品总库存
-            //     collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
-            //     none_sku: false, // 是否无规格商品
-            //     hide_stock: false, // 是否隐藏剩余库存
-            //     goods: {
-            //         // 商品标题
-            //         title: '测试商品',
-            //         // 默认商品 sku 缩略图
-            //         picture: 'https://img.yzcdn.cn/2.jpg'
-            //     },
-            // },
+            indexzhi:'',
+            selectArr: [], //存放被选中的值
+            shopItemInfo: {}, //存放要和选中的值进行匹配的数据
+            subIndex: [],
+            zong: '', //是否选中 因为不确定是多规格还是但规格，所以这里定义数组来判断
         }
     },
     methods:{
@@ -446,25 +400,131 @@ export default {
         handleBtn(){
             this.guige = !this.guige
         },
-        // 关闭规格选择
-        close(){
-            this.skuShow = false
+
+        specificationBtn: function (attr_id, n, event, index) {
+            var self = this;
+            if (self.selectArr[n] != attr_id) {
+                self.selectArr[n] = attr_id;
+                self.subIndex[n] = index;
+ 
+            } else {
+                self.selectArr[n] = "";
+                self.subIndex[n] = -1; 
+                //去掉选中的颜色 
+            }
+            self.checkItem();
+            
         },
+        checkItem: function () {
+            var self = this;
+            var option = self.spec.spec_attr;
+            var result = [];  //定义数组存储被选中的值
+            for (var i in option) {
+                result[i] = self.selectArr[i] ? self.selectArr[i] : '';
+            }
+            for (var i in option) {
+                var last = result[i];  //把选中的值存放到字符串last去
+                for (var k in option[i].attr_id) {
+                    result[i] = option[i].attr_id[k]; //赋值，存在直接覆盖，不存在往里面添加name值
+                    option[i].attr_id[k].isShow = self.isMay(result); //在数据里面添加字段isShow来判断是否可以选择
+                }
+                result[i] = last;
+                 //还原，目的是记录点下去那个值，避免下一次执行循环时避免被覆盖
+ 
+            }
+            self.$forceUpdate(); //重绘
+            // console.log(self.selectArr)
+            
+            this.zong = self.selectArr
+            console.log(this.zong)
+        },
+        isMay: function (result) {
+            for (var i in result) { 
+                if (result[i] == '') {
+                    return true; //如果数组里有为空的值，那直接返回true
+                }
+            }
+            return this.shopItemInfo[result].stock == 0 ? false : true; //匹配选中的数据的库存，若不为空返回true反之返回false
+        },
+
+
+
         // 商品规格选择确定
         confirm(){
-            this.close()
+            // this.guige = !this.guige
+            // console.log(this.spec.spec_attr.length)
+            // if(this.spec.spec_attr.length == 1){
+            //     var zong = this.shang
+            //     console.log(55)
+            // }else if(this.spec.spec_attr.length >1){
+            //    console.log(this.shang,this.xia)
+            // }
+            
+            // var zong = self.selectArr
+            console.log(66)
+            console.log(this.zong)
+            // 对比
+            for(var i=0; i<this.spec.goods_sku.length;i++){
+                if(this.zong==this.spec.goods_sku[i].sku_attr1){
+                    console.log(this.spec.goods_sku[i].sku_id)
+                    this.zongshu = this.spec.goods_sku[i].sku_id
+                }
+            }
         },
+        //点击选中规格、颜色、尺寸等
+        // dianji(ev,index,ind){
+        //     this.sel[index] = ind;
+        //     this.$set(this.sel, index, ind)
+        //     // console.log(this.sel.length)
+        //     // for(var i=1;i<this.spec.spec_attr.length;i++){
+        //     //     if(this.spec.spec_attr.length == 1){
+        //     //          this.shang = ev.target.dataset.id
+        //     //         console.log(this.shang)
+        //     //     }else if(this.spec.spec_attr.length > 1){
+        //     //          this.shang.push(ev.target.dataset.id)
+        //     //          this.shang = Array.from(new Set(this.shang));
+        //     //          console.log(ev.target.dataset.id)
+        //     //         // this.$set(this.shang,ev.target.dataset.id)
+        //     //         console.log(this.shang)
+        //     //         // this.$set(this.shang,ev.target.dataset.id,123)
+        //     //     }
+        //     // }
+        //     // for(var i=1;i<this.spec.spec_attr.length;i++){
+        //     //     // console.log(this.spec.spec_attr.length)
+        //     //     if(this.spec.spec_attr.length == 1 ){
+        //     //         this.shang = ev.target.dataset.id
+        //     //         console.log(this.shang)
+        //     //     }
+        //     //     if(this.spec.spec_attr.length > 1){
+        //     //        this.shang += ev.target.dataset.id + ','
+        //     //        console.log(this.shang)
+        //     //        if(this.shang.length > this.spec.spec_attr.length*6 ){
+        //     //            console.log(111)
+        //     //        }
+        //     //     }
+        //     // }
+        //     for(var i=1;i<this.spec.spec_attr.length;i++){
+        //         if(index == 0){
+        //             this.shang = ev.target.dataset.id
+        //             console.log("上" + this.shang)
+        //         }
+        //         else if(index > 0){
+        //             this.xia = ev.target.dataset.id
+        //             console.log("下" + this.xia)
+        //         }
+        //     }
+        // },
         handleScroll () {
             this.head = window.scrollY > 150;
         },
         // 收藏
         shoucang(){
-            let goods_id = this.$route.query.id
+            // this.goods_id = this.$route.query.id
             this.$axios({
             method:'post',
             url: 'collection/collection',
             data: {
-                goods_id: goods_id,
+                goods_id: this.goods_id,
                 "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
             }
             })
@@ -485,7 +545,7 @@ export default {
             method:'post',
             url: 'cart/addCart',
             data: {
-                sku_id: 25,
+                sku_id: this.zongshu,
                cart_number: this.guigeNumber,
                 "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
             }
@@ -499,6 +559,23 @@ export default {
         },
         toBay(){
             this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+            // order/immediatelyOrder
+            // console.log(666)
+            // this.$axios({
+            // method:'post',
+            // url: 'cart/addCart',
+            // data: {
+            //     sku_id: this.zongshu,
+            //    cart_number: this.guigeNumber,
+            //     "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+            // }
+            // })
+            // .then((res) => {
+            //     this.likeo = res.data
+            //     // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
+            //     sessionStorage.setItem("msg",this.likeo.msg);
+            //     this.msg = sessionStorage.getItem('msg'); 
+            //     })
         },
          reducingNumber(){
             var val =parseInt(this.goodsNumber) - 1 
@@ -515,13 +592,6 @@ export default {
             this.goodsNumber=val
             console.log(this.goodsNumber)
         },
-        //点击选中规格、颜色、尺寸等
-        dianji(ev,index,ind){
-            console.log(ev.target.dataset.id)
-            this.sel[index] = ind;
-            this.$set(this.sel, index, ind)
-            console.log(index,ind)
-        }
     },
     //更新渲染前
         beforeUpdate() {
@@ -531,8 +601,8 @@ export default {
     beforeMount() {
         // 挂载前取出msg数据
         this.msg = sessionStorage.getItem('msg');
-        this.guigeNumber = sessionStorage.getItem('guigeNumber');
         console.log(this.msg)
+        this.guigeNumber = sessionStorage.getItem('guigeNumber');
         console.log(this.guigeNumber)
     },
     mounted() {
@@ -540,12 +610,12 @@ export default {
         window.addEventListener('scroll', this.handleScroll);
     },
     created() {
-        let goods_id = this.$route.query.id
+        
         this.$axios({
             method:'post',
             url: 'goods/goodsDetail',
             data: {
-                goods_id: goods_id,
+                goods_id: this.goods_id,
                 "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
             }
             })
@@ -556,6 +626,17 @@ export default {
                 this.commentlist = res.data.data.commentlist
                 console.log(this.datalist)
             })
+
+            ///////////////////////////////
+            console.log(777)
+            var self = this;
+            for (var i in self.spec.goods_sku) {
+                self.shopItemInfo[self.spec.goods_sku[i].sku_attr1] = self.spec.goods_sku[i]; 
+                //修改数据结构格式，改成键值对的方式，以方便和选中之后的值进行匹配
+                console.log(self.shopItemInfo)
+            }
+            self.checkItem();
+
     },
 }
 </script>
@@ -861,21 +942,20 @@ export default {
     .guige
         height 100%
         width 100%
-        position absolute
+        position fixed
         top 0
         left 0
-    .guige
-        height 100%
-        width:100%
         background #000
         z-index 1000
         opacity 0.4
+        scoll no
+        // display flex
     .guige_box
         z-index 1001
         background #fff
         width 90%
         height 600px
-        position absolute
+        position fixed
         bottom 0
         left 0
         padding 5%
@@ -897,7 +977,7 @@ export default {
                     text-align center
                     margin 10px
                     color #151515;
-                .cur
+                .productActive
                     background #ff0000
                     color   #fff
         .guigenum
