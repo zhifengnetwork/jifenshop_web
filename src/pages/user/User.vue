@@ -61,16 +61,16 @@
                 </router-link>
                 <div class="item_wrap">
                     <ul class="item">
-                        <li>
+                        <li v-for="(item,index) in order" :key="index">
                             <router-link class="look" to="/order?type=1">
                                 <div class="img">
-                                    <img src="/static/images/user/payment.png"/>
-                                    <div class="info-icon van-info" v-if="data.waitPay">{{data.waitPay}}</div>
+                                    <img :src="item.img"/>
+                                    <div class="info-icon van-info" v-if="item.icon">{{item.icon}}</div>
                                 </div>
-                                <div>待付款</div>
+                                <div>{{item.text}}</div>
                             </router-link>
                         </li>
-                        <li>
+                        <!-- <li>
                             <router-link class="look" to="/order?type=2">
                                 <div class="img">
                                     <img src="/static/images/user/dropShipping.png"/>
@@ -103,7 +103,7 @@
                                 <div class="info-icon van-info" v-if="data.return">{{data.return}}</div>
                             </div>
                             <div>退货</div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -173,6 +173,33 @@
         data() {
             return {
                 data: '',
+                order:[
+                    {
+                        img:'/static/images/user/payment.png',
+                        text:'待付款',
+                        icon:''
+                    },
+                    {
+                        img:'/static/images/user/dropShipping.png',
+                        text:'待发货',
+                        icon:''
+                    },
+                    {
+                        img:'/static/images/user/goods.png',
+                        text:'待收货',
+                        icon:''
+                    },
+                    {
+                        img:'/static/images/user/evaluation.png',
+                        text:'待评价',
+                        icon:''
+                    },
+                    {
+                        img:'/static/images/user/return.png',
+                        text:'退货',
+                        icon:''
+                    },
+                ]
             };
         },
         components: {
@@ -180,6 +207,7 @@
         },
         mounted(){
             let _this = this;
+            let ord = ['waitPay','waitSend','waitReceive','waitComment','return']
             this.$axios.get('home/index',{
                 params:{
                     token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
@@ -188,6 +216,15 @@
             .then(function(response){
                 console.log(response);
                 _this.data = response.data.data;
+                for(let i=0;i<ord.length;i++){
+                    console.log(response.data.data.ord[i])
+                    // _this.order[i].icon = response.data.data.ord[i];
+                }
+                // _this.order[0].icon = response.data.data.waitPay;
+                // _this.order[1].icon = response.data.data.waitSend;
+                // _this.order[2].icon = response.data.data.waitReceive;
+                // _this.order[3].icon = response.data.data.waitComment;
+                // _this.order[4].icon = response.data.data.return;
                 console.log(_this.data)
             })
             .catch(function(error){
