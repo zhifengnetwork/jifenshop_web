@@ -95,11 +95,11 @@
                     <van-tab title="参数">
                         <div class="params-wrap">
                             <ul class="param-list">
-                                <li>
-                                    <div class="param-name">商品编号 </div>
-                                    <div class="param-value">55666666</div>
+                                <li v-for="(item,key) in datalist.parameter" :key="key">
+                                    <div class="param-name">{{item.spec_name}}</div>
+                                    <div class="param-value">{{item.val_name}}</div>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <div class="param-name">面料</div>
                                     <div class="param-value">蕾丝</div>
                                 </li>
@@ -118,7 +118,7 @@
                                 <li>
                                     <div class="param-name">图案</div>
                                     <div class="param-value">碎花</div>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
 
@@ -298,13 +298,12 @@
             </van-goods-action>
         </div>
         <div v-show="guige">
-            <div class="guige" ></div>
+            <div class="guige"></div>
             <div class="guige_box">
-                <div class="guibox">
-                    <h3>尺寸</h3>
+                <div class="guibox" v-for="(item,index) in spec.spec_attr" :key="index" >
+                    <h3>{{item.spec_name}}</h3>
                     <ul>
-                        <li>s</li>
-                        <li>b</li>
+                        <li :data-id="items.attr_id" v-for="(items,ind) in item.res" :key="ind" :class="{'cur':sel[index] == ind}"  @click="dianji($event,index,ind)" >{{items.attr_name}}</li>
                     </ul>
                 </div>
                 <div class="guigenum">
@@ -368,6 +367,7 @@ export default {
             msg: '',
             guige: false,
             guigeNumber:'',
+            sel: [],
             // sku: {
             //     // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
             //     // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
@@ -514,6 +514,13 @@ export default {
             var val =parseInt(this.goodsNumber) + 1
             this.goodsNumber=val
             console.log(this.goodsNumber)
+        },
+        //点击选中规格、颜色、尺寸等
+        dianji(ev,index,ind){
+            console.log(ev.target.dataset.id)
+            this.sel[index] = ind;
+            this.$set(this.sel, index, ind)
+            console.log(index,ind)
         }
     },
     //更新渲染前
@@ -890,6 +897,9 @@ export default {
                     text-align center
                     margin 10px
                     color #151515;
+                .cur
+                    background #ff0000
+                    color   #fff
         .guigenum
             margin-top 20px
             height 100px
@@ -927,7 +937,7 @@ export default {
                     height inherit
                     font-size 24px
                     font-weight bold
-        .guigegd{
+        .guigegd
             position absolute
             bottom 50px
             width  90%
@@ -937,7 +947,7 @@ export default {
             font-size 30px
             text-align center
             border-radius 44px
-        }
+            color #fff
         .guige_bottom
              position absolute
              top 50px
