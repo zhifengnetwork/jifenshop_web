@@ -8,13 +8,13 @@
         <div class="height-88"></div>
         <div class="find_search" >
             <img src="/static/images/user/find.png" class="find" v-if="status"/>
-            <input type="text" placeholder="输入手机号搜索"  class="inputzhi"/>
+            <input type="text" placeholder="输入手机号搜索" v-model="mobile" @input="press()" class="inputzhi"/>
         </div>
         <p class="result">搜索结果</p>
-        <div class="item_ear">
-            <div class="left"><img src="/static/images/user/002.png" class="header_img"/></div>
-            <div class="center"><p>昵称:倾城小美人</p><p class="idzhi">DI:36895</p></div>
-            <router-link class="right" to="/user/shouyilist">转账</router-link>
+        <div class="item_ear" v-if="data">
+            <div class="left"><img :src="data.avatar" class="header_img"/></div>
+            <div class="center"><p>昵称:{{data.nickname}}</p><p class="idzhi">DI:{{data.id}}</p></div>
+            <div class="right" @click="to()">转账</div>
         </div>
        
        
@@ -28,8 +28,9 @@
 		name: 'transfer_accounts',
 		data(){
             return{
-              status:true,
-             
+                status:true,
+                data:'',
+                mobile:''
             }
 			
 		},
@@ -37,7 +38,30 @@
             ListHeader,
         },
         methods:{
-            
+            requestData(){
+                let _this = this;
+                this.$axios.post('home/point_user',{
+                    token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
+                    mobile:_this.mobile
+                })
+                .then(function(response){
+                    console.log(response.data);
+                    _this.data = response.data.data;
+                    console.log(_this.data)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            },
+            press(){
+                if(this.mobile.length==11){
+                    // 发送请求
+                    this.requestData();
+                }
+            },
+            to(){
+                this.$router.replace({name:'shouyilist',params:{'item':this.data}})
+            }
         }
     }
 </script>

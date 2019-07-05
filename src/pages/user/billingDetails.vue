@@ -128,7 +128,10 @@
 				}
 			},
 		
-	}
+	},
+	destroyed: function () {
+		window.removeEventListener('scroll', this.scrollBottom);
+	},
 
 }
 </script>

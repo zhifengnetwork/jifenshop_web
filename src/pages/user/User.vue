@@ -50,44 +50,52 @@
         <div class="content">
             <!-- 我的订单 -->
             <div class="order_wrap">
-                <div class="title_wrap">
-                    <h2>我的订单</h2>
-                    <div class="check">
-                        <router-link class="look" to="/Order">
-                            查看全部订单
+                <router-link class="look" to="/Order">
+                    <div class="title_wrap">
+                        <h2>我的订单</h2>
+                        <div class="check">
+                                查看全部订单
                             <i class="right_icon"></i>
-                        </router-link>
+                        </div>
                     </div>
-                </div>
+                </router-link>
                 <div class="item_wrap">
                     <ul class="item">
                         <li>
-                            <div class="img">
-                                <img src="/static/images/user/payment.png"/>
-                                <div class="info-icon van-info" v-if="data.waitPay">{{data.waitPay}}</div>
-                            </div>
-                            <div>待付款</div>
+                            <router-link class="look" to="/order?type=1">
+                                <div class="img">
+                                    <img src="/static/images/user/payment.png"/>
+                                    <div class="info-icon van-info" v-if="data.waitPay">{{data.waitPay}}</div>
+                                </div>
+                                <div>待付款</div>
+                            </router-link>
                         </li>
                         <li>
-                            <div class="img">
-                                <img src="/static/images/user/dropShipping.png"/>
-                                <div class="info-icon van-info" v-if="data.waitSend">{{data.waitSend}}</div>
-                            </div>
-                            <div>待发货</div>
+                            <router-link class="look" to="/order?type=2">
+                                <div class="img">
+                                    <img src="/static/images/user/dropShipping.png"/>
+                                    <div class="info-icon van-info" v-if="data.waitSend">{{data.waitSend}}</div>
+                                </div>
+                                <div>待发货</div>
+                            </router-link>
                         </li>
                         <li>
-                            <div class="img">
-                                <img src="/static/images/user/goods.png"/>
-                                <div class="info-icon van-info" v-if="data.waitReceive">{{data.waitReceive}}</div>
-                            </div>
-                            <div>待收货</div>
+                            <router-link class="look" to="/order?type=3">
+                                <div class="img">
+                                    <img src="/static/images/user/goods.png"/>
+                                    <div class="info-icon van-info" v-if="data.waitReceive">{{data.waitReceive}}</div>
+                                </div>
+                                <div>待收货</div>
+                            </router-link>
                         </li>
                         <li>
-                            <div class="img">
-                                <img src="/static/images/user/evaluation.png"/>
-                                <div class="info-icon van-info" v-if="data.waitComment">{{data.waitComment}}</div>
-                            </div>
-                            <div>待评价</div>
+                            <router-link class="look" to="/order?type=4">
+                                <div class="img">
+                                    <img src="/static/images/user/evaluation.png"/>
+                                    <div class="info-icon van-info" v-if="data.waitComment">{{data.waitComment}}</div>
+                                </div>
+                                <div>待评价</div>
+                            </router-link>
                         </li>
                         <li>
                             <div class="img">

@@ -8,9 +8,9 @@
         <div class="height-88"></div>
         <div class="center_box">
       
-            <router-link v-for="(item,index) in data" :key="index" to="/user/jifengdetail" class="center_item">
-                <p>积分类型：购物积分</p>
-                <p>订单编号：44188112252515555265</p>
+            <router-link v-for="(item,index) in data" :key="index" :to="{path:'/user/jifengdetail',query:{id:item.id}}" class="center_item">
+                <p>积分类型：{{item.type}}</p>
+                <p>订单编号：{{item.order_sn}}</p>
                 <p><span>释放时间:</span><span>{{item.time}}</span></p>
                 <p><span>已释放积分:</span><span>{{item.released}}</span> <span class="time">待释放积分:</span> <span>{{item.unreleased}}</span><img src="/static/images/user/you.png" class="you"/></p>
             </router-link>
@@ -47,7 +47,7 @@
                 this.$axios.get('home/point_release',{
                     params:{
                         token:'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA',
-                        p:_this.page
+                        p:_this.page,
                     }
                 })
                 .then(function(response){
@@ -78,7 +78,10 @@
 					_this.page++;
 				}
             }
-        }
+        },
+        destroyed: function () {
+            window.removeEventListener('scroll', this.scrollBottom);
+        },
     }
 </script>
 
