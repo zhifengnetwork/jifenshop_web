@@ -34,10 +34,11 @@ axios.interceptors.request.use(
 	error => {
 		console.log(error)
 		return Promise.reject(error)
-	})
+	}
+)
 
 	
-	console.log('--%%%%%%%%')
+console.log('来到了reuqest.js')
 
 
 // http response 拦截器 //响应拦截器即异常处理
@@ -84,15 +85,38 @@ axios.interceptors.response.use(
 		return response;
 	},
 	error => {
-		if(error && error.response) {
-				
+
+		console.log('-------error----------')
+		console.log(error.response)
+		console.log('-------error----------')
+
+		if(error.response.status == 401){
+			
+			Dialog.alert({
+				message: '登录已过期'
+			}).then(() => {
+				window.sessionStorage.setItem("token",null);
+				router.replace({  	
+					path: '/index',
+				})
+			})
+
 		}else{
-			error.message = '网络出现问题，请稍后再试'
-			console.log(error.message)
+
+			Dialog.alert({
+				message: '接口报错'
+			}).then(() => {
+				//window.sessionStorage.setItem("token",null);
+				// router.replace({  	
+				// 	path: '/index',
+				// })
+			})
 		}
+	
 		// console.log(Promise.reject(error.response.data))
 		return Promise.reject(error.response.data)
-	});
+	}
+);
 	
 	
 export default axios;
