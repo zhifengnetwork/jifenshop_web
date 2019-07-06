@@ -97,14 +97,16 @@ export default {
             status:['','待付款','待发货','待收货','待评价','已取消','待退款','已退款','拒绝退款'],
             shop_btn:[
                 {
-
+                    btn:'',
+                    btns:'',
                 },
                 {
                     btn:'取消订单',
                     btns:'去付款',
                 },
-                {
-                    btns:'退货'
+                {   
+                    btn:'',
+                    btns:'退货',
                 },
                 {
                     btn:'查看物流',
@@ -150,7 +152,7 @@ export default {
                     type = 'dpj'
                     break;
             }
-            console.log(this.page)
+            console.log(type)
             this.$axios.post('order/order_list',{
                 token:_this.$store.state.token,
                 type:type,
@@ -161,7 +163,7 @@ export default {
                 if(response.data.status===1){
                     _this.data = response.data.data;
                 }
-                console.log(_this.data)
+                console.log(_this.data,111)
             })
             .catch(function(error){
                 console.log(error);

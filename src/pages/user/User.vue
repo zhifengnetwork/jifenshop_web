@@ -50,7 +50,7 @@
         <div class="content">
             <!-- 我的订单 -->
             <div class="order_wrap">
-                <router-link class="look" to="/Order">
+                <router-link class="look" to="/order?type=0">
                     <div class="title_wrap">
                         <h2>我的订单</h2>
                         <div class="check">

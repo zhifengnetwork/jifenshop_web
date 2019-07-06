@@ -119,7 +119,7 @@ export default {
 			)
 			.then(function(response){
                 sessionStorage.removeItem('data');
-                _this.$router.push({name:'Address'})
+                _this.$router.replace({name:'Address'})
 				console.log(response);
 			})
 			.catch(function(error){
@@ -128,7 +128,7 @@ export default {
         },
         to(){
             sessionStorage.setItem('item',JSON.stringify(this.item))
-            this.$router.push({name:'SelectPoint',params:{'router':'EditAddress'}})
+            this.$router.replace({name:'SelectPoint',params:{'router':'EditAddress'}})
         }
     }
 
