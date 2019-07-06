@@ -112,6 +112,7 @@
                 .btn_wrap .draw
                     width 702px
                     height 80px
+                    margin 0 auto
                     border-radius 44px
                     font-size 30px
                     text-align center

@@ -70,11 +70,14 @@
 
             <van-radio-group v-model="radio">
                 <van-cell-group>
-                    <van-cell :title="item.pay_name" clickable @click="che(key,$event)" v-for="(item,key) in pay_type" :key="key" :data-id="item.pay_type">
-                            <van-radio slot="right-icon" :name="key" />
-                        </van-cell>
-                    </van-cell-group>
-                </van-radio-group>
+                    <van-cell :title="item.pay_name" clickable @click="che(key,$event)" v-for="(item,key) in pay_type" :key="key" :data-id="item.pay_type" >
+                            <van-radio slot="right-icon" :name="key" /> 
+                            <div id="box" v-if="radio == 1 && key == indx">
+                                 <p class="-list2-msg">余额：{{list.balance}}</p>
+                            </div>
+                    </van-cell>
+                </van-cell-group>
+            </van-radio-group>
         </div>
         <!-- FOOTER START -->
         <div class="footer-height"></div>
@@ -83,9 +86,13 @@
                 <strong class="f-a-a"> 实付款：</strong>
                 <div class="f-a-b">
                     <span class="colorRed size-20">￥<strong class="size-36">{{updatePrice}}</strong></span>
+                    <div>
+                        <span>输入密码</span>
+                        <input type="text">
+                    </div>
                 </div>
             </div>
-            <div class="footer-b">立即付款</div>
+            <div class="footer-b" @click="zhifu()">立即付款</div>
         </div>
     </div>
 </template>
@@ -100,6 +107,8 @@ export default {
             goods:'',
             pay_type:'',
             radio:'',
+            address_id:'',
+            indx: '',
         };
     },
     methods:{
@@ -123,8 +132,30 @@ export default {
             this.goods.goods_num=val
             console.log(val)
         },
-        che(e){
-            console.log(e.target.dataset.id)
+        che(key,e){
+            for(var i =0 ;i<this.pay_type.length;i++){
+                console.log(this.radio)
+                this.indx = key
+            }
+        },
+        //立即付款按钮
+        zhifu(){
+                let that = this;
+                this.address_id = this.addr_res.address_id
+                console.log(this.indx)
+                // this.$toast("添加成功,可直接去购物车下单")
+                this.$axios({
+                method:'post',
+                url: 'order/submitOrder',
+                data: {
+                    address_id: this.address_id,
+                    pay_type: this.indx,
+                    "token":that.$store.state.token
+                }
+                })
+                .then((res) => {
+                   console.log(88)
+                    })
         }
     },
     computed:{
@@ -157,7 +188,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
     .colorRed
         color #f70a0a
     .size-20
@@ -280,12 +311,8 @@ export default {
         .-list2-msg
             color #757575
             margin-top 25px
-        .van-checkbox__icon .van-icon
-            border-color #434343
-        .van-checkbox__icon--checked .van-icon 
-            background-color  #ff7800
-            border-color  #ff7800
-
+            width 100%
+            float left
     .footer-height
         width  100%
         height 140px
@@ -321,7 +348,64 @@ export default {
             text-align  center
             font-size 30px
             font-weight bold
-         
+            #box
+                width   100%
+                height  200px
+                background red
+                margin-top 100px
+
+.content >>> .van-cell__value
+    border 1px solid green
+    position: relative;
+    color: #969799;
+    vertical-align: middle;
+    display: block;
+    width: 80%;
+    border: 1px solid red;
+.content >>> .van-cell
+    // position absolute!important
+    // top 0
+    // left 0
+    // right 0
+    // bottom 0
+    clear:both!important
+
+
+
+
+// .van-radio {
+//     display: inline;
+//     position: absolute;
+//     top: .2rem;
+//     right: .3rem;
+//     }
+// .van-cell__value {
+//     position: relative;
+//     overflow: hidden;
+//     color: #969799;
+//     /* text-align: right; */
+//     vertical-align: middle;
+//     display: block;
+//     width: 80%;
+//     border: 1px solid red;
+//     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>
 
 

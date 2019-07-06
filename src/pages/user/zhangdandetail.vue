@@ -18,7 +18,8 @@
 				<div class="item_wrap">
 					<div class="title">
 						<ul>
-							<li>订单</li>
+							<li v-show="nowIndex===0">订单</li>
+							<li v-show="nowIndex===1">下级昵称</li>
 							<li>日期</li>
 							<li>金额</li>
 							<li>备注</li>
