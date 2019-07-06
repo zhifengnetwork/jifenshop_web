@@ -2,9 +2,9 @@
   <div class="Category">
     <!-- 头部组件 -->
     <TopHeader custom-title="分类" custom-fixed>
-       <i slot="backBtn" class="iconfont iconfanhui"></i> -->
-    <i slot="rightBtn" class="iconfont icon-lajitong"></i> -->
-   </TopHeader> 
+      <i slot="backBtn" class="iconfont iconfanhui"></i> -->
+      <i slot="rightBtn" class="iconfont icon-lajitong"></i> -->
+    </TopHeader>
     <div class="height-88"></div>
 
     <div class="scroll-content">
@@ -32,7 +32,6 @@
             <p class="price">¥{{items.price}}</p>
           </div>
         </div>
-      
       </div>
     </div>
     <!-- 底部导航 -->
@@ -54,77 +53,71 @@ export default {
       xixi: 1,
       dataList: [], // 数据数组
       page: 1, // 第几页
-	    upLoading: true, // 是否加载数据
-	    //--------
+      upLoading: true, // 是否加载数据
+      //--------
       activeIndex: 0,
       list_name: [],
       list_Data: [],
-      morenid:8
+      morenid: 8
     };
   },
   created() {
-    
-	 // 监听商品区域滚动条滚动到底部
-	 let that = this;
-	 this.$nextTick(() => {
-		const el = document.querySelector('.scroll-list');
-		const offsetHeight = el.offsetHeight;
-		el.onscroll = () => {
-		const scrollTop = el.scrollTop;
-		const scrollHeight = el.scrollHeight;
-		if ((offsetHeight + scrollTop) - scrollHeight >= -1) {
-		  // 需要执行的代码
-      that.loadMore();
-     
-		}
-		};
+    // 监听商品区域滚动条滚动到底部
+    let that = this;
+    this.$nextTick(() => {
+      const el = document.querySelector(".scroll-list");
+      const offsetHeight = el.offsetHeight;
+      el.onscroll = () => {
+        const scrollTop = el.scrollTop;
+        const scrollHeight = el.scrollHeight;
+        if (offsetHeight + scrollTop - scrollHeight >= -1) {
+          // 需要执行的代码
+          that.loadMore();
+        }
+      };
     });
     //默认渲染第一个数据的右边内容
-		this.$axios({
-		method: "get",
-		url: "goods/categoryList"
-		}).then(res => {
-		if (res.data.status === 1) {
-      console.log("dss")
-			console.log(res.data.data);
-      this.list_name = res.data.data;
-      this.morenid=res.data.data[0].cat_id;
-
-
-       this.$axios({
-        method: "get",
-        url: "goods/categoryGetGoods?cat_id=" + this.morenid + "&page="+this.page
-      }).then(res => {
-        if (res.data.status === 1) {
-          // console.log("ddddd")
-          // console.log(res.data.data);
-          // console.log("ddddd")
-          // this.list_Data = res.data.data;
-          if (res.data.data.length > 0) {
-            this.upLoading = true;
-            console.log(res.data.data);
-                  let dataList = this.list_Data;
-                  for (let i = 0; i < res.data.data.length; i++) {
-                    dataList.push(res.data.data[i]);
-            }
-            console.log(dataList)	
-            this.list_Data = dataList;
-                } else {
-            this.upLoading = false;
-                }
+    this.$axios({
+      method: "get",
+      url: "goods/categoryList"
+    }).then(res => {
+      if (res.data.status === 1) {
+        console.log("dss");
+        console.log(res.data.data);
+        this.list_name = res.data.data;
+        this.morenid = res.data.data[0].cat_id;
+        this.$axios({
+          method: "get",
+          url:
+            "goods/categoryGetGoods?cat_id=" +
+            this.morenid +
+            "&page=" +
+            this.page
+        }).then(res => {
+          if (res.data.status === 1) {
+            if (res.data.data.length > 0) {
+              this.upLoading = true;
+              console.log(res.data.data);
+              let dataList = this.list_Data;
+              for (let i = 0; i < res.data.data.length; i++) {
+                dataList.push(res.data.data[i]);
               }
-	  });
-		}
+              console.log(dataList);
+              this.list_Data = dataList;
+            } else {
+              this.upLoading = false;
+            }
+          }
+        });
+      }
     });
-   
-
-
-
-
   },
   methods: {
     // 根据索引点击跳至对应内容
     handleClick(i, index) {
+      // 如果点击左边的菜单栏的时候,应该将page 和 upLoading 重置为原始状态
+      this.upLoading = true;
+      this.page = 1;
       console.log(i);
       this.xixi = i;
       this.activeIndex = index;
@@ -136,28 +129,30 @@ export default {
           console.log(res.data.data);
           this.list_Data = res.data.data;
         }
-	  });
+      });
     },
-    
+
     loadMore() {
       this.page++;
       if (this.upLoading) {
         console.log("xixi" + this.xixi);
         this.$axios({
           method: "get",
-          url: "goods/categoryGetGoods?cat_id=" + this.xixi + "&page="+this.page
+          url:
+            "goods/categoryGetGoods?cat_id=" + this.xixi + "&page=" + this.page
         }).then(res => {
           if (res.data.data.length > 0) {
-			this.upLoading = true;
-			console.log(res.data.data);
+            this.upLoading = true;
+            console.log(res.data.data);
             let dataList = this.list_Data;
             for (let i = 0; i < res.data.data.length; i++) {
               dataList.push(res.data.data[i]);
-			}
-			console.log(dataList)	
-			this.list_Data = dataList;
+            }
+            console.log(dataList);
+            this.list_Data = dataList;
           } else {
-			 this.upLoading = false;
+            // 如果滚动条滚动到底部,没有数据的时候要将uploading为false
+            this.upLoading = false;
           }
         });
       }
@@ -176,6 +171,7 @@ export default {
   .scroll-content {
     height: calc(100vh - 186px);
     display: flex;
+
     .scroll-menu {
       width: 250px;
       height: calc(100vh - 186px);
@@ -244,6 +240,4 @@ export default {
     }
   }
 }
-
-
 </style>
