@@ -323,7 +323,7 @@
                     </span>
                 </div>
                 <div class="guigegd" @click="confirm()">确定</div>
-                <div class="guige_bottom" @click="handleBtn()">x</div>
+                <div class="guige_bottom" @click="guanbi()">x</div>
             </div>
         </div>
     </div>
@@ -380,6 +380,7 @@ export default {
             shopItemInfo: {}, //存放要和选中的值进行匹配的数据
             subIndex: [],
             zong: '', //是否选中 因为不确定是多规格还是但规格，所以这里定义数组来判断
+            immediatelyOrder: '',
         }
     },
     methods:{
@@ -398,9 +399,15 @@ export default {
         },
         // 显示规格
         handleBtn(){
-            this.guige = !this.guige
+            this.guige = !this.guige;
+	        document.body.style.overflow='hidden';//禁止页面划动
         },
-
+        //关闭规格
+        guanbi(){
+            this.guige = !this.guige;
+            //关闭页面可以滚动
+             document.body.style.overflow='';
+        },
         specificationBtn: function (attr_id, n, event, index) {
             var self = this;
             if (self.selectArr[n] != attr_id) {
@@ -451,18 +458,9 @@ export default {
 
         // 商品规格选择确定
         confirm(){
-            // this.guige = !this.guige
-            // console.log(this.spec.spec_attr.length)
-            // if(this.spec.spec_attr.length == 1){
-            //     var zong = this.shang
-            //     console.log(55)
-            // }else if(this.spec.spec_attr.length >1){
-            //    console.log(this.shang,this.xia)
-            // }
-            
-            // var zong = self.selectArr
-            console.log(66)
-            console.log(this.zong)
+            //点击确定关闭弹窗并使页面可以滚动
+            this.guige = !this.guige;
+            document.body.style.overflow='';
             // 对比
             for(var i=0; i<this.spec.goods_sku.length;i++){
                 if(this.zong==this.spec.goods_sku[i].sku_attr1){
@@ -471,49 +469,6 @@ export default {
                 }
             }
         },
-        //点击选中规格、颜色、尺寸等
-        // dianji(ev,index,ind){
-        //     this.sel[index] = ind;
-        //     this.$set(this.sel, index, ind)
-        //     // console.log(this.sel.length)
-        //     // for(var i=1;i<this.spec.spec_attr.length;i++){
-        //     //     if(this.spec.spec_attr.length == 1){
-        //     //          this.shang = ev.target.dataset.id
-        //     //         console.log(this.shang)
-        //     //     }else if(this.spec.spec_attr.length > 1){
-        //     //          this.shang.push(ev.target.dataset.id)
-        //     //          this.shang = Array.from(new Set(this.shang));
-        //     //          console.log(ev.target.dataset.id)
-        //     //         // this.$set(this.shang,ev.target.dataset.id)
-        //     //         console.log(this.shang)
-        //     //         // this.$set(this.shang,ev.target.dataset.id,123)
-        //     //     }
-        //     // }
-        //     // for(var i=1;i<this.spec.spec_attr.length;i++){
-        //     //     // console.log(this.spec.spec_attr.length)
-        //     //     if(this.spec.spec_attr.length == 1 ){
-        //     //         this.shang = ev.target.dataset.id
-        //     //         console.log(this.shang)
-        //     //     }
-        //     //     if(this.spec.spec_attr.length > 1){
-        //     //        this.shang += ev.target.dataset.id + ','
-        //     //        console.log(this.shang)
-        //     //        if(this.shang.length > this.spec.spec_attr.length*6 ){
-        //     //            console.log(111)
-        //     //        }
-        //     //     }
-        //     // }
-        //     for(var i=1;i<this.spec.spec_attr.length;i++){
-        //         if(index == 0){
-        //             this.shang = ev.target.dataset.id
-        //             console.log("上" + this.shang)
-        //         }
-        //         else if(index > 0){
-        //             this.xia = ev.target.dataset.id
-        //             console.log("下" + this.xia)
-        //         }
-        //     }
-        // },
         handleScroll () {
             this.head = window.scrollY > 150;
         },
@@ -539,45 +494,70 @@ export default {
         },
         //点击加入到购物车
         addToCart(){
+            if(this.spec.goods_sku.length>1){
+                let that = this;
+                // this.$toast("添加成功,可直接去购物车下单")
+                this.guigeNumber = sessionStorage.getItem('guigeNumber');
+                console.log(this.guigeNumber)
+                this.$axios({
+                method:'post',
+                url: 'cart/addCart',
+                data: {
+                    sku_id: this.zongshu,
+                    cart_number: this.guigeNumber,
+                    "token":that.$store.state.token
+                }
+                })
+                .then((res) => {
+                    this.likeo = res.data
+                    // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
+                    sessionStorage.setItem("msg",this.likeo.msg);
+                    this.msg = sessionStorage.getItem('msg'); 
+                    })
+                }
+            else if(this.spec.goods_sku.length = 1){
+                let skuid = this.spec.goods_sku[0].sku_id
+                let that = this;
+                console.log(skuid)
+                // this.$toast("添加成功,可直接去购物车下单")
+                this.guigeNumber = sessionStorage.getItem('guigeNumber');
+                this.$axios({
+                method:'post',
+                url: 'cart/addCart',
+                data: {
+                    sku_id: skuid,
+                    cart_number: this.guigeNumber,
+                    "token":that.$store.state.token
+                }
+                })
+                .then((res) => {
+                    this.likeo = res.data
+                    // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
+                    sessionStorage.setItem("msg",this.likeo.msg);
+                    this.msg = sessionStorage.getItem('msg'); 
+                    })
+            }
+            
+           
+        },
+        // 立即购买
+        toBay(){
             let that = this;
-            // this.$toast("添加成功,可直接去购物车下单")
-            this.guigeNumber = sessionStorage.getItem('guigeNumber');
-            console.log(this.guigeNumber)
             this.$axios({
             method:'post',
-            url: 'cart/addCart',
+            url: 'order/immediatelyOrder',
             data: {
                 sku_id: this.zongshu,
-               cart_number: this.guigeNumber,
+                cart_number: this.guigeNumber,
                 "token":that.$store.state.token
             }
             })
             .then((res) => {
-                this.likeo = res.data
-                // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
-                sessionStorage.setItem("msg",this.likeo.msg);
-                this.msg = sessionStorage.getItem('msg'); 
+                this.immediatelyOrder = res.data
+                if(this.immediatelyOrder.status > 0){
+                   this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+                }
                 })
-        },
-        toBay(){
-            this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
-            // order/immediatelyOrder
-            // console.log(666)
-            // this.$axios({
-            // method:'post',
-            // url: 'cart/addCart',
-            // data: {
-            //     sku_id: this.zongshu,
-            //    cart_number: this.guigeNumber,
-            //     "token":''
-            // }
-            // })
-            // .then((res) => {
-            //     this.likeo = res.data
-            //     // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
-            //     sessionStorage.setItem("msg",this.likeo.msg);
-            //     this.msg = sessionStorage.getItem('msg'); 
-            //     })
         },
          reducingNumber(){
             var val =parseInt(this.goodsNumber) - 1 

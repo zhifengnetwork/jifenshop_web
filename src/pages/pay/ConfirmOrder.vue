@@ -6,29 +6,29 @@
 		</TopHeader>
         <div class="height-88"></div>
         <div class="content">
-            <div class="user-info-wrap mb-10">
+            <div class="user-info-wrap mb-10" v-for="(item,key) in list.addr_res" :key="key">
                 <router-link to="/user/Address" class="user-info">
                     <i class="iconfont iconweizhi"></i>
                     <div class="-info-list">
                         <p class="-list-a">
-                            <strong class="mr-44">周鹏</strong>
-                            <strong>18000001882</strong>
+                            <strong class="mr-44">{{item.consignee}}</strong>
+                            <strong>{{item.mobile}}</strong>
                         </p>
-                        <p class="-list-b">广东省广州市州市白云区嘉禾汇726</p>
+                        <p class="-list-b">{{item.address}}</p>
                     </div>
                     <div class="-list-edit"><i class="iconfont iconbianji"></i></div>
                 </router-link>
                 <img class="-info-img" src="/static/images/order/color_line.png" />
             </div>
             <!-- GOODS START -->
-            <div class="goods-list">
+            <div class="goods-list" v-for="(items,index) in list.goods" :key="index">
                 <router-link to="/Details" class="g-list-a">
-                    <img class="-list-img" src="/static/images/order/goods_4.png" />
+                    <img class="-list-img" :src="items.img" />
                     <div class="-detial-">
-                        <p class="-d-msg apostrophe">商品简介商品简介商品简介商品简介商品简介</p>
+                        <p class="-d-msg apostrophe">{{items.goods_name}}</p>
                         <p class="-d-msg2">
-                            <span>￥ {{goodsPrice}}</span>
-                            <span>x 2</span>
+                            <span>￥ {{items.goods_price}}</span>
+                            <span>x {{items.goods_num}}</span>
                         </p>
                     </div>
                 </router-link>
@@ -37,7 +37,7 @@
                         <span class="-b-subtitle">购买数量</span>
                         <span class="-option-">
                             <i class="subling iconfont iconjian" @click="reducingNumber()"></i>
-                            <input class="inp" type="text" :value="goodsNumber" @change="changNumber($event)"/>
+                            <input class="inp" type="text" :value="items.goods_num" @change="changNumber($event)"/>
                             <i class="puls iconfont iconjia"  @click="addNumber()"></i>
                         </span>
                     </div>
@@ -51,19 +51,19 @@
                         <input type="text"  placeholder-class="placehor" placeholder="选填 请先和商家协商一致" />  
                     </div>
                     <div class="goods-price">
-                        <span>共2件</span>
+                        <span>共{{items.goods_num}}件</span>
                         <span>共计：</span>
                         <span>￥ {{updatePrice}}</span>
                     </div>
                 </div>
             </div>
             <!--  -->
-            <div class="goods-list goods-list2">
+            <div class="goods-list goods-list2" v-for="(item,ind) in list.pay_type" :key="ind">
                 <div>
-                    <strong>使用余额</strong>
-                    <p  v-show="checked" class="-list2-msg">余额：5630.00</p>
+                    <strong>{{item.pay_name}}</strong>
+                    <p class="-list2-msg" v-show="checked">余额：{{list.balance}}</p>
                 </div>
-                <van-checkbox v-model="checked"></van-checkbox>
+                <van-checkbox v-model="checked" :data-id="item.pay_type"></van-checkbox>
             </div>
         </div>
         <!-- FOOTER START -->
@@ -84,32 +84,52 @@ import TopHeader from "@/pages/common/header/TopHeader"
 export default {
     data() {
         return {
-            checked: true,
-            goodsNumber:2,
-            goodsPrice:'3860.00'
+            checked: false,
+            list: '',
         };
     },
     methods:{
+        // 减数量
         reducingNumber(){
-            var val =parseInt(this.goodsNumber) - 1 
+            var val =parseInt(this.list.goods[0].goods_num) - 1 
            if(val<=1){val =1}
-           this.goodsNumber=val
+           this.list.goods[0].goods_num=val
+           console.log(val)
         },
+        // 输入框输入数量
         changNumber(e){
             var val =e.target.value;
             if(val<1){return;}
-            this.goodsNumber=val
+            this.list.goods[0].goods_num=val
+            console.log(val)
         },
+        // 加数量
         addNumber(){
-            var val =parseInt(this.goodsNumber) + 1
-            this.goodsNumber=val
-        }
+            var val =parseInt(this.list.goods[0].goods_num) + 1
+            this.list.goods[0].goods_num=val
+            console.log(val)
+        },
     },
     computed:{
+        // 计算总价格
         updatePrice(){
-            var totalPrice =new Number(this.goodsNumber) * new Number(this.goodsPrice)
+            var totalPrice =new Number(this.list.goods[0].goods_num) * new Number(this.list.goods[0].goods_price)
             return totalPrice.toFixed(2)
         }
+    },
+    mounted() {
+        // order/temporary
+            let that = this;
+            this.$axios({
+            method:'post',
+            url: 'order/temporary',
+            data: {
+                "token":that.$store.state.token
+            }
+            })
+            .then((res) => {
+            this.list = res.data.data
+                })
     },
     components:{
         TopHeader
