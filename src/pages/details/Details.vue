@@ -480,7 +480,7 @@ export default {
             method:'post',
             url: 'collection/collection',
             data: {
-                goods_id: this.goods_id,
+                  goods_id: this.goods_id,
                  "token":that.$store.state.token
             }
             })
