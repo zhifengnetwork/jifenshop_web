@@ -523,7 +523,7 @@ export default {
                 else{
                     Toast({
                     message: '请选择所有规格',
-                    icon: 'success'
+                    icon: 'fail'
                     });
                 }
                
@@ -581,7 +581,7 @@ export default {
                  }else{
                       Toast({
                     message: '请选择所有规格',
-                    icon: 'success'
+                    icon: 'fail'
                     });
                  }
                 
