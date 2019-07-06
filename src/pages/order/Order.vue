@@ -43,8 +43,8 @@
                         </div>
                     </div>
                     <div class="order-btn">
-                        <span class="btn" v-if="shop_btn[item.status].btn">{{shop_btn[item.status].btn}}</span>
-                        <span class="btn red" v-if="shop_btn[item.status].btns">{{shop_btn[item.status].btns}}</span>
+                        <span class="btn" @click="send(shop_btn[item.status].btn,item.order_id)" v-if="shop_btn[item.status].btn">{{shop_btn[item.status].btn}}</span>
+                        <span class="btn red" @click="send(shop_btn[item.status].btns,item.order_id)" v-if="shop_btn[item.status].btns">{{shop_btn[item.status].btns}}</span>
                     </div>
                 </div>
                  <!-- 数据加载完提示 -->
@@ -106,7 +106,7 @@ export default {
                 },
                 {   
                     btn:'取消订单',
-                    btns:'退货',
+                    btns:'查看物流',
                 },
                 {
                     btn:'查看物流',
@@ -116,10 +116,10 @@ export default {
                     btn:'查看物流',
                     btns:'去评价',
                 },
-                {},
-                {},
-                {},
-                {},
+                {btns:'删除订单'},
+                {btns:'删除订单'},
+                {btns:'删除订单'},
+                {btns:'删除订单'},
             ],
             baseUrl:[],// 商品图片路径
             page:1,//页数
@@ -181,6 +181,33 @@ export default {
             this.requestData();
             this.page = 1;
         },
+        send(status,id){
+            let _this=this;
+            let type=null;
+            switch(status){
+                case '取消订单':
+                    type = 1;
+                    break;
+                case '确认收货':
+                    type = 3;
+                    break;
+                case '删除订单':
+                    type = 4;
+                    break;
+            }
+            console.log(type)
+            this.$axios.post('order/edit_status',{
+                token:_this.$store.state.token,
+                order_id:id,
+                status:type
+            })
+            .then(function(response){
+                console.log(response.data);
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
         // scrollBottom(){
         //     let _this = this;
         //     let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
