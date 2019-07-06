@@ -152,15 +152,17 @@ export default {
         })
         .then(function(response){
             console.log(response);
-            for(let i = 0;i<response.data.data.list.length;i++){
-                _this.list.push({
-                    'text':response.data.data.list[i].goods_name,
-                    'img':response.data.data.list[i].picture,
-                    'price':response.data.data.list[i].price,
-                    'id':response.data.data.list[i].id,
-                    'goods_id':response.data.data.list[i].goods_id,
-                    'isCheck':false
-                })
+            if(response.data.status == 1){
+                for(let i = 0;i<response.data.data.list.length;i++){
+                    _this.list.push({
+                        'text':response.data.data.list[i].goods_name,
+                        'img':response.data.data.list[i].picture,
+                        'price':response.data.data.list[i].price,
+                        'id':response.data.data.list[i].id,
+                        'goods_id':response.data.data.list[i].goods_id,
+                        'isCheck':false
+                    })
+                }
             }
             console.log(_this.list)
             // _this.data = response.data.data.list;

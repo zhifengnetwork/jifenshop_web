@@ -123,7 +123,9 @@ export default {
 		this.$axios.get('index')
 		.then(function(response){
 			console.log(response.data);
-			_this.data = response.data.data;
+			if(response.data.status == 1){
+				_this.data = response.data.data;
+			}
 		})
 		.catch(function(error){
 			console.log(error);

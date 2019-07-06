@@ -93,22 +93,24 @@
 				})
 				.then(function(response){
 					console.log(response);
-					if(_this.page>1){
-						for(let i=0;i<response.data.data.length;i++){
-							if(response.data.data.length<20){
-								_this.flag = true;
+					if(response.data.status == 1){
+						if(_this.page>1){
+							for(let i=0;i<response.data.data.length;i++){
+								if(response.data.data.length<20){
+									_this.flag = true;
+								}
+								if(_this.nowIndex==0){
+									_this.reduce.push(response.data.data[i]);
+								}else{
+									_this.increase.push(response.data.data[i]);
+								}
 							}
-							if(_this.nowIndex==0){
-								_this.reduce.push(response.data.data[i]);
-							}else{
-								_this.increase.push(response.data.data[i]);
-							}
-						}
-					}else{
-						if(_this.nowIndex==0){
-							_this.reduce = response.data.data;
 						}else{
-							_this.increase = response.data.data;
+							if(_this.nowIndex==0){
+								_this.reduce = response.data.data;
+							}else{
+								_this.increase = response.data.data;
+							}
 						}
 					}
 					console.log(_this.reduce)
