@@ -516,6 +516,7 @@ export default {
                     })
                 }
             else if(this.spec.goods_sku.length <= 1){
+                console.log(6655)
                 Toast({
                     message: '加入购物车成功',
                     icon: 'success'
