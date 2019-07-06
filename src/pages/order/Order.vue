@@ -54,7 +54,7 @@
 
                 <!-- 无数据 -->
                 <div class="none" v-if="data.length==0">
-                    <img src="/static/images/order/orderNone.png"/>
+                    <img src="/static/images/public/none.png"/>
                     <p>亲，订单空空如也~</p>
                 </div>
                 <div class="addBtn" style="display:none">去添加订单</div>

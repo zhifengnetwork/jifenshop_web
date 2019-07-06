@@ -302,6 +302,12 @@ export default new Router({
 			name: 'mySharing',
 			component:() => import('@/pages/user/mySharing'),
 		},
+		// 绑定手机号
+		{
+			path: '/user/phone',
+			name: 'phone',
+			component:() => import('@/pages/user/phone'),
+		},
 		// 支付宝账号编辑
 		{
 			path: '/user/alipay',
