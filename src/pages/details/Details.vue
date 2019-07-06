@@ -516,6 +516,10 @@ export default {
                     })
                 }
             else if(this.spec.goods_sku.length <= 1){
+                Toast({
+                    message: '加入购物车成功',
+                    icon: 'success'
+                    });
                 let skuid = this.spec.goods_sku[0].sku_id
                 let that = this;
                 console.log(skuid)
@@ -652,6 +656,7 @@ export default {
         height 750px
         img 
             width 100%
+            height  720px
             display block
     .content
         padding-bottom 128px

@@ -124,7 +124,7 @@ export default {
             console.log(val)
         },
         che(e){
-            console.log(e.target.dateset.id)
+            console.log(e.target.dataset.id)
         }
     },
     computed:{
