@@ -44,7 +44,7 @@
                     </div>
                     <div class="order-btn">
                         <span class="btn" v-if="shop_btn[item.status].btn">{{shop_btn[item.status].btn}}</span>
-                        <span class="btn red">{{shop_btn[item.status].btns}}</span>
+                        <span class="btn red" v-if="shop_btn[item.status].btns">{{shop_btn[item.status].btns}}</span>
                     </div>
                 </div>
                  <!-- 数据加载完提示 -->
@@ -105,7 +105,7 @@ export default {
                     btns:'去付款',
                 },
                 {   
-                    btn:'',
+                    btn:'取消订单',
                     btns:'退货',
                 },
                 {
@@ -115,7 +115,11 @@ export default {
                 {
                     btn:'查看物流',
                     btns:'去评价',
-                }
+                },
+                {},
+                {},
+                {},
+                {},
             ],
             baseUrl:[],// 商品图片路径
             page:1,//页数
@@ -163,7 +167,7 @@ export default {
                 if(response.data.status===1){
                     _this.data = response.data.data;
                 }
-                console.log(_this.data,111)
+                console.log(_this.data)
             })
             .catch(function(error){
                 console.log(error);

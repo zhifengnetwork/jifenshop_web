@@ -332,6 +332,7 @@ export default {
 								font-size 30px
 								color #ed0d0d
 							.original-price
+								margin-left 20px
 								font-size 24px
 								color #a1a1a1
 								text-decoration line-through
