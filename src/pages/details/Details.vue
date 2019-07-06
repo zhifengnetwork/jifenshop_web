@@ -495,10 +495,11 @@ export default {
         //点击加入到购物车
         addToCart(){
             if(this.spec.goods_sku.length>1){
+                if(this.zong.length==this.spec.spec_attr.length){
+                    console.log(this.zong)
                 let that = this;
                 // this.$toast("添加成功,可直接去购物车下单")
                 this.guigeNumber = sessionStorage.getItem('guigeNumber');
-                console.log(this.guigeNumber)
                 this.$axios({
                 method:'post',
                 url: 'cart/addCart',
@@ -514,8 +515,21 @@ export default {
                     sessionStorage.setItem("msg",this.likeo.msg);
                     this.msg = sessionStorage.getItem('msg'); 
                     })
+                    Toast({
+                    message: '加入购物车成功',
+                    icon: 'success'
+                    });
                 }
-            else if(this.spec.goods_sku.length <= 1){
+                else{
+                    Toast({
+                    message: '请选择所有规格',
+                    icon: 'success'
+                    });
+                }
+               
+                }
+            
+             else if(this.spec.goods_sku.length <= 1){
                 Toast({
                     message: '加入购物车成功',
                     icon: 'success'
@@ -547,7 +561,8 @@ export default {
         // 立即购买
         toBay(){
             if(this.spec.goods_sku.length>1){
-                let that = this;
+                 if(this.zong.length==this.spec.spec_attr.length){
+                     let that = this;
                 this.$axios({
                 method:'post',
                 url: 'order/immediatelyOrder',
@@ -563,6 +578,14 @@ export default {
                     this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
                     }
                     })
+                 }else{
+                      Toast({
+                    message: '请选择所有规格',
+                    icon: 'success'
+                    });
+                 }
+                
+                
             }else if(this.spec.goods_sku.length = 1){
                 let skuid = this.spec.goods_sku[0].sku_id
                 let that = this;
