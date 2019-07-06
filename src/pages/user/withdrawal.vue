@@ -114,10 +114,11 @@
                 this.In();
             },
             In(){
-                if(Number(this.num)>Number(this.data.money)){
+                if(Number(this.num)>Number(this.data.money)&&Number(this.num)<this.data.withdraw_max){
                     this.num = this.data.money;
                 }
-                this.poundage = Math.floor(this.num*100)/1e4;
+                let cny = this.data.withdraw_rate;
+                this.poundage = Math.floor(this.num*cny*100)/1e4;
                 this.reality = Math.floor((this.num-this.poundage)*100)/100;
             },
             apply(){

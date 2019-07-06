@@ -105,9 +105,11 @@
                     </router-link> 
                 </div> -->
                 <div class="arr_wrap">
-                    <span>手机号绑定</span>
-                    <span class="cell">{{data.mobile}}</span>
-                    <span class="right_ico"></span>
+                    <router-link class="my_look" to="/user/phone">
+                        <span>手机号绑定</span>
+                        <span class="cell">{{data.mobile}}</span>
+                        <span class="right_ico"></span>
+                    </router-link>
                 </div>
                 <div class="arr_wrap">
                     <router-link class="my_look" to="/user/Address">

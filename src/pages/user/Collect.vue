@@ -17,10 +17,10 @@
             <div class="c-list-" v-for="(item,key) in list" :key="key">
                 <van-checkbox  v-show="showTrash" v-model="item.isCheck" :check ="item.isCheck" @click="selectGoods($event,key)"></van-checkbox>
                 <div class="-list-img">
-                    <router-link to="/Details"><img :src="item.img" /></router-link>
+                    <router-link :to="'/Details?id='+item.goods_id"><img :src="item.img" /></router-link>
                 </div>
                 <div class="goods-info">
-                     <router-link to="/Details"><p class="-info-msg">{{item.text}}</p></router-link>
+                     <router-link :to="'/Details?id='+item.goods_id"><p class="-info-msg">{{item.text}}</p></router-link>
                     <div class="-info-option"> 
                         <span class="price">
                             ￥<strong>{{item.price}}</strong>
@@ -158,6 +158,7 @@ export default {
                     'img':response.data.data.list[i].picture,
                     'price':response.data.data.list[i].price,
                     'id':response.data.data.list[i].id,
+                    'goods_id':response.data.data.list[i].goods_id,
                     'isCheck':false
                 })
             }
