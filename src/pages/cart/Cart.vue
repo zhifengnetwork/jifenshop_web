@@ -14,10 +14,10 @@
             <div class="c-list-" v-for="(item,key) in list" :key="key">
                 <van-checkbox v-model="item.selected" :check ="item.selected" @click="selectGoods($event,key,item.id)" checked-color="red" data-radius="item.id"></van-checkbox>
                 <div class="-list-img">
-                    <router-link to="/Details"><img :src="item.img" /></router-link>
+                    <router-link :to="{path:'/Details',query: {id: item.goods_id}}"><img :src="item.img" /></router-link>
                 </div>
                 <div class="goods-info">
-                     <router-link to="/Details"><p class="-info-msg">{{item.goods_name}}</p></router-link>
+                     <router-link :to="{path:'/Details',query: {id: item.goods_id}}" ><p class="-info-msg">{{item.goods_name}}</p></router-link>
                     <div class="-info-option"> 
                         <span class="price">
                             ￥<strong>{{item.goods_price}}</strong>
@@ -74,8 +74,6 @@ export default {
         };
     },
 
-    
-
     components: {
         [Dialog.Component.name]: Dialog.Component
     },
@@ -116,7 +114,6 @@ export default {
                     this.list[i].selected = 0
                 }
             }
-                
 
         },
         // 单选
@@ -152,8 +149,6 @@ export default {
                   }
                 }); 
 
-          
-         
            },
         // 减
         reducingNumber(key){
