@@ -38,16 +38,11 @@ axios.interceptors.request.use(
 )
 
 	
-console.log('来到了reuqest.js')
 
 
 // http response 拦截器 //响应拦截器即异常处理
 axios.interceptors.response.use(
 	response => {
-
-		console.log('-------')
-		console.log(response)
-		console.log('-------')
 
 
 		if(response.status == 401){

@@ -248,6 +248,12 @@ export default new Router({
 			name: 'bankcard',
 			component:() => import('@/pages/user/bankcard'),
 		},
+		//提现方式-添加银行卡
+		{
+			path: '/user/addBank',
+			name: 'addBank',
+			component:() => import('@/pages/user/addBank'),
+		},
 		// 提现明细
 		{
 			path: '/user/theWithdrawal',

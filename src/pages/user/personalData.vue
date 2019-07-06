@@ -10,14 +10,14 @@
                 <div class="item_wrap">
                     <div class="text">头像</div>
                     <div class="img">
-                        <img src="/static/images/user/002.png"/>
+                        <img :src="data.avatar"/>
                     </div>
                 </div>
                 <router-link class="my_look" to="/user/modifyUserName">
                     <div class="item_wrap">
                         <div class="text">用户名</div>
                         <div class="name_wrap">
-                            <span class="name">风风火火</span>
+                            <span class="name">{{data.nickname}}</span>
                             <i class="iconfont iconyou"></i>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                 </router-link>    
             </div>
             <!-- 按钮 -->
-            <div class="btn">退出登录</div>
+            <div class="btn" @click="exit()">退出登录</div>
 		</div>
 	</div>
 </template>
@@ -43,14 +43,41 @@
 		name: "personalData",
 		data() {
 			return{
-                
+                data:''
 			}
 		},
 		components: {
 			DataHeader,
 		},
-		
-	}
+		mounted(){
+            this.requestData();//请求数据
+        },
+        methods:{
+            // 请求数据
+            requestData(){
+                let _this = this;
+                this.$axios.get('home/index',{
+                    params:{
+                        token:_this.$store.state.token
+                    }
+                })
+                .then(function(response){
+                    console.log(response);
+                    _this.data = response.data.data;
+                    console.log(_this.data)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            },
+            exit(){
+                // 退出登录
+                sessionStorage.removeItem('token');
+                this.$store.state.token = null;
+                this.$router.replace({name:'Home'});
+            }
+        }
+    }
 </script>
 
 <style lang="stylus" scoped>

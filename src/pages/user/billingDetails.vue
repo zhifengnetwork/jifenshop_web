@@ -1,7 +1,7 @@
 <template>
 	<div class="zd_wrap">
 		<!-- 头部组件 -->
-		<Bill-Header custom-title="账单明细" custom-fixed>
+		<Bill-Header custom-title="积分记录" custom-fixed>
 			<!-- 返回按钮 -->
 			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Bill-Header>
@@ -26,17 +26,17 @@
 					</div>
 					<div class="list" v-show="nowIndex===0">
 						<ul v-for="(tes,index) in reduce" :key="index">
-							<li>{{tes.no}}</li>
+							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.no}}</li>
 							<li>{{tes.date}}</li>
-							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.money}}</li>
+							<li>{{tes.point}}</li>
 							<li>{{tes.note}}</li>
 						</ul>
 					</div>
 					<div class="list" v-show="nowIndex===1">
 						<ul v-for="(tes,index) in increase" :key="index">
-							<li>{{tes.no}}</li>
+							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.nickname}}</li>
 							<li>{{tes.date}}</li>
-							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.money}}</li>
+							<li>{{tes.point}}</li>
 							<li>{{tes.note}}</li>
 						</ul>
 					</div>
@@ -86,7 +86,7 @@
 			},
 			requestData(){
 				let _this = this;
-				this.$axios.post('home/balance_list',{
+				this.$axios.post('home/point_log',{
 					token:_this.$store.state.token,
 					type:_this.nowIndex,
 					p:_this.page

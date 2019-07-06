@@ -51,14 +51,15 @@ export default {
   },
   data() {
     return {
-      xixi: 0,
+      xixi: 1,
       dataList: [], // 数据数组
       page: 1, // 第几页
-	  upLoading: true, // 是否加载数据
-	  //--------
+	    upLoading: true, // 是否加载数据
+	    //--------
       activeIndex: 0,
       list_name: [],
-      list_Data: []
+      list_Data: [],
+      morenid:8
     };
   },
   created() {
@@ -73,19 +74,53 @@ export default {
 		const scrollHeight = el.scrollHeight;
 		if ((offsetHeight + scrollTop) - scrollHeight >= -1) {
 		  // 需要执行的代码
-		  that.loadMore();
+      that.loadMore();
+     
 		}
 		};
-		});
+    });
+    //默认渲染第一个数据的右边内容
 		this.$axios({
 		method: "get",
 		url: "goods/categoryList"
 		}).then(res => {
 		if (res.data.status === 1) {
+      console.log("dss")
 			console.log(res.data.data);
-			this.list_name = res.data.data;
+      this.list_name = res.data.data;
+      this.morenid=res.data.data[0].cat_id;
+
+
+       this.$axios({
+        method: "get",
+        url: "goods/categoryGetGoods?cat_id=" + this.morenid + "&page="+this.page
+      }).then(res => {
+        if (res.data.status === 1) {
+          // console.log("ddddd")
+          // console.log(res.data.data);
+          // console.log("ddddd")
+          // this.list_Data = res.data.data;
+          if (res.data.data.length > 0) {
+            this.upLoading = true;
+            console.log(res.data.data);
+                  let dataList = this.list_Data;
+                  for (let i = 0; i < res.data.data.length; i++) {
+                    dataList.push(res.data.data[i]);
+            }
+            console.log(dataList)	
+            this.list_Data = dataList;
+                } else {
+            this.upLoading = false;
+                }
+              }
+	  });
 		}
-		});
+    });
+   
+
+
+
+
   },
   methods: {
     // 根据索引点击跳至对应内容
