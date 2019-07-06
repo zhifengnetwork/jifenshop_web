@@ -44,7 +44,7 @@
                         <span class="colorRed">￥<strong class="size-35">{{updatePrice | numFilter}}</strong></span>
                     </p>
                     <p class="size-24">
-                        节省: <span class="size-20">￥</span><span class="size-30">10.00</span>
+                        节省: <span class="size-20">￥</span><span class="size-30">{{discount_money}}</span>
                     </p>
                 </div>
             </div>
@@ -69,7 +69,8 @@ export default {
             },
             list: [],
             allChecked: 0,
-            xuanze_shop:[]  //选择要删除商品的购物车id
+            xuanze_shop:[] , //选择要删除商品的购物车id
+            discount_money:0  //优惠的钱
         };
     },
 
@@ -142,7 +143,7 @@ export default {
                 method: "post",
                 url: "/cart/selected?cart_id="+shopid,
                  data: {
-                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                     'token':_this.$store.state.token,
                      }
                 }).then(res => {
                     console.log(res.data)
@@ -168,7 +169,7 @@ export default {
                         method:'post',
                         url: '/cart/reduce_num?cart_id='+idzhi,
                         data: {
-                            "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                           'token':_this.$store.state.token,
                         }
                         })
                         .then((res) => {
@@ -226,7 +227,7 @@ export default {
                         method:'post',
                         url: '/cart/delCart?cart_id='+b,
                         data: {
-                            "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                           'token':_this.$store.state.token,
                         }
                         })
                         .then((res) => {
@@ -249,7 +250,7 @@ export default {
                 method:'post',
                 url: '/cart/change_num?cart_id='+ idzhiadd+'act=j',
                 data: {
-                    "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                  'token':_this.$store.state.token,
                 }
                 })
                 .then((res) => {
@@ -278,7 +279,7 @@ export default {
                     method:'post',
                     url: '/order/temporary?cart_id='+b,
                     data: {
-                        "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+                      'token':_this.$store.state.token,
                     }
                     })
                     .then((res) => {
@@ -294,11 +295,12 @@ export default {
             method:'post',
             url: 'cart/cartlist',
             data: {
-                "token":'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA'
+               'token':_this.$store.state.token,
             }
             })
             .then((res) => {
-                this.list = res.data.data
+                this.list = res.data.data.cart_list
+                this.discount_money=res.data.data.discount_money
                 console.log(this.list)
                 this.list.forEach((data)=>{
                 if(data.selected){
