@@ -24,7 +24,7 @@
                 </div>
             </div>
             
-            <router-link to="/user/AddAddress">
+            <router-link to="/user/AddAddress" replace>
                 <div class="add-address">
                     <span class="plus-icon"><img src="/static/images/user/address/plus-icon.png" /></span>
                     <span>新建收货地址</span>
@@ -71,7 +71,7 @@ export default {
 			})
         },
         edit(item){
-            this.$router.push({name:'EditAddress'})
+            this.$router.replace({name:'EditAddress'})
             sessionStorage.setItem('item',JSON.stringify(item))
         },
         // 删除数据

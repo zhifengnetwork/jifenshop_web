@@ -135,7 +135,7 @@ export default {
                 address:_this.address
             })
 			.then(function(response){
-                _this.$router.push({name:'Address'})
+                _this.$router.replace({name:'Address'})
                 sessionStorage.removeItem('data');
 				console.log(response,'555');
 			})
@@ -150,7 +150,7 @@ export default {
         to(){
             // 保存当前页面上data数据
             sessionStorage.setItem('data', JSON.stringify(this.$data))
-            this.$router.push({name:'SelectPoint',params:{'router':'AddAddress'}})
+            this.$router.replace({name:'SelectPoint',params:{'router':'AddAddress'}})
         }
     }
 }
