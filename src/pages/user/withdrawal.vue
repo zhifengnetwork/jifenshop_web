@@ -11,7 +11,7 @@
                     <div class="k_box">
                         <p class="can">可提现金额</p>
                         <div class="sum">
-                            <span>￥</span><span>10014.52</span>
+                            <span>￥</span><span>{{data.money}}</span>
                         </div>
                     </div>
                 </div>
@@ -31,48 +31,37 @@
 					</div> -->
 					<div class="play_wrap">
 						<!-- 微信/支付宝-提现金额 -->
-						<div class="sum_wrap" v-for="(list,index) in as" :key="index" v-show="cur===index">
+						<div class="sum_wrap">
 							<h4>提现金额</h4>
 							<!-- 支付宝账号编辑 -->
-							<router-link to="/user/alipay" v-if="cur===1">
-								<div class="fee_wrap">
-									<div class="fee">
-                                        <span>周</span>
-                                        <span>180 2222 6666</span>
-                                    </div>
-									<div class="unit icon"></div>
-								</div>
-							</router-link>
-
 							<div class="put">
                                 <span class="dollars">￥</span>
 								<div class="inp">
-									<input type="text" placeholder="请输入提现金额"/>
+									<input type="text" v-model="num" @input="In" placeholder="请输入提现金额"/>
 								</div>
-								<div class="all_btn">全部提现</div>
+								<div class="all_btn" @click="all()">全部提现</div>
 							</div>
 							<!-- 手续费 -->
 							<div class="fee_wrap">
 								<div class="fee">
-									<span>手续费 ：</span>
-									<span>{{list.num}}</span>
+									<span>手续费:</span>
+									<span>{{poundage}}</span>
 								</div>
 								<div class="unit">元</div>
 							</div>
 							<!-- 实际到账 -->
 							<div class="fee_wrap">
 								<div class="fee">
-									<span>实际到账 ：</span>
-									<span>{{list.mas}}</span>
+									<span>实际到账:</span>
+									<span>{{reality}}</span>
 								</div>
 								<div class="unit">元</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 				<!-- 申请提现按钮 -->
-				<div class="apply_btn">申请提现</div>
+				<div class="apply_btn" @click="apply">申请提现</div>
 			</div>
 		</div>
 	</div>
@@ -87,18 +76,70 @@
 		},
 		data() {
 			return{
-                // pay:[
-				// 	{id:1,img:'/static/images/user/weixi.png'},
-				// 	{id:2,img:'/static/images/user/zfb.png'},
-				// ],
-				as:[
-					{id:1,num:0,mas:92.20},
-					{id:2,num:0,mas:92.20},
-				],
-                //默认选中第一个
-                cur: 0
+                data:'',
+                num:'',
+                poundage:'',
+                reality:''
 			}
-		},
+        },
+        created(){
+            if(!this.$route.params.item){
+                return false;
+            }
+            this.item = this.$route.params.item;
+        },
+		mounted(){
+            this.requestData();//请求数据
+        },
+        methods:{
+            // 请求数据
+            requestData(){
+                let _this = this;
+                this.$axios.get('home/get_user_info',{
+                    params:{
+                        token:_this.$store.state.token
+                    }
+                })
+                .then(function(response){
+                    console.log(response);
+                    _this.data = response.data.data;
+                    console.log(_this.data)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            },
+            all(){
+                this.num = this.data.money;
+                this.In();
+            },
+            In(){
+                if(Number(this.num)>Number(this.data.money)){
+                    this.num = this.data.money;
+                }
+                this.poundage = Math.floor(this.num*100)/1e4;
+                this.reality = Math.floor((this.num-this.poundage)*100)/100;
+            },
+            apply(){
+                let _this = this;
+                if(!_this.item){
+                    alert('请选择提现方式')
+                    return false;
+                }
+                this.$axios.post('home/withdraw',{
+                    token:_this.$store.state.token,
+                    type:_this.item.type,
+                    card_id:_this.item.card_id,
+                    money:_this.reality
+                })
+                .then(function(response){
+                    console.log(response);
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            }
+        }
 	}
 </script>
 
@@ -149,7 +190,7 @@
                     font-size 24px
                     color #151515
                 .inp input
-                    width 560px
+                    width 550px
                     height 45px
                     font-size 26px
                     color #151515
@@ -177,7 +218,11 @@
                     background url('/static/images/user/address/address-edit-icon.png') no-repeat
                     background-size 100% 100%
         .apply_btn
-            margin 50px auto 45px
+            position absolute
+            bottom 50px
+            left 0
+            right 0
+            margin auto
             width 702px
             height 88px
             background #ff4d4d
