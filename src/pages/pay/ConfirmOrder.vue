@@ -11,10 +11,10 @@
                     <i class="iconfont iconweizhi"></i>
                     <div class="-info-list">
                         <p class="-list-a">
-                            <strong class="mr-44">周鹏</strong>
-                            <strong>18000001882</strong>
+                            <strong class="mr-44">{{addr_res.consignee}}</strong>
+                            <strong>{{addr_res.mobile}}</strong>
                         </p>
-                        <p class="-list-b">广东省广州市州市白云区嘉禾汇726</p>
+                        <p class="-list-b">{{addr_res.address}}</p>
                     </div>
                     <div class="-list-edit"><i class="iconfont iconbianji"></i></div>
                 </router-link>
@@ -23,12 +23,12 @@
             <!-- GOODS START -->
             <div class="goods-list">
                 <router-link to="/Details" class="g-list-a">
-                    <img class="-list-img" src="/static/images/order/goods_4.png" />
+                    <img class="-list-img" :src="goods.img" />
                     <div class="-detial-">
-                        <p class="-d-msg apostrophe">商品简介商品简介商品简介商品简介商品简介</p>
+                        <p class="-d-msg apostrophe">{{goods.goods_name}}</p>
                         <p class="-d-msg2">
-                            <span>￥ {{goodsPrice}}</span>
-                            <span>x 2</span>
+                            <span>￥ {{goods.goods_price}}</span>
+                            <span>x {{goods.goods_num}}</span>
                         </p>
                     </div>
                 </router-link>
@@ -37,7 +37,7 @@
                         <span class="-b-subtitle">购买数量</span>
                         <span class="-option-">
                             <i class="subling iconfont iconjian" @click="reducingNumber()"></i>
-                            <input class="inp" type="text" :value="goodsNumber" @change="changNumber($event)"/>
+                            <input class="inp" type="text" :value="goods.goods_num" @change="changNumber($event)"/>
                             <i class="puls iconfont iconjia"  @click="addNumber()"></i>
                         </span>
                     </div>
@@ -51,17 +51,17 @@
                         <input type="text"  placeholder-class="placehor" placeholder="选填 请先和商家协商一致" />  
                     </div>
                     <div class="goods-price">
-                        <span>共2件</span>
+                        <span>共{{goods.goods_num}}件</span>
                         <span>共计：</span>
                         <span>￥ {{updatePrice}}</span>
                     </div>
                 </div>
             </div>
             <!--  -->
-            <div class="goods-list goods-list2">
+            <div class="goods-list goods-list2" v-for="(item,key) in pay_type" :key="key">
                 <div>
-                    <strong>使用余额</strong>
-                    <p  v-show="checked" class="-list2-msg">余额：5630.00</p>
+                    <strong>{{item.pay_name}}</strong>
+                    <p class="-list2-msg" v-show="checked">余额：{{item.balance}}</p>
                 </div>
                 <van-checkbox v-model="checked"></van-checkbox>
             </div>
@@ -84,32 +84,58 @@ import TopHeader from "@/pages/common/header/TopHeader"
 export default {
     data() {
         return {
-            checked: true,
-            goodsNumber:2,
-            goodsPrice:'3860.00'
+            checked: false,
+            list: '',
+            addr_res:'',
+            goods:'',
+            pay_type:'',
         };
     },
     methods:{
+        // 减数量
         reducingNumber(){
-            var val =parseInt(this.goodsNumber) - 1 
+            var val =parseInt(this.goods.goods_num) - 1 
            if(val<=1){val =1}
-           this.goodsNumber=val
+           this.goods.goods_num=val
+           console.log(val)
         },
+        // 输入框输入数量
         changNumber(e){
             var val =e.target.value;
             if(val<1){return;}
-            this.goodsNumber=val
+            this.goods.goods_num=val
+            console.log(val)
         },
+        // 加数量
         addNumber(){
-            var val =parseInt(this.goodsNumber) + 1
-            this.goodsNumber=val
-        }
+            var val =parseInt(this.goods.goods_num) + 1
+            this.goods.goods_num=val
+            console.log(val)
+        },
     },
     computed:{
+        // 计算总价格
         updatePrice(){
-            var totalPrice =new Number(this.goodsNumber) * new Number(this.goodsPrice)
+            var totalPrice =new Number(this.goods.goods_num) * new Number(this.goods.goods_price)
             return totalPrice.toFixed(2)
         }
+    },
+    mounted() {
+        // order/temporary
+            let that = this;
+            this.$axios({
+            method:'post',
+            url: 'order/temporary',
+            data: {
+                "token":that.$store.state.token
+            }
+            })
+            .then((res) => {
+            this.list = res.data.data
+            this.goods = this.list.goods[0]
+            this.addr_res = this.list.addr_res[0]
+            this.pay_type = this.list.pay_type
+                })
     },
     components:{
         TopHeader

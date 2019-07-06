@@ -7,7 +7,7 @@
 <script>
 export default {
   name: "App",
-  mounted() {
+  beforeMount() {
     //判断是否为微信环境 --- 两行代码
     var ua = navigator.userAgent.toLowerCase();
     if (ua.match(/MicroMessenger/i) == "micromessenger") {
