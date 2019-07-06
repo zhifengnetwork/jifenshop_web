@@ -21,7 +21,7 @@
       <div class="scroll-list">
         <div class="list-item" v-for="(items,index) in this.list_Data" :key="index">
           <div class="img-wrap">
-            <router-link to="/Details">
+            <router-link  :to="{path:'/Details',query: {goods_id: items.goods_id}}">
               <img :src="items.img" />
             </router-link>
           </div>
