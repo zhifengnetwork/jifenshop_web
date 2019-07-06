@@ -11,7 +11,7 @@
                     <div class="center_box">
                         <p class="can">金额</p>
                         <div class="sum">
-                            <span>￥</span><span>10014.52</span>
+                            <span>￥</span><span>{{data.money}}</span>
                         </div>
                     </div>
                 </div>
@@ -53,9 +53,31 @@
 		},
 		data() {
 			return{
-                
+                data:''
 			}
 		},
+		mounted(){
+            this.requestData();//请求数据
+        },
+        methods:{
+            // 请求数据
+            requestData(){
+                let _this = this;
+                this.$axios.get('home/get_user_info',{
+                    params:{
+                        token:_this.$store.state.token
+                    }
+                })
+                .then(function(response){
+                    console.log(response);
+                    _this.data = response.data.data;
+                    console.log(_this.data)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            },
+        }
 	}
 </script>
 

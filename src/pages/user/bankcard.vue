@@ -5,7 +5,7 @@
       <i slot="backBtn" class="iconfont iconfanhui"></i>
     </With-Header>
     <div class="bank_card_box">
-      <div class="bankcard_box" v-for="(item,key) in list" :key="key">
+      <div class="bankcard_box" :class="active == key ? 'active':''" v-for="(item,key) in list" :key="key" @click="select(item,key)">
         <div class="bankcard_top">
             <div class="bankcard_img"></div>
             <div class="bankcard_name">{{item.name}}</div>
@@ -13,13 +13,15 @@
         </div>
         <div class="bankcard_number">{{item.number}}</div>
       </div>
-      <div class="bankcard_button">确定</div>
+      <div class="bankcard_button" @click="send">确定</div>
     </div>
     <!-- 无银行卡支付宝账号时 -->
-     <div class="embody_box" v-if="list.length>0">
-        <div class="embody_top">
-            <b>+</b><span>添加银行账号</span>
-        </div>
+     <div class="embody_box" v-if="list.length==0">
+        <router-link to="/user/addBank">
+          <div class="embody_top">
+              <b>+</b><span>添加银行账号</span>
+          </div>
+        </router-link>
         <router-link to="/user/alipay">
             <div class="embody_bottom">
                 <b>+</b><span>添加支付宝账号</span>
@@ -35,6 +37,9 @@ export default {
   data () {
     return {
       list: '',
+      type: '',
+      active: -1,
+      card_id: ''
     }
   },
   components: {
@@ -54,6 +59,16 @@ export default {
                 // console.log(res.data.data)
             })
   },
+  methods:{
+    select(item,index){
+      this.active = index;
+      this.type = item.withdraw_type;
+      this.card_id = item.card_id;
+    },
+    send(){
+      this.$router.replace({name:'withdrawal',params:{'item':{'type':this.type,'card_id':this.card_id}}})
+    }
+  }
 }
 </script>
 <style lang="stylus" scoped>
@@ -106,6 +121,7 @@ export default {
             background #ccc
             border-radius 22px
             margin 20px
+            color #151515
             b
                 font-size 40px
                 line-height 88px
@@ -130,14 +146,19 @@ export default {
               font-size 30px
   .bankcard_button
     position absolute
-    bottom 20px
-    width 700px
+    bottom 50px
+    left 0
+    right 0
+    margin auto
+    width 702px
     height 88px
-    background #ff6565
-    line-height 88px
+    background #ff4d4d
+    border-radius 44px
+    color #fff
+    font-size 36px
     text-align center
-    margin 20px
-    border-radius 12px
-  
-    
+    line-height 88px
+    letter-spacing 4px
+.active
+    background #66ccee !important
 </style>

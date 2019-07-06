@@ -1,17 +1,31 @@
 <template>
 	<div class="alipay_wrap">
 		<!-- 头部组件 -->
-		<Pay-Header custom-title="添加支付宝账号" custom-fixed>
+		<Pay-Header custom-title="添加银行卡号" custom-fixed>
 			<!-- 返回按钮 -->
 			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Pay-Header>
         <div class="content">
 			<div class="row_wrap">
-				<!-- 支付宝账号 -->
+				<!-- 银行名 -->
 				<div class="name_wrap">
-					<div class="name">支付宝账号</div>
+					<div class="name">银行名</div>
 					<div class="inp_wrap">
-						<input type="text" placeholder="请输入支付宝账号" v-model="Num" />
+						<input type="text" placeholder="请输入银行名称" v-model="bankName" />
+					</div>
+				</div>
+				<!-- 支行 -->
+				<div class="name_wrap">
+					<div class="name">支行</div>
+					<div class="inp_wrap">
+						<input type="text" placeholder="请输入支行名称" v-model="zhihang" />
+					</div>
+				</div>
+				<!-- 银行卡号 -->
+				<div class="name_wrap">
+					<div class="name">银行卡号</div>
+					<div class="inp_wrap">
+						<input type="text" placeholder="请输入银行卡号" v-model="Num" />
 					</div>
 				</div>
 				<!-- 真实姓名 -->
@@ -37,7 +51,9 @@
 			return{
 				list: '',
 				Num: '',
-				Name: ''
+				Name: '',
+				bankName: '',
+				zhihang: ''
 			}
 		},
 		components: {
@@ -49,10 +65,12 @@
 				// console.log(this.abc)
 					this.$axios({
 				method: 'post',
-				url: 'home/bind_alipay',
+				url: 'home/bind_card',
 				data: {
 					number: this.Num,
 					name: this.Name,
+					bank: this.bankName,
+					zhihang: this.zhihang,
 					"token": that.$store.state.token
 				}
 			})

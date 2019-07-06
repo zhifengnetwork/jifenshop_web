@@ -21,7 +21,7 @@
                 <div class="item-card" v-for="(item,index) in data" :key="index">
                     <div class="card-head">
                         <span class="order-date">{{item.add_time}}</span>
-                        <span class="order-state">{{tabList[item.status].tabTitle}}</span>
+                        <span class="order-state">{{status[item.status]}}</span>
                     </div>
                     <div class="goods-item">
                         <div class="img-wrap">
@@ -94,6 +94,7 @@ export default {
                     tabTitle:"待评价"
                 }
             ],
+            status:['','待付款','待发货','待收货','待评价','已取消','待退款','已退款','拒绝退款'],
             shop_btn:[
                 {
 
@@ -133,6 +134,9 @@ export default {
             let _this = this;
             let type = null;
             switch(this.$route.query.type){
+                case '0':
+                    type = 'qb'
+                    break;
                 case '1':
                     type = 'dfk'
                     break;
