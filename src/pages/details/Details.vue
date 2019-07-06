@@ -323,9 +323,7 @@
                     </span>
                 </div>
                 <div class="guigegd" @click="confirm()">确定</div>
-                <div class="guige_bottom" @click="guanbi()">
-                   &times
-                </div>
+                <div class="guige_bottom" @click="guanbi()">&times</div>
             </div>
         </div>
     </div>

@@ -58,13 +58,23 @@
                 </div>
             </div>
             <!--  -->
-            <div class="goods-list goods-list2" v-for="(item,key) in pay_type" :key="key">
+            <!-- <div class="goods-list goods-list2" v-for="(item,key) in pay_type" :key="key">
                 <div>
                     <strong>{{item.pay_name}}</strong>
                     <p class="-list2-msg" v-show="checked">余额：{{item.balance}}</p>
                 </div>
-                <van-checkbox v-model="checked"></van-checkbox>
-            </div>
+                <van-checkbox v-model="checked" @click="che($event)" :data-id="item.pay_type"></van-checkbox>
+            </div> -->
+
+
+
+            <van-radio-group v-model="radio">
+                <van-cell-group>
+                    <van-cell :title="item.pay_name" clickable @click="che(key,$event)" v-for="(item,key) in pay_type" :key="key" :data-id="item.pay_type">
+                            <van-radio slot="right-icon" :name="key" />
+                        </van-cell>
+                    </van-cell-group>
+                </van-radio-group>
         </div>
         <!-- FOOTER START -->
         <div class="footer-height"></div>
@@ -89,6 +99,7 @@ export default {
             addr_res:'',
             goods:'',
             pay_type:'',
+            radio:'',
         };
     },
     methods:{
@@ -112,6 +123,9 @@ export default {
             this.goods.goods_num=val
             console.log(val)
         },
+        che(e){
+            console.log(e.target.dateset.id)
+        }
     },
     computed:{
         // 计算总价格
