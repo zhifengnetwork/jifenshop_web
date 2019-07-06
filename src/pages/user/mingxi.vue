@@ -52,16 +52,18 @@
                 })
                 .then(function(response){
                     console.log(response.data);
-                    if(_this.page>1){
-                        for(let i=0;i<response.data.data.length;i++){
-							if(response.data.data.length<20){
-								_this.flag = true;
-							}
-                            _this.data.push(response.data.data[i]);
-						}
-                        console.log(_this.data)
-                    }else{
-                        _this.data = response.data.data;
+                    if(response.data.status == 1){
+                        if(_this.page>1){
+                            for(let i=0;i<response.data.data.length;i++){
+                                if(response.data.data.length<20){
+                                    _this.flag = true;
+                                }
+                                _this.data.push(response.data.data[i]);
+                            }
+                            console.log(_this.data)
+                        }else{
+                            _this.data = response.data.data;
+                        }
                     }
                 })
                 .catch(function(error){

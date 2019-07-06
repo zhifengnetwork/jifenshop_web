@@ -43,14 +43,16 @@
 
 		<!-- 会员 -->
 		<div class="five">
-			<div class="five_title">
-				抢购会员卡
-			</div>
-			<div class="five_info">
-				<p>会员卡</p>
-				<p>￥1000</p>
-				<span class="buy">立即购买></span>
-			</div>
+			<router-link to="Vip">
+				<div class="five_title">
+					抢购会员卡
+				</div>
+				<div class="five_info">
+					<p>会员卡</p>
+					<p>￥1000</p>
+					<span class="buy">立即购买></span>
+				</div>
+			</router-link>
 		</div>
 
 		<!-- 热销商品 -->
@@ -123,7 +125,9 @@ export default {
 		this.$axios.get('index')
 		.then(function(response){
 			console.log(response.data);
-			_this.data = response.data.data;
+			if(response.data.status == 1){
+				_this.data = response.data.data;
+			}
 		})
 		.catch(function(error){
 			console.log(error);
@@ -208,6 +212,7 @@ export default {
 					width 100%
 					height 100%
 			.btn_text
+				color #151515
 				line-height 50px
 				text-align center
 	.five
@@ -220,15 +225,18 @@ export default {
 		font-size 30px
 		font-weight bold
 		.five_title
+			color #151515
 			text-align center
 			line-height 88px
 		.five_info
+			color #151515
 			margin-top 40px
 			line-height 50px
 		.buy
 			position absolute
 			right 20px
 			bottom 10px
+			color #151515
 	.heading
 		height 82px
 		display flex
@@ -332,6 +340,7 @@ export default {
 								font-size 30px
 								color #ed0d0d
 							.original-price
+								margin-left 20px
 								font-size 24px
 								color #a1a1a1
 								text-decoration line-through

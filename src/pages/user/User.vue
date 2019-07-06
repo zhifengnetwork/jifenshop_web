@@ -62,7 +62,7 @@
                 <div class="item_wrap">
                     <ul class="item">
                         <li v-for="(item,index) in order" :key="index">
-                            <router-link class="look" :to="'/order?type='+Number(index+1)">
+                            <router-link class="look" :to="index==4?'':'/order?type='+Number(index+1)">
                                 <div class="img">
                                     <img :src="item.img"/>
                                     <div class="info-icon van-info" v-if="item.icon">{{item.icon}}</div>
