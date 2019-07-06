@@ -2,7 +2,7 @@
     <div class="cart">
       	<!-- 头部组件 -->
 		<TopHeader custom-title="购物车" custom-fixed>
-			<i slot="rightBtn" class="iconfont iconshanchu" @click="deletOption()"></i>
+			<i slot="rightBtn" class="iconfont iconshanchu" @click="deletOption()" v-show="list.length>1"></i>
 		</TopHeader>
         <div class="height-88"></div>
         <!-- No INFO START -->
@@ -143,7 +143,7 @@ export default {
                 method: "post",
                 url: "/cart/selected?cart_id="+shopid,
                  data: {
-                     'token':_this.$store.state.token,
+                     'token':this.$store.state.token,
                      }
                 }).then(res => {
                     console.log(res.data)
@@ -169,7 +169,7 @@ export default {
                         method:'post',
                         url: '/cart/reduce_num?cart_id='+idzhi,
                         data: {
-                           'token':_this.$store.state.token,
+                           'token':this.$store.state.token,
                         }
                         })
                         .then((res) => {
@@ -227,7 +227,7 @@ export default {
                         method:'post',
                         url: '/cart/delCart?cart_id='+b,
                         data: {
-                           'token':_this.$store.state.token,
+                           'token':this.$store.state.token,
                         }
                         })
                         .then((res) => {
@@ -250,7 +250,7 @@ export default {
                 method:'post',
                 url: '/cart/change_num?cart_id='+ idzhiadd+'act=j',
                 data: {
-                  'token':_this.$store.state.token,
+                  'token':this.$store.state.token,
                 }
                 })
                 .then((res) => {
@@ -279,7 +279,7 @@ export default {
                     method:'post',
                     url: '/order/temporary?cart_id='+b,
                     data: {
-                      'token':_this.$store.state.token,
+                      'token':this.$store.state.token,
                     }
                     })
                     .then((res) => {
@@ -295,7 +295,7 @@ export default {
             method:'post',
             url: 'cart/cartlist',
             data: {
-               'token':_this.$store.state.token,
+               'token':this.$store.state.token,
             }
             })
             .then((res) => {
