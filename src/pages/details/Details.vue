@@ -306,7 +306,7 @@
         </div> -->
 
         <div v-show="guige" id="guige">
-            <div class="guige"></div>
+            <div class="guige" @click="guanbi()" ></div>
             <div class="guige_box">
                 <div class="guibox" v-for="(ProductItem,n) in spec.spec_attr" :key="n" >
                     <h3>{{ProductItem.spec_name}}</h3>
@@ -323,7 +323,9 @@
                     </span>
                 </div>
                 <div class="guigegd" @click="confirm()">确定</div>
-                <div class="guige_bottom" @click="guanbi()">x</div>
+                <div class="guige_bottom" @click="guanbi()">
+                   &times
+                </div>
             </div>
         </div>
     </div>
@@ -515,7 +517,7 @@ export default {
                     this.msg = sessionStorage.getItem('msg'); 
                     })
                 }
-            else if(this.spec.goods_sku.length = 1){
+            else if(this.spec.goods_sku.length <= 1){
                 let skuid = this.spec.goods_sku[0].sku_id
                 let that = this;
                 console.log(skuid)
@@ -542,22 +544,43 @@ export default {
         },
         // 立即购买
         toBay(){
-            let that = this;
-            this.$axios({
-            method:'post',
-            url: 'order/immediatelyOrder',
-            data: {
-                sku_id: this.zongshu,
-                cart_number: this.guigeNumber,
-                "token":that.$store.state.token
-            }
-            })
-            .then((res) => {
-                this.immediatelyOrder = res.data
-                if(this.immediatelyOrder.status > 0){
-                   this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+            if(this.spec.goods_sku.length>1){
+                let that = this;
+                this.$axios({
+                method:'post',
+                url: 'order/immediatelyOrder',
+                data: {
+                    sku_id: this.zongshu,
+                    cart_number: this.guigeNumber,
+                    "token":that.$store.state.token
                 }
                 })
+                .then((res) => {
+                    this.immediatelyOrder = res.data
+                    if(this.immediatelyOrder.status > 0){
+                    this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+                    }
+                    })
+            }else if(this.spec.goods_sku.length = 1){
+                let skuid = this.spec.goods_sku[0].sku_id
+                let that = this;
+                this.$axios({
+                method:'post',
+                url: 'order/immediatelyOrder',
+                data: {
+                    sku_id: skuid,
+                    cart_number: this.guigeNumber,
+                    "token":that.$store.state.token
+                }
+                })
+                .then((res) => {
+                    this.immediatelyOrder = res.data
+                    if(this.immediatelyOrder.status > 0){
+                    this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+                    }
+                    })
+            }
+            
         },
          reducingNumber(){
             var val =parseInt(this.goodsNumber) - 1 
@@ -922,7 +945,7 @@ export default {
         .van-goods-action
             z-index 99
     .guige
-        height 100%
+        height 50%
         width 100%
         position fixed
         top 0
@@ -963,9 +986,10 @@ export default {
                     background #ff0000
                     color   #fff
         .guigenum
-            margin-top 20px
             height 100px
-            position relative
+            width   90%
+            position absolute
+            bottom  180px
             h3
                 font-size 30px
                 line-height 100px
@@ -1019,7 +1043,7 @@ export default {
              border-radius 50px
              border 1px solid #5f5f5f
              color #5f5f5f
-             font-size 30px
+             font-size 40px
              line-height 50px
              text-align center
 </style>

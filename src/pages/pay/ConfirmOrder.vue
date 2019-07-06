@@ -6,29 +6,29 @@
 		</TopHeader>
         <div class="height-88"></div>
         <div class="content">
-            <div class="user-info-wrap mb-10" v-for="(item,key) in list.addr_res" :key="key">
+            <div class="user-info-wrap mb-10">
                 <router-link to="/user/Address" class="user-info">
                     <i class="iconfont iconweizhi"></i>
                     <div class="-info-list">
                         <p class="-list-a">
-                            <strong class="mr-44">{{item.consignee}}</strong>
-                            <strong>{{item.mobile}}</strong>
+                            <strong class="mr-44">{{addr_res.consignee}}</strong>
+                            <strong>{{addr_res.mobile}}</strong>
                         </p>
-                        <p class="-list-b">{{item.address}}</p>
+                        <p class="-list-b">{{addr_res.address}}</p>
                     </div>
                     <div class="-list-edit"><i class="iconfont iconbianji"></i></div>
                 </router-link>
                 <img class="-info-img" src="/static/images/order/color_line.png" />
             </div>
             <!-- GOODS START -->
-            <div class="goods-list" v-for="(items,index) in list.goods" :key="index">
+            <div class="goods-list">
                 <router-link to="/Details" class="g-list-a">
-                    <img class="-list-img" :src="items.img" />
+                    <img class="-list-img" :src="goods.img" />
                     <div class="-detial-">
-                        <p class="-d-msg apostrophe">{{items.goods_name}}</p>
+                        <p class="-d-msg apostrophe">{{goods.goods_name}}</p>
                         <p class="-d-msg2">
-                            <span>￥ {{items.goods_price}}</span>
-                            <span>x {{items.goods_num}}</span>
+                            <span>￥ {{goods.goods_price}}</span>
+                            <span>x {{goods.goods_num}}</span>
                         </p>
                     </div>
                 </router-link>
@@ -37,7 +37,7 @@
                         <span class="-b-subtitle">购买数量</span>
                         <span class="-option-">
                             <i class="subling iconfont iconjian" @click="reducingNumber()"></i>
-                            <input class="inp" type="text" :value="items.goods_num" @change="changNumber($event)"/>
+                            <input class="inp" type="text" :value="goods.goods_num" @change="changNumber($event)"/>
                             <i class="puls iconfont iconjia"  @click="addNumber()"></i>
                         </span>
                     </div>
@@ -51,19 +51,19 @@
                         <input type="text"  placeholder-class="placehor" placeholder="选填 请先和商家协商一致" />  
                     </div>
                     <div class="goods-price">
-                        <span>共{{items.goods_num}}件</span>
+                        <span>共{{goods.goods_num}}件</span>
                         <span>共计：</span>
                         <span>￥ {{updatePrice}}</span>
                     </div>
                 </div>
             </div>
             <!--  -->
-            <div class="goods-list goods-list2" v-for="(item,ind) in list.pay_type" :key="ind">
+            <div class="goods-list goods-list2" v-for="(item,key) in pay_type" :key="key">
                 <div>
                     <strong>{{item.pay_name}}</strong>
-                    <p class="-list2-msg" v-show="checked">余额：{{list.balance}}</p>
+                    <p class="-list2-msg" v-show="checked">余额：{{item.balance}}</p>
                 </div>
-                <van-checkbox v-model="checked" :data-id="item.pay_type"></van-checkbox>
+                <van-checkbox v-model="checked"></van-checkbox>
             </div>
         </div>
         <!-- FOOTER START -->
@@ -86,34 +86,37 @@ export default {
         return {
             checked: false,
             list: '',
+            addr_res:'',
+            goods:'',
+            pay_type:'',
         };
     },
     methods:{
         // 减数量
         reducingNumber(){
-            var val =parseInt(this.list.goods[0].goods_num) - 1 
+            var val =parseInt(this.goods.goods_num) - 1 
            if(val<=1){val =1}
-           this.list.goods[0].goods_num=val
+           this.goods.goods_num=val
            console.log(val)
         },
         // 输入框输入数量
         changNumber(e){
             var val =e.target.value;
             if(val<1){return;}
-            this.list.goods[0].goods_num=val
+            this.goods.goods_num=val
             console.log(val)
         },
         // 加数量
         addNumber(){
-            var val =parseInt(this.list.goods[0].goods_num) + 1
-            this.list.goods[0].goods_num=val
+            var val =parseInt(this.goods.goods_num) + 1
+            this.goods.goods_num=val
             console.log(val)
         },
     },
     computed:{
         // 计算总价格
         updatePrice(){
-            var totalPrice =new Number(this.list.goods[0].goods_num) * new Number(this.list.goods[0].goods_price)
+            var totalPrice =new Number(this.goods.goods_num) * new Number(this.goods.goods_price)
             return totalPrice.toFixed(2)
         }
     },
@@ -129,6 +132,9 @@ export default {
             })
             .then((res) => {
             this.list = res.data.data
+            this.goods = this.list.goods[0]
+            this.addr_res = this.list.addr_res[0]
+            this.pay_type = this.list.pay_type
                 })
     },
     components:{
