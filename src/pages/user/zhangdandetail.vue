@@ -18,7 +18,8 @@
 				<div class="item_wrap">
 					<div class="title">
 						<ul>
-							<li>订单</li>
+							<li v-show="nowIndex===0">订单</li>
+							<li v-show="nowIndex===1">下级昵称</li>
 							<li>日期</li>
 							<li>金额</li>
 							<li>备注</li>
@@ -34,7 +35,7 @@
 					</div>
 					<div class="list" v-show="nowIndex===1">
 						<ul v-for="(tes,index) in increase" :key="index">
-							<li>{{tes.no}}</li>
+							<li>{{tes.nickname}}</li>
 							<li>{{tes.date}}</li>
 							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.money}}</li>
 							<li>{{tes.note}}</li>
@@ -93,22 +94,24 @@
 				})
 				.then(function(response){
 					console.log(response);
-					if(_this.page>1){
-						for(let i=0;i<response.data.data.length;i++){
-							if(response.data.data.length<20){
-								_this.flag = true;
+					if(response.data.status == 1){
+						if(_this.page>1){
+							for(let i=0;i<response.data.data.length;i++){
+								if(response.data.data.length<20){
+									_this.flag = true;
+								}
+								if(_this.nowIndex==0){
+									_this.reduce.push(response.data.data[i]);
+								}else{
+									_this.increase.push(response.data.data[i]);
+								}
 							}
-							if(_this.nowIndex==0){
-								_this.reduce.push(response.data.data[i]);
-							}else{
-								_this.increase.push(response.data.data[i]);
-							}
-						}
-					}else{
-						if(_this.nowIndex==0){
-							_this.reduce = response.data.data;
 						}else{
-							_this.increase = response.data.data;
+							if(_this.nowIndex==0){
+								_this.reduce = response.data.data;
+							}else{
+								_this.increase = response.data.data;
+							}
 						}
 					}
 					console.log(_this.reduce)

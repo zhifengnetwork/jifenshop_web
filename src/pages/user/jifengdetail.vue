@@ -48,7 +48,9 @@
                 })
                 .then(function(response){
                     console.log(response.data);
-                    _this.data = response.data.data;
+                    if(response.data.status == 1){
+                        _this.data = response.data.data;
+                    }
                     console.log(_this.data)
                 })
                 .catch(function(error){

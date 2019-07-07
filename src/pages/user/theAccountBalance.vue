@@ -70,7 +70,9 @@
                 })
                 .then(function(response){
                     console.log(response);
-                    _this.data = response.data.data;
+                    if(response.data.status == 1){
+                        _this.data = response.data.data;
+                    }
                     console.log(_this.data)
                 })
                 .catch(function(error){
@@ -110,6 +112,7 @@
                 .btn_wrap .draw
                     width 702px
                     height 80px
+                    margin 0 auto
                     border-radius 44px
                     font-size 30px
                     text-align center

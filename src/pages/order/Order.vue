@@ -146,7 +146,7 @@ export default {
                 if(response.data.status===1){
                     _this.data = response.data.data;
                 }
-                console.log(_this.data,111)
+                console.log(_this.data)
             })
             .catch(function(error){
                 console.log(error);
@@ -160,6 +160,33 @@ export default {
             this.requestData();
             this.page = 1;
         },
+        send(status,id){
+            let _this=this;
+            let type=null;
+            switch(status){
+                case '取消订单':
+                    type = 1;
+                    break;
+                case '确认收货':
+                    type = 3;
+                    break;
+                case '删除订单':
+                    type = 4;
+                    break;
+            }
+            console.log(type)
+            this.$axios.post('order/edit_status',{
+                token:_this.$store.state.token,
+                order_id:id,
+                status:type
+            })
+            .then(function(response){
+                console.log(response.data);
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
         // scrollBottom(){
         //     let _this = this;
         //     let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;

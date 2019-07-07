@@ -1,12 +1,27 @@
 <template>
     <div class="MyTeam">
         <!-- 头部组件 -->
-		<Team-Header custom-title="我的团队" custom-fixed>
+		<Team-Header custom-title="团队列表" custom-fixed>
 			<!-- 返回按钮 -->
 			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Team-Header>
         <div class="content">
-            <div class="main">
+            <div class="list">
+                <div class="item" v-for="(item,index) in data" :key="index">
+                    <div class="item_imgWrap">
+                        <img class="item_img" :src="item.user_avatar" alt="">
+                    </div>
+                    <div class="item_info">
+                        <p class="item_name">昵称:{{item.user_name}}</p>
+                        <p class="item_time">成为下级时间:{{item.add_time}}</p>
+                    </div>
+                    <div class="item_id">
+                        ID:{{item.user_id}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="main">
                 <div class="list_wrap">
                     <router-link class="look" to="/user/myTeam/commissionlist">
                         <div class="group">
@@ -36,8 +51,7 @@
                         <p>547.54</p>
                     </router-link>
                 </div>
-
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -47,15 +61,73 @@
     export default {
 	name: "myTeam",
 	data() {
-		return {};
+		return {
+            data:''
+        };
 	},
 	components: {
 		TeamHeader,
-	}
+    },
+    mounted(){
+        this.requestData();//请求数据
+    },
+    methods:{
+        // 请求数据
+        requestData(){
+			let _this = this;
+			this.$axios.get('team/my_team',{
+				params:{
+					token:_this.$store.state.token
+				}
+			})
+			.then(function(response){
+                console.log(response);
+                if(response.data.status == 1){
+                    _this.data = response.data.data;
+                }
+				console.log(_this.data)
+			})
+			.catch(function(error){
+				console.log(error);
+			})
+        },
+    }
 };
 </script>
 
 <style lang="stylus" scoped>
+.list
+    padding 88px 24px 0
+    box-sizing border-box
+.item
+    position relative
+    padding-top 20px
+    width 100%
+    height 140px
+    letter-spacing 1px
+    border-bottom 1px solid #ccc
+    box-sizing border-box
+.item_imgWrap
+    position absolute
+    left 0
+    top 0
+    bottom 0
+    margin auto
+    width 100px
+    height 100px
+.item_img
+    width 100%
+    height 100%
+    border-radius 50%
+.item_info
+    float left
+    margin-left 120px
+    line-height 60px
+.item_id
+    position absolute
+    right 0
+    top 0
+    line-height 100px
     .MyTeam
         width 100%
         height 100%

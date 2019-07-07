@@ -138,7 +138,12 @@ export default new Router({
 			name: 'Sell',
 			component:() => import('@/pages/sell/Sell'),
 		},
-
+		//挂卖区
+		{
+			path: '/Vip',
+			name: 'Vip',
+			component:() => import('@/pages/home/Vip'),
+		},
 		/**
 		 * 分类
 		 */
