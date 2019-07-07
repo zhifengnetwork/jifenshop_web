@@ -45,7 +45,7 @@
                     <div class="order-btn">
                         <router-link class="btn" :to="{path:'/Order/OrderDetail',query:{order_id:item.order_id}}" >查看详情</router-link>
                       
-                        <span class="btn red" @click='cancelOrder(item.order_id)' v-if="item.order_status == 1 &&　item.pay_status == 0">取消订单</span>
+                        <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0">取消订单</span>
                         <router-link class="btn red" to='/Order/Express' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1">查询物流</router-link>
                         <router-link class="btn red" to='/Order/Evaluate' v-if="item.order_status == 4 &&　item.pay_status == 1">去评价</router-link>
                         
@@ -197,12 +197,8 @@ export default {
         //         _this.page++;
         //     }
         // }
-        cancelOrder(order_id){
-            console.log(order_id)
-
-
-            
-        }
+        
+        
     },
     destroyed: function () {
         window.removeEventListener('scroll', this.scrollBottom);
