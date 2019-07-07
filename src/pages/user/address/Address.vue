@@ -72,7 +72,7 @@ export default {
         },
         edit(item){
             this.$router.replace({name:'EditAddress'})
-            sessionStorage.setItem('item',JSON.stringify(item))
+            ('item',JSON.stringify(item))
         },
         // 删除数据
         del(id){

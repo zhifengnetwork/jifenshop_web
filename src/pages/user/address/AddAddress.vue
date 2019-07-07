@@ -149,7 +149,7 @@ export default {
         },
         to(){
             // 保存当前页面上data数据
-            sessionStorage.setItem('data', JSON.stringify(this.$data))
+            ('data', JSON.stringify(this.$data))
             this.$router.replace({name:'SelectPoint',params:{'router':'AddAddress'}})
         }
     }

@@ -127,7 +127,7 @@ export default {
 			})
         },
         to(){
-            sessionStorage.setItem('item',JSON.stringify(this.item))
+            ('item',JSON.stringify(this.item))
             this.$router.replace({name:'SelectPoint',params:{'router':'EditAddress'}})
         }
     }

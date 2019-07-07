@@ -29,6 +29,9 @@ import Payment from '@/pages/sell/Payment'
 
 // 订单列表
 import Order from '@/pages/order/Order'
+
+// 订单详情
+import OrderDetail from '@/pages/order/OrderDetail'
 // 提交评价
 import Evaluate from '@/pages/order/Evaluate'
 // 退货
@@ -179,6 +182,12 @@ export default new Router({
 			path: '/Order',
 			name: 'Order',
 			component:() => import('@/pages/order/Order'),
+		},
+		//订单详情
+		{
+			path: '/Order/OrderDetail',
+			name: 'OrderDetail',
+			component:() => import('@/pages/order/OrderDetail'),
 		},
 		// 提交评价
 		{
