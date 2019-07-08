@@ -59,7 +59,8 @@ export default {
       fileList: [],
       notedata:null,
       postData:[],
-      b:''
+    
+
 
     };
   },
@@ -68,16 +69,27 @@ export default {
         onRead (file) { 
             // 上传图片到图片服务器
             this. postData.push(file.content)
-            console.log(this. postData) 
-            this.b= this. postData.join(","); 
-            console.log(this.b)
+            console.log(this.postData) 
+            // var img = JSON.stringify(this.postData);
+            // console.log("-----------------------------------------")
+            // console.log(img)
+            
+
+
+
             },
         
         submit: function() {
-            // console.log(this.fileList);
+          
+            
               this.$axios({
+                //   +encodeURIComponent(this.b)
                         method:'post',
-                        url: '/order/order_comment?content='+this.notedata+'&describe='+this.rateVal +'&logistics='+this.rateVal2 + '&serve='+this.rateVal3+'&file='+encodeURIComponent(this.b),
+                        url: '/order/order_comment?content='+this.notedata+'&describe='+this.rateVal +'&logistics='+this.rateVal2 + '&serve='+this.rateVal3,
+                        data:{
+                            'img':this.postData,
+                            'order_id':this.$route.query.id
+                        }
                         })
                         .then((res) => {
                             console.log("resresres")
@@ -154,7 +166,7 @@ export default {
   .rate-wrap {
     h2 {
       font-size: 30px;
-      margin: 30px auto 70px;
+      margin: 80px auto 40px;
     }
 
     .rate-item {

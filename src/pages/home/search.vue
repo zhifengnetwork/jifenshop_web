@@ -7,7 +7,7 @@
                 <input type="text" placeholder="请输入关键词进行搜索" v-model="mobile" class="inputzhi" v-on:input="change"/>
             </div>
             <!-- <span>取消</span> -->
-            <span>搜索</span>
+            <span class="sousuo" @click="qu">搜索</span>
         </div>
 
 
@@ -39,6 +39,11 @@ export default {
        if(this.mobile==''){
 
        }
+    },
+    qu:function(){
+        if(this.mobile==''){
+            alert("")
+       }
     }
   }
             
@@ -49,16 +54,14 @@ export default {
 
 <style lang="stylus" scoped>
 .max_order
-    width 702px
-    margin 0 auto
-    border 1px solid green
+    width 692px
     text-align center
+    margin 0 auto
     .find_search
         border 3px solid #cccccc
         width 572px
         height 60px
-        line-height 60px
-        margin 0 auto 
+        line-height 60px 
         border-radius 30px
         margin-top 40px
         text-align center
@@ -66,14 +69,26 @@ export default {
         display flex
         align-items center
         display inline-block
+        position relative
+        left -40px
         .find
             width 5%
             height 40px
             vertical-align center
             margin-left 30px
+            position absolute
+            top 10px
+            left 0px
         .inputzhi
-            z-text-indent 15px;
+            width 450px
             display inline-block
             margin-left 3%
             flex 1
+            position absolute
+            left 60px
+    .sousuo
+        position absolute
+        top 54px  
+        right  50px   
+        font-size 30px   
 </style>
