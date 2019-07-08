@@ -44,11 +44,11 @@
                     </div>
                     <div class="order-btn">
                         <router-link class="btn" :to="{path:'/Order/OrderDetail',query:{order_id:item.order_id}}" >查看详情</router-link>
-                      
                         <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0">取消订单</span>
                         <router-link class="btn red" to='/Order/Express' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1">查询物流</router-link>
-                        <router-link class="btn red" to='/Order/Evaluate' v-if="item.order_status == 4 &&　item.pay_status == 1">去评价</router-link>
-                        
+                        <router-link class="btn red" :to="{path:'/Order/Evaluate',query: {id: item.order_id}}" v-if="item.order_status == 4 &&　item.pay_status == 1">去评价</router-link>
+                         
+                       
                     </div>
                 </div>
                  <!-- 数据加载完提示 -->
@@ -104,7 +104,7 @@ export default {
             page:1,//页数
             ispage:true,//是否请求数据
             token:window.sessionStorage.getItem("token"),
-            data:'',
+            data:[],
             page:1,
             flag:false
         }
@@ -144,7 +144,12 @@ export default {
             .then(function(response){
                 console.log(response.data);
                 if(response.data.status===1){
-                    _this.data = response.data.data;
+                    for(let i=0;i<response.data.data.length;i++){
+                        if(response.data.data.length<9){
+                            _this.flag = true;
+                        }
+                        _this.data.push(response.data.data[i]);
+                    }
                 }
                 console.log(_this.data)
             })

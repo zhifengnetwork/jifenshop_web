@@ -37,7 +37,7 @@ export default {
                           method: "get",
                           url: "/login/login_by_code?code=" + code
                         }).then(res => {
-                          // alert(res.data.data.token)
+                           // alert(res.data.data.token)
                           //获取token,储存到本地
                           if (res.data.status == 1) {
                             console.log('token:', res.data.data.token)
