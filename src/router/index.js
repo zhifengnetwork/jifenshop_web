@@ -12,6 +12,8 @@ import EditPassword from '@/pages/login/EditPassword'
 
 // 首页
 import Home from '@/pages/home/Home'
+// 搜索页面
+import search from '@/pages/home/search'
 //挂卖区
 import Sell from '@/pages/sell/Sell'
 
@@ -131,6 +133,12 @@ export default new Router({
 			path: '/Home',
 			name: 'Home',
 			component:() => import('@/pages/home/Home'),//按需加载
+		},
+		// 搜索
+		{
+			path: '/Home/search',
+			name: 'search',
+			component:() => import('@/pages/home/search'),//按需加载
 		},
 		//挂卖区
 		{

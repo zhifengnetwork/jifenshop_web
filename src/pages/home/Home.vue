@@ -1,12 +1,12 @@
 <template>
 	<div class="Home">
 		<!-- 搜索 -->
-		<div class="top-bar">
+		<router-link class="top-bar" to="/Home/search">
 			<div class="search">
 				<span class="search-icon"></span>
 				<span class="text">搜索</span>
 			</div>
-		</div>
+		</router-link>
 		<!-- 轮播图 -->
 		<div class="banner">
 			<van-swipe :autoplay="3000" indicator-color="white">

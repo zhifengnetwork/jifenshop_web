@@ -70,7 +70,7 @@
 
 <style lang="stylus" scoped>
 .find_search
-    border 1px solid #ccc
+    border 3px solid #cccccc
     width 702px
     height 60px
     line-height 60px
