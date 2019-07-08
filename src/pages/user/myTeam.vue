@@ -7,7 +7,7 @@
 		</Team-Header>
         <div class="content">
             <div class="list">
-                <div class="item" v-for="(item,index) in data" :key="index">
+                <div class="item" v-for="(item,index) in data" :key="index" @click="to()">
                     <div class="item_imgWrap">
                         <img class="item_img" :src="item.user_avatar" alt="">
                     </div>
@@ -91,6 +91,9 @@
 				console.log(error);
 			})
         },
+        to(){
+            this.$router.push({'name':'teamList'})
+        }
     }
 };
 </script>

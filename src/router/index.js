@@ -247,6 +247,24 @@ export default new Router({
 			name: 'personalData',
 			component:() => import('@/pages/user/personalData'),
 		},
+		// 支付密码设置
+		{
+			path: '/user/payment',
+			name: 'payment',
+			component:() => import('@/pages/user/payment'),
+		},
+		// 修改支付密码
+		{
+			path: '/user/paymentEdit',
+			name: 'paymentEdit',
+			component:() => import('@/pages/user/paymentEdit'),
+		},
+		// 重置支付密码
+		{
+			path: '/user/paymentReset',
+			name: 'paymentReset',
+			component:() => import('@/pages/user/paymentReset'),
+		},
 		// 预计收益
 		{
 			path: '/user/shouyilist',
@@ -313,7 +331,13 @@ export default new Router({
 			name: 'myTeam',
 			component:() => import('@/pages/user/myTeam'),
 		},
-		// 团队列表
+		// 团队列表-列表
+		{
+			path: '/user/myTeam/teamList',  
+			name: 'teamList',
+			component: () => import('@/pages/user/teamList'),
+		},
+		// 团队列表-查看订单
 		{
 			path: '/user/myTeam/commissionlist',  
 			name: 'commissionlist',

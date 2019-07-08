@@ -1,13 +1,16 @@
 <template>
 	<div class="modify_wrap">
 		<!-- 头部组件 -->
-		<Name-Header custom-title="设置支付密码" custom-fixed>
+		<Name-Header custom-title="重置支付密码" custom-fixed>
 			<!-- 返回按钮 -->
 			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Name-Header>
         <div class="content">
             <div class="inp_wrap">
-                <input type="password" maxlength='6' v-model="pwd" placeholder="输入支付密码"/>
+                <input type="password" maxlength='6' v-model="pwd" placeholder="设置支付密码"/>
+            </div>
+            <div class="inp_wrap">
+                <input type="password" maxlength='6' v-model="pwd1" placeholder="确认支付密码"/>
             </div>
             <!-- 手机号码 -->
             <div class="inp_wrap">
@@ -34,12 +37,13 @@
 	import NameHeader from "@/pages/common/header/TopHeader"
 	import { Toast } from 'vant';
 	export default {
-		name: "modifyUserName",
+		name: "paymentReset",
 		data() {
 			return{
                 mobile: '',
                 cod: '',
                 pwd:'',
+                pwd1:'',
                 but: '获取验证码',
                 flag: true
 			}
@@ -100,8 +104,8 @@
                 })
                 .then(function(response){
                     if(response.data.status==1){
-                        Toast.success('设置成功');
-                        _this.$router.go(-1)     
+                        Toast.success('重置成功');
+                        _this.$router.go(-1)    
                         console.log(response);
                     }else{
                         Toast(response.data.msg)
