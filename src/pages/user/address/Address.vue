@@ -52,12 +52,14 @@ export default {
         }
     },
     created: function(){
-        this.Address = this.$route.params.Address;
+        this.Address = this.$route.prams.Address;
         if(this.Address){
             this.type = true;
         }else{
             this.type = false;
         }
+        console.log(this.Address)
+        console.log(this.type)
     },
     mounted(){
         this.requestData();//请求数据

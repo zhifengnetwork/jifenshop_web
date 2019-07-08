@@ -29,7 +29,7 @@
          <!-- 主内容 -->
         <div class="content">
             <div class="price">
-                <span class="discount-price">￥{{goodsinfo.original_price}}</span>
+                <span class="discount-price">￥{{goodsinfo.price}}</span>
                 <span class="discount_tag" v-if="!goodsinfo.is_own===0">自营商品</span>
                 <!-- <span class="original-price">原价￥569.00</span> -->
             </div>
@@ -275,7 +275,7 @@
                     text="店铺"
                 />
                 <van-goods-action-icon
-                    :style="{'color': ( msg == '收藏成功！' ? 'red':'')}"
+                    :style="{'color': ( this.datalist.collection == '1' ? 'red':'')}"
                     icon="like-o"
                     icon-class="like-red"
                     text="收藏"
@@ -462,9 +462,9 @@ export default {
             this.guige = !this.guige;
             document.body.style.overflow='';
             // 对比
-            for(var i=0; i<this.spec.goods_sku.length;i++){
+            for(var i=0;i<this.spec.goods_sku.length;i++){
                 if(this.zong==this.spec.goods_sku[i].sku_attr1){
-                    console.log(this.spec.goods_sku[i].sku_id)
+                    console.log(this.spec.goods_sku[i].sku_id,'666')
                     this.zongshu = this.spec.goods_sku[i].sku_id
                 }
             }
@@ -486,17 +486,19 @@ export default {
             })
             .then((res) => {
                 this.likeo = res.data
+
                 // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
-                sessionStorage.setItem("msg",this.likeo.msg);
-                this.msg = sessionStorage.getItem('msg'); 
+                // sessionStorage.setItem("msg",this.likeo.msg);
+                // this.msg = sessionStorage.getItem('msg'); 
+
                 })
+                this.datalist.collection = !this.datalist.collection
             
         },
         //点击加入到购物车
         addToCart(){
             if(this.spec.goods_sku.length>1){
-                if(this.zong.length==this.spec.spec_attr.length){
-                    console.log(this.zong)
+                if(this.zongshu){
                 let that = this;
                 // this.$toast("添加成功,可直接去购物车下单")
                 this.guigeNumber = sessionStorage.getItem('guigeNumber');
@@ -521,10 +523,8 @@ export default {
                     });
                 }
                 else{
-                    Toast({
-                    message: '请选择所有规格',
-                    icon: 'fail'
-                    });
+                    this.guige = !this.guige;
+	                document.body.style.overflow='hidden';//禁止页面划动
                 }
                
                 }
@@ -561,7 +561,7 @@ export default {
         // 立即购买
         toBay(){
             if(this.spec.goods_sku.length>1){
-                 if(this.zong.length==this.spec.spec_attr.length){
+                 if(this.zongshu){
                      let that = this;
                 this.$axios({
                 method:'post',
@@ -579,10 +579,8 @@ export default {
                     }
                     })
                  }else{
-                      Toast({
-                    message: '请选择所有规格',
-                    icon: 'fail'
-                    });
+                    this.guige = !this.guige;
+	        document.body.style.overflow='hidden';//禁止页面划动
                  }
                 
                 
@@ -971,7 +969,7 @@ export default {
         .van-goods-action
             z-index 99
     .guige
-        height 50%
+        height 58%
         width 100%
         position fixed
         top 0

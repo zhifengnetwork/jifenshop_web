@@ -7,7 +7,7 @@
         <div class="height-88"></div>
         <div class="content">
             <div class="user-info-wrap mb-10">
-                 <router-link  :to="{path:'/user/Address',query:{Address:addr_res.address_id}}" class="user-info">
+                 <router-link  :to="{path:'/user/Address',prams:{Address:addr_res.address_id}}" class="user-info">
                     <i class="iconfont iconweizhi"></i>
                     <div class="-info-list">
                         <p class="-list-a">
@@ -110,6 +110,7 @@ export default {
             address_id:'',
             indx: '',
             password:'',
+            site: '',
         };
     },
     methods:{
@@ -142,7 +143,7 @@ export default {
         //立即付款按钮
         zhifu(){
                 let that = this;
-                this.address_id = this.addr_res.address_id
+                // this.address_id = this.addr_res.address_id
                 console.log(this.indx)
                 // this.$toast("添加成功,可直接去购物车下单")
                 this.$axios({
@@ -151,8 +152,8 @@ export default {
                 data: {
                     address_id: this.address_id,
                     pay_type: this.indx,
-                    password: this.password,
-                    "token":that.$store.state.token
+                    pwd: this.password,
+                    "token":that.$store.state.token 
                 }
                 })
                 .then((res) => {
@@ -178,8 +179,7 @@ export default {
             return totalPrice.toFixed(2)
         }
     },
-    mounted() {
-        // order/temporary
+    created: function(){
             let that = this;
             this.$axios({
             method:'post',
@@ -192,8 +192,29 @@ export default {
             this.list = res.data.data
             this.goods = this.list.goods[0]
             this.addr_res = this.list.addr_res[0]
+            this.address_id = this.addr_res.address_id
             this.pay_type = this.list.pay_type
+            if(this.site){
+                this.addr_res = this.$route.params.address_id;
+                this.address_id = this.site.id
+            }else{
+                console.log(this.site)
+                this.addr_res = this.list.addr_res[0]
+                this.address_id = this.addr_res.address_id
+            }
                 })
+        if(this.$route.params.address_id){
+            this.site = this.$route.params.address_id;
+        }
+        // else{
+        //     this.site = this.$route.params.address_id;
+        // console.log(this.site)
+        // }
+        
+    },
+    mounted() {
+        // order/temporary
+
     },
     components:{
         TopHeader
