@@ -182,7 +182,7 @@
             let ord = ['waitPay','waitSend','waitReceive','waitComment','return']
             this.$axios.get('home/index',{
                 params:{
-                    token:_this.$store.state.token
+                    token:_this.$store.state.updateToken
                 }
             })
             .then(function(response){

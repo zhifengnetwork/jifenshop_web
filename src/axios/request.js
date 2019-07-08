@@ -70,7 +70,7 @@ axios.interceptors.response.use(
 		if(error.response.status == 401){
 			
 			Dialog.alert({
-				message: '登录已过期'
+				message: error.response.data['msg']
 			}).then(() => {
 				window.localStorage.setItem("token",null);
 				router.replace({  	
