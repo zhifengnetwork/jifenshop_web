@@ -86,10 +86,7 @@
                 <strong class="f-a-a"> 实付款：</strong>
                 <div class="f-a-b">
                     <span class="colorRed size-20">￥<strong class="size-36">{{updatePrice}}</strong></span>
-                    <div>
-                        <span>输入密码</span>
-                        <input type="text">
-                    </div>
+                    
                 </div>
             </div>
             <div class="footer-b" @click="zhifu()">立即付款</div>
@@ -390,8 +387,12 @@ export default {
     top 50%
     transform translate(0,-50%)
     right 50px
-
-
+.content >>> .van-cell__value
+    height 2.7rem
+.content >>> .van-cell__value input
+    display block
+    width 100%
+    margin 0
 // .van-radio {
 //     display: inline;
 //     position: absolute;
