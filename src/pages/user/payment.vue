@@ -7,32 +7,31 @@
 		</Data-Header>
         <div class="content">
 			<div class="nom_wrap">
-                <!-- <div class="item_wrap">
-                    <div class="text">头像</div>
-                    <div class="img">
-                        <img :src="data.avatar"/>
-                    </div>
-                </div>
-                <router-link class="my_look">
+                <router-link class="my_look" v-if="data.pwd==0" to="/user/modifyUserName">
                     <div class="item_wrap">
-                        <div class="text">用户名</div>
-                        <div class="name_wrap">
-                            <span class="name">{{data.nickname}}</span>
-                            <i class="iconfont iconyou"></i>
-                        </div>
-                    </div>
-                </router-link> -->
-                <router-link class="my_look" to="/user/payment">
-                    <div class="item_wrap">
-                        <div class="text">支付密码设置</div>
+                        <div class="text">设置支付密码</div>
                         <div class="name_wrap">
                             <i class="iconfont iconyou"></i>
                         </div>
                     </div>
-                </router-link>    
+                </router-link>
+                <router-link class="my_look" to="/user/paymentEdit">
+                    <div class="item_wrap">
+                        <div class="text">修改支付密码</div>
+                        <div class="name_wrap">
+                            <i class="iconfont iconyou"></i>
+                        </div>
+                    </div>
+                </router-link>
+                <router-link class="my_look" v-if="data.pwd==1" to="/user/paymentReset">
+                    <div class="item_wrap">
+                        <div class="text">重置支付密码</div>
+                        <div class="name_wrap">
+                            <i class="iconfont iconyou"></i>
+                        </div>
+                    </div>
+                </router-link>
             </div>
-            <!-- 按钮 -->
-            <div class="btn" @click="exit()">退出登录</div>
 		</div>
 	</div>
 </template>
@@ -40,7 +39,7 @@
 <script>
 	import DataHeader from "@/pages/common/header/TopHeader"
 	export default {
-		name: "personalData",
+		name: "payment",
 		data() {
 			return{
                 data:''
@@ -48,36 +47,30 @@
 		},
 		components: {
 			DataHeader,
-		},
-		mounted(){
+        },
+        mounted(){
             this.requestData();//请求数据
         },
         methods:{
             // 请求数据
-            requestData(){
-                let _this = this;
-                this.$axios.get('home/index',{
-                    params:{
-                        token:_this.$store.state.token
-                    }
-                })
-                .then(function(response){
-                    console.log(response);
-                    if(response.data.status == 1){
-                        _this.data = response.data.data;
-                    }
-                    console.log(_this.data)
-                })
-                .catch(function(error){
-                    console.log(error);
-                })
-            },
-            exit(){
-                // 退出登录
-                sessionStorage.removeItem('token');
-                this.$store.state.token = null;
-                this.$router.replace({name:'Home'});
-            }
+        requestData(){
+			let _this = this;
+			this.$axios.get('home/get_user_info',{
+				params:{
+					token:_this.$store.state.token
+				}
+			})
+			.then(function(response){
+                console.log(response);
+                if(response.data.status == 1){
+                    _this.data = response.data.data;
+                }
+				console.log(_this.data)
+			})
+			.catch(function(error){
+				console.log(error);
+			})
+        },
         }
     }
 </script>

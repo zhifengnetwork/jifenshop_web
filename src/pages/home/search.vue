@@ -7,7 +7,12 @@
                 <input type="text" placeholder="请输入关键词进行搜索" v-model="mobile" class="inputzhi" v-on:input="change"/>
             </div>
             <!-- <span>取消</span> -->
-            <span class="sousuo" @click="qu">搜索</span>
+            <!-- to='/Home/searchdetail' -->
+            <div class="sousuo" @click="qu" >搜索</div>
+            <p class="hids">历史记录</p>
+            <div class="history">
+                <span class="history_item" @click = "clickfun($event)" v-for="(item,index) in yi" :key="index">{{item.keyword}}</span>
+            </div>
         </div>
 
 
@@ -25,25 +30,47 @@ export default {
     data(){
         return{
           status:true,
-          mobile:''
+          mobile:'',
+          yi:[]
         }
     },
     mounted(){
-       
-     
-
-
+        this.$axios({
+                    method:'post',
+                    url: '/goods/search_history',
+                    data: {
+                      'token':this.$store.state.token,
+                    }
+                    })
+                    .then((res) => {
+                       console.log(res.data.data)
+                       this.yi=res.data.data
+                    })
             },
    methods: {
     change() {
-       if(this.mobile==''){
-
-       }
+      
     },
     qu:function(){
-        if(this.mobile==''){
-            alert("")
+        if(this.mobile!=''){
+         //this.$toast('搜索内容不能为空');
+         this.$router.push({  //核心语句
+            path:'/Home/searchdetail',   //跳转的路径
+            query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+            text:this.mobile,  
+            }
+        })
        }
+    },
+    clickfun:function(e){
+        console.log(e.target.innerHTML)
+        this.mobile=e.target.innerHTML
+        this.$router.push({  //核心语句
+            path:'/Home/searchdetail',   //跳转的路径
+            query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+            text:this.mobile,  
+            }
+        })
     }
   }
             
@@ -55,7 +82,6 @@ export default {
 <style lang="stylus" scoped>
 .max_order
     width 692px
-    text-align center
     margin 0 auto
     .find_search
         border 3px solid #cccccc
@@ -70,7 +96,7 @@ export default {
         align-items center
         display inline-block
         position relative
-        left -40px
+        left 20px
         .find
             width 5%
             height 40px
@@ -90,5 +116,17 @@ export default {
         position absolute
         top 54px  
         right  50px   
-        font-size 30px   
+        font-size 30px 
+        color black 
+    .hids
+        padding 25px 0 0 20px
+        font-size 30px
+    .history_item
+        background #cccccc
+        display inline-block
+        padding 20px 20px
+        border-radius 20px
+        margin 26px 24px 0 0
+
+
 </style>
