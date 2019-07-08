@@ -114,7 +114,7 @@ export default {
             }
             console.log(item.id)
             this.active = index;
-            this.$router.replace({name:'ConfirmOrder',params:{'address_id':item.id}})
+            this.$router.replace({name:'ConfirmOrder',params:{'address_id':item}})
         }
     }
 
