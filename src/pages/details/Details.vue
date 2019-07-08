@@ -406,7 +406,7 @@ export default {
         guanbi(){
             this.guige = !this.guige;
             //关闭页面可以滚动
-            document.body.style.overflow='';
+             document.body.style.overflow='';
         },
         specificationBtn: function (attr_id, n, event, index) {
             var self = this;
@@ -487,7 +487,7 @@ export default {
             .then((res) => {
                 this.likeo = res.data
                 // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
-                ("msg",this.likeo.msg);
+                sessionStorage.setItem("msg",this.likeo.msg);
                 this.msg = sessionStorage.getItem('msg'); 
                 })
             
@@ -512,7 +512,7 @@ export default {
                 .then((res) => {
                     this.likeo = res.data
                     // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
-                    ("msg",this.likeo.msg);
+                    sessionStorage.setItem("msg",this.likeo.msg);
                     this.msg = sessionStorage.getItem('msg'); 
                     })
                     Toast({
@@ -551,7 +551,7 @@ export default {
                 .then((res) => {
                     this.likeo = res.data
                     // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
-                    ("msg",this.likeo.msg);
+                    sessionStorage.setItem("msg",this.likeo.msg);
                     this.msg = sessionStorage.getItem('msg'); 
                     })
             }
@@ -573,18 +573,16 @@ export default {
                 }
                 })
                 .then((res) => {
-                    console.log(this.zongshu,this.guigeNumber)
                     this.immediatelyOrder = res.data
                     if(this.immediatelyOrder.status > 0){
                     this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
                     }
                     })
                  }else{
-                    //   Toast({
-                    //     message: '请选择所有规格',
-                    //     icon: 'fail'
-                    //     });
-                    this.handleBtn();
+                      Toast({
+                    message: '请选择所有规格',
+                    icon: 'fail'
+                    });
                  }
                 
                 
@@ -627,7 +625,7 @@ export default {
     },
     //更新渲染前
         beforeUpdate() {
-        ("guigeNumber",this.goodsNumber);
+        sessionStorage.setItem("guigeNumber",this.goodsNumber);
     },
     // 挂载前
     beforeMount() {
@@ -657,7 +655,6 @@ export default {
                 this.spec = res.data.data.spec
                 this.commentlist = res.data.data.commentlist
                 console.log(this.datalist)
-                console.log(res.data.data.spec)
             })
 
             ///////////////////////////////

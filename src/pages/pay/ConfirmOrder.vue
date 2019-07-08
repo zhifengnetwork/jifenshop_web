@@ -7,7 +7,7 @@
         <div class="height-88"></div>
         <div class="content">
             <div class="user-info-wrap mb-10">
-                <router-link to="/user/Address" class="user-info">
+                 <router-link  :to="{path:'/user/Address',query:{Address:addr_res.address_id}}" class="user-info">
                     <i class="iconfont iconweizhi"></i>
                     <div class="-info-list">
                         <p class="-list-a">
