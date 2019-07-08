@@ -95,25 +95,25 @@
             .user_id
                 display inline-block
                 vertical-align top
-                width 25%
+                width 30%
                 text-align center
                 font-size 20px
             .user_name
                 display inline-block
                 vertical-align top
-                width 20%
+                width 30%
                 text-align center 
                 font-size 20px       
             .user_phone
                 display inline-block
                 vertical-align top
-                width 25%
+                width 20%
                 text-align center 
                 font-size 20px  
             .beizhu
                 display inline-block
                 vertical-align top
-                width 30%
+                width 20%
                 text-align center 
                 font-size 20px      
         .li:nth-child(odd)

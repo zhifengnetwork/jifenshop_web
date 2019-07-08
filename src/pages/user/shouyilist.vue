@@ -68,6 +68,7 @@
 <script>
 /**头部 */
 import ListHeader from "@/pages/common/header/TopHeader";
+import { Toast } from 'vant';
 const keys = () => [1, 2, 3, 4, 5, 6, 7, 8, 9, '', 0]
 
 export default {
@@ -141,7 +142,7 @@ export default {
 				})
 				.then(function(response){
           console.log(response);
-          alert(response.data.msg);
+          Toast(response.data.msg);
           if(response.data.status===1){
             _this.$router.replace({name:'jifeng'})
           }else{
@@ -161,7 +162,7 @@ export default {
     },
     surezhuang:function(){
       if(this.point>this.data.point){
-        alert('超出最大额度');
+        Toast('超出最大额度');
         return false;
       }
       let _this = this;
@@ -182,7 +183,7 @@ export default {
           console.log(error);
         })
       }else{
-        alert('积分数量不能为空')
+        Toast('积分数量不能为空')
       }
     }
   },

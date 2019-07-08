@@ -61,6 +61,7 @@
 
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
+import { Toast } from 'vant';
 export default {
     name:'addAddress',
     components: {
@@ -101,21 +102,21 @@ export default {
             let is_default = null;
             let telStr = /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/;
             if(!_this.consignee){
-                alert('收件人不能为空');
+                Toast('收件人不能为空');
                 return false;
             }else if(!_this.mobile){
-                alert('手机号不能为空');
+                Toast('手机号不能为空');
                 return false;
             }else if(!_this.location){
-                alert('地址不能为空');
+                Toast('地址不能为空');
                 return false;
             }else if(!_this.address){
-                alert('详细地址不能为空');
+                Toast('详细地址不能为空');
                 return false;
             }
             // 检测手机号
             if (!(telStr.test(_this.mobile))){
-                alert('手机号码输入不规范');
+                Toast('手机号码输入不规范');
                 return false;
             }
             // 判断是否为默认地址
@@ -135,6 +136,7 @@ export default {
                 address:_this.address
             })
 			.then(function(response){
+                Toast.success('添加成功');
                 _this.$router.replace({name:'Address'})
                 sessionStorage.removeItem('data');
 				console.log(response,'555');

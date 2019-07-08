@@ -38,6 +38,7 @@
 
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
+import { Dialog } from 'vant';
 export default {
     name:'AddressView',
     components: {
@@ -78,22 +79,25 @@ export default {
         },
         // 删除数据
         del(id){
-			let _this = this;
-            if(confirm("是否删除地址?删除后不可恢复")){
+            let _this = this;
+            Dialog.confirm({
+                message: '是否删除该地址?'
+            }).then(() => {
+                // on close
                 this.$axios.post('home/del_address',{
                     token:_this.$store.state.token,
                     id:id
                 })
                 .then(function(response){
                     console.log(response);
-                    location.reload();
+                    if(response.data.status==1){
+                        location.reload();
+                    }
                 })
                 .catch(function(error){
                     console.log(error);
                 })
-            }else{
-
-            }
+            });
         }
     }
 

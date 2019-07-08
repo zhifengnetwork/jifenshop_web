@@ -35,6 +35,7 @@
 
 <script>
 	import PayHeader from "@/pages/common/header/TopHeader"
+	import { Toast } from 'vant';
 	export default {
 		name: "alipay",
 		data() {
@@ -52,10 +53,10 @@
 			code(){
                 // 获取验证码
                 if(this.mobile==''){
-                    alert('手机号不能为空');
+                    Toast('手机号不能为空');
                     return false;
                 }else if(this.mobile.length<11){
-                    alert('手机号格式错误');
+                    Toast('手机号格式错误');
                     return false;
                 }
                 let _this = this;
@@ -79,7 +80,7 @@
                     if(response.data.status==1){
                         console.log(response);
                     }else{
-                        alert(response.data.msg)
+                        Toast(response.data.msg)
                     }
                 })
                 .catch(function(error){
@@ -98,7 +99,7 @@
                     if(response.data.status==1){
                         console.log(response);
                     }else{
-                        alert(response.data.msg)
+                        Toast(response.data.msg)
                     }
                 })
                 .catch(function(error){

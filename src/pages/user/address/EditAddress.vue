@@ -53,6 +53,7 @@
 
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
+import { Toast } from 'vant';
 export default {
     name:'EditAddress',
     components: {
@@ -88,16 +89,16 @@ export default {
         send(){
             let _this = this;
             if(!_this.item.consignee){
-                alert('收件人不能为空');
+                Toast('收件人不能为空');
                 return false;
             }else if(!_this.item.mobile){
-                alert('手机号不能为空');
+                Toast('手机号不能为空');
                 return false;
             }else if(!_this.location){
-                alert('地址不能为空');
+                Toast('地址不能为空');
                 return false;
             }else if(!_this.item.address){
-                alert('详细地址不能为空');
+                Toast('详细地址不能为空');
                 return false;
             }
             let is_default = null;
@@ -118,8 +119,11 @@ export default {
                 }
 			)
 			.then(function(response){
-                sessionStorage.removeItem('data');
-                _this.$router.replace({name:'Address'})
+                if(response.data.status==1){
+                    Toast.success('编辑成功');
+                    sessionStorage.removeItem('data');
+                    _this.$router.replace({name:'Address'})
+                }
 				console.log(response);
 			})
 			.catch(function(error){

@@ -156,7 +156,7 @@ export default {
                 }
                 })
                 .then((res) => {
-                   console.log(88)
+                   console.log(res)
                    if(res.status == 1){
                         Toast({
                             message: '购买成功',

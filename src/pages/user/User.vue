@@ -140,6 +140,7 @@
 
 <script>
     import userFooter from "@/pages/common/footer/Navigate";
+    import { Toast } from 'vant';
     export default {
         name: "user",
         data() {
@@ -194,7 +195,7 @@
                     }
                     console.log(_this.data)
                 }else{
-                    alert(response.data.msg)
+                    Toast(response.data.msg)
                 }
             })
             .catch(function(error){
