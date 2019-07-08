@@ -253,12 +253,14 @@ export default {
             padding 20px
             border-radius 10px
             .g-list-a
+                display inline-block
                 display  flex
                 align-items  center
                 color  #151515
+                height 240px
                 .-list-img
                     width  220px
-	                height  221px
+                    height 100%
                 .-detial-
                     margin-left 25px
                     .-d-msg

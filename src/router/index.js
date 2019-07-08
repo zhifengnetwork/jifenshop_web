@@ -43,7 +43,8 @@ import ReturnRequest from '@/pages/order/ReturnRequest'
 
 // 确认订单
 import ConfirmOrder from '@/pages/pay/ConfirmOrder'
-
+//搜索详情
+import searchdetail from '@/pages/home/searchdetail'
 // 我的
 import User from '@/pages/user/User'
 // 个人资料
@@ -139,6 +140,12 @@ export default new Router({
 			path: '/Home/search',
 			name: 'search',
 			component:() => import('@/pages/home/search'),//按需加载
+		},
+		//搜索详情
+		{
+			path: '/Home/searchdetail',
+			name: 'searchdetail',
+			component:() => import('@/pages/home/searchdetail'),//按需加载
 		},
 		//挂卖区
 		{
