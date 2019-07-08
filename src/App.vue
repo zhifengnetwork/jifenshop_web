@@ -14,7 +14,7 @@ export default {
 	//  在本地获取token,如果token为空或者为null或者为null的时候,就要请求后台,获取token	
       var huoqutoken = window.localStorage.getItem("token");
 
-              if (huoqutoken == "" || huoqutoken == null || huoqutoken == undefined) {
+              if (huoqutoken == "" || huoqutoken.length <= 10 || huoqutoken == null || huoqutoken == 'null' || huoqutoken == undefined) {
                   //如果没有token,并且没有code的时候,我们需要请求接口,获取code  data:{https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxda42c05b4523e7f5&redirect_uri=https%3A%2F%2Fji.zhifengwangluo.com&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect}
                   if ( window.location.href.indexOf("code") == 0 ||window.location.href.indexOf("code") <= 0) 
                       {
@@ -32,7 +32,7 @@ export default {
                         // 如果有code的话,我们就成功了,接下来要token了
                         // getQueryString用来截取code的值
                         var code = this.getQueryString("code");
-                        alert(code)
+                        
                         this.$axios({
                           method: "get",
                           url: "/login/login_by_code?code=" + code
@@ -40,10 +40,17 @@ export default {
                            // alert(res.data.data.token)
                           //获取token,储存到本地
                           if (res.data.status == 1) {
+
+                            if(res.data.data.token.length <= 10){
+								alert("token出错："+res.data.data.token);
+							}
+
                             console.log('token:', res.data.data.token)
                             window.localStorage.setItem("token", res.data.data.token);
                             this.$store.state.token = res.data.data.token;
                             this.$store.commit('updateToken', res.data.data.token)
+                          }else{
+                            alert(res.data.msg)
                           }
                         });           
                   }
