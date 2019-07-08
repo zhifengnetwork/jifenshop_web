@@ -6,7 +6,7 @@
 
         <div class="content">
             <div class="address-list">
-                <div class="address-item" v-for="(item,index) in data" :key="index">
+                <div class="address-item" v-for="(item,index) in data" :class="index==active?'active':''" :key="index" @click="select(item,index)">
                     <div class="item-name">
                         <span class="name">{{item.consignee}}</span>
                         <span class="tel">{{item.mobile}}</span>
@@ -17,10 +17,10 @@
                             <p>{{item.province}}&nbsp;{{item.city}}&nbsp;{{item.district}}&nbsp;{{item.address}}</p>
                         </div>
                     </div>
-                    <div class="editAddress" @click="edit(item)">
+                    <div class="editAddress" @click="edit(item)" v-if="!type">
                         <i class="iconfont iconbianji"></i>
                     </div>
-                    <i class="iconfont del-icon iconshanchu1" @click="del(item.id)"></i>
+                    <i class="iconfont del-icon iconshanchu1" @click="del(item.id)" v-if="!type"></i>
                 </div>
             </div>
             
@@ -46,10 +46,19 @@ export default {
     },
     data(){
         return {
-           data:''
+           data:'',
+           active:0,
+           type:true
         }
     },
-   
+    created: function(){
+        this.Address = this.$route.params.Address;
+        if(this.Address){
+            this.type = true;
+        }else{
+            this.type = false;
+        }
+    },
     mounted(){
         this.requestData();//请求数据
     },
@@ -98,6 +107,14 @@ export default {
                     console.log(error);
                 })
             });
+        },
+        select(item,index){
+            if(!this.type){
+                return false;
+            }
+            console.log(item.id)
+            this.active = index;
+            this.$router.replace({name:'ConfirmOrder',params:{'address_id':item}})
         }
     }
 
@@ -105,6 +122,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.active
+    color #fff
+    background #ff4d4d
+    border-radius 10px
 .AddressView
     min-height 100vh
     background-color #ffffff
