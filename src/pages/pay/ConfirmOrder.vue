@@ -7,7 +7,7 @@
         <div class="height-88"></div>
         <div class="content">
             <div class="user-info-wrap mb-10">
-                 <router-link  :to="{path:'/user/Address',prams:{Address:addr_res.address_id}}" class="user-info">
+                 <router-link  :to="{name:'Address',params:{Address:'Address'}}" replace class="user-info">
                     <i class="iconfont iconweizhi"></i>
                     <div class="-info-list">
                         <p class="-list-a">

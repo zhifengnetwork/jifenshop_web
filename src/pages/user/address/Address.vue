@@ -51,7 +51,8 @@ export default {
         }
     },
     created: function(){
-        this.Address = this.$route.prams.Address;
+        this.Address = this.$route.params.Address;
+        console.log(this.Address);
         if(this.Address){
             this.type = true;
         }else{
