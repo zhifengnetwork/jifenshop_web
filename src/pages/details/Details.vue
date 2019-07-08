@@ -487,7 +487,7 @@ export default {
             .then((res) => {
                 this.likeo = res.data
                 // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
-                sessionStorage.setItem("msg",this.likeo.msg);
+                ("msg",this.likeo.msg);
                 this.msg = sessionStorage.getItem('msg'); 
                 })
             
@@ -512,7 +512,7 @@ export default {
                 .then((res) => {
                     this.likeo = res.data
                     // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
-                    sessionStorage.setItem("msg",this.likeo.msg);
+                    ("msg",this.likeo.msg);
                     this.msg = sessionStorage.getItem('msg'); 
                     })
                     Toast({
@@ -523,7 +523,7 @@ export default {
                 else{
                     Toast({
                     message: '请选择所有规格',
-                    icon: 'success'
+                    icon: 'fail'
                     });
                 }
                
@@ -551,7 +551,7 @@ export default {
                 .then((res) => {
                     this.likeo = res.data
                     // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
-                    sessionStorage.setItem("msg",this.likeo.msg);
+                    ("msg",this.likeo.msg);
                     this.msg = sessionStorage.getItem('msg'); 
                     })
             }
@@ -581,7 +581,7 @@ export default {
                  }else{
                       Toast({
                     message: '请选择所有规格',
-                    icon: 'success'
+                    icon: 'fail'
                     });
                  }
                 
@@ -625,7 +625,7 @@ export default {
     },
     //更新渲染前
         beforeUpdate() {
-        sessionStorage.setItem("guigeNumber",this.goodsNumber);
+        ("guigeNumber",this.goodsNumber);
     },
     // 挂载前
     beforeMount() {

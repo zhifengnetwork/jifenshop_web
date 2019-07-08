@@ -13,7 +13,9 @@ const store =  new Vuex.Store({
 
     // mutations 类似事件
     mutations:{
-        
+     updateToken(state, token) {
+          state.token = token
+     }
     },
     //获取共享数据
     getters:{

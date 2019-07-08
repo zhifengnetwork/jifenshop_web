@@ -72,9 +72,9 @@
                 <van-cell-group>
                     <van-cell :title="item.pay_name" clickable @click="che(key,$event)" v-for="(item,key) in pay_type" :key="key" :data-id="item.pay_type" >
                             <van-radio slot="right-icon" :name="key" /> 
-                            <div id="box" v-if="radio == 1 && key == indx">
-                                 <p class="-list2-msg">余额：{{list.balance}}</p>
-                            </div>
+                                 <p class="-list2-msg" v-if="radio == 1 && key == indx">余额：{{list.balance}}</p>
+                                 <span v-if="radio == 1 && key == indx">输入密码</span>
+                                 <input type="password" v-model="password" placeholder="请输入密码" v-if="radio == 1 && key == indx">
                     </van-cell>
                 </van-cell-group>
             </van-radio-group>
@@ -109,6 +109,7 @@ export default {
             radio:'',
             address_id:'',
             indx: '',
+            password:'',
         };
     },
     methods:{
@@ -150,11 +151,23 @@ export default {
                 data: {
                     address_id: this.address_id,
                     pay_type: this.indx,
+                    password: this.password,
                     "token":that.$store.state.token
                 }
                 })
                 .then((res) => {
                    console.log(88)
+                   if(res.status == 1){
+                        Toast({
+                            message: '购买成功',
+                            icon: 'fail'
+                        });
+                   }else if(res.status == 0){
+                        Toast({
+                            message: '余额不足',
+                            icon: 'fail'
+                        });
+                   }
                     })
         }
     },
@@ -310,9 +323,10 @@ export default {
             font-size 30px
         .-list2-msg
             color #757575
-            margin-top 25px
+            line-height 80px
             width 100%
             float left
+            text-align left 
     .footer-height
         width  100%
         height 140px
@@ -348,29 +362,32 @@ export default {
             text-align  center
             font-size 30px
             font-weight bold
-            #box
-                width   100%
-                height  200px
-                background red
-                margin-top 100px
-
 .content >>> .van-cell__value
-    border 1px solid green
     position: relative;
     color: #969799;
     vertical-align: middle;
     display: block;
     width: 80%;
-    border: 1px solid red;
+    height  150px
+    text-align left
+    // #box
+    //     width   100px
+    //     height  100px
+    //     background red
+    input 
+        margin-left 20px
 .content >>> .van-cell
     // position absolute!important
     // top 0
     // left 0
     // right 0
     // bottom 0
-    clear:both!important
-
-
+    display block
+.content >>> .van-radio
+    position absolute 
+    top 50%
+    transform translate(0,-50%)
+    right 50px
 
 
 // .van-radio {

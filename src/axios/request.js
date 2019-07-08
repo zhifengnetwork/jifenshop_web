@@ -7,7 +7,7 @@ import { Dialog } from 'vant';
 let cancel ,promiseArr = {} 
 
 /*设置 axios拦截器*/
-// 拦截器的作用是判断token的问题
+//拦截器的作用是判断token的问题
 
 axios.interceptors.request.use(
 	config => {
@@ -15,8 +15,8 @@ axios.interceptors.request.use(
 		config.url = root + config.url;
 		config.withCredentials = true // 允许携带token ,这个是解决跨域产生的相关问题
 		config.timeout = 1000 // 超时时间
-		var token = window.sessionStorage.getItem("token");
-		// alert(token)
+		var token = window.localStorage.getItem("token");
+		
 		if(token) {
 			config.headers = {
 				'token': token,
@@ -50,8 +50,7 @@ axios.interceptors.response.use(
 			Dialog.alert({
 				message: response.data['msg']
 			}).then(() => {
-
-				//window.sessionStorage.setItem("token",null);
+				//window.localStorage.setItem("token",null);
 			
 				// router.replace({  	
 				// 	path: '/index',
@@ -59,7 +58,7 @@ axios.interceptors.response.use(
 			})
 		}
 
-		// console.log('拦截器-正常');
+		 //console.log('拦截器-正常');
 		return response;
 	},
 	error => {
@@ -73,7 +72,7 @@ axios.interceptors.response.use(
 			Dialog.alert({
 				message: '登录已过期'
 			}).then(() => {
-				window.sessionStorage.setItem("token",null);
+				window.localStorage.setItem("token",null);
 				router.replace({  	
 					path: '/index',
 				})
@@ -82,9 +81,10 @@ axios.interceptors.response.use(
 		}else{
 
 			Dialog.alert({
+
 				message: '接口报错'
 			}).then(() => {
-				//window.sessionStorage.setItem("token",null);
+				//window.localStorage.setItem("token",null);
 				// router.replace({  	
 				// 	path: '/index',
 				// })

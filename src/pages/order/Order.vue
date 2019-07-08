@@ -43,8 +43,12 @@
                         </div>
                     </div>
                     <div class="order-btn">
-                        <span class="btn" @click="send(shop_btn[item.status].btn,item.order_id)" v-if="shop_btn[item.status].btn">{{shop_btn[item.status].btn}}</span>
-                        <span class="btn red" @click="send(shop_btn[item.status].btns,item.order_id)" v-if="shop_btn[item.status].btns">{{shop_btn[item.status].btns}}</span>
+                        <router-link class="btn" :to="{path:'/Order/OrderDetail',query:{order_id:item.order_id}}" >查看详情</router-link>
+                      
+                        <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0">取消订单</span>
+                        <router-link class="btn red" to='/Order/Express' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1">查询物流</router-link>
+                        <router-link class="btn red" to='/Order/Evaluate' v-if="item.order_status == 4 &&　item.pay_status == 1">去评价</router-link>
+                        
                     </div>
                 </div>
                  <!-- 数据加载完提示 -->
@@ -95,32 +99,7 @@ export default {
                 }
             ],
             status:['','待付款','待发货','待收货','待评价','已取消','待退款','已退款','拒绝退款'],
-            shop_btn:[
-                {
-                    btn:'',
-                    btns:'',
-                },
-                {
-                    btn:'取消订单',
-                    btns:'去付款',
-                },
-                {   
-                    btn:'取消订单',
-                    btns:'查看物流',
-                },
-                {
-                    btn:'查看物流',
-                    btns:'确认收货',
-                },
-                {
-                    btn:'查看物流',
-                    btns:'去评价',
-                },
-                {btns:'删除订单'},
-                {btns:'删除订单'},
-                {btns:'删除订单'},
-                {btns:'删除订单'},
-            ],
+           
             baseUrl:[],// 商品图片路径
             page:1,//页数
             ispage:true,//是否请求数据
@@ -218,6 +197,8 @@ export default {
         //         _this.page++;
         //     }
         // }
+        
+        
     },
     destroyed: function () {
         window.removeEventListener('scroll', this.scrollBottom);
