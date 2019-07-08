@@ -7,7 +7,7 @@
         <div class="height-88"></div>
         <div class="content">
             <div class="user-info-wrap mb-10">
-                <router-link to="/user/Address" class="user-info">
+                 <router-link  :to="{path:'/user/Address',query:{Address:addr_res.address_id}}" class="user-info">
                     <i class="iconfont iconweizhi"></i>
                     <div class="-info-list">
                         <p class="-list-a">
@@ -156,7 +156,7 @@ export default {
                 }
                 })
                 .then((res) => {
-                   console.log(88)
+                   console.log(res)
                    if(res.status == 1){
                         Toast({
                             message: '购买成功',

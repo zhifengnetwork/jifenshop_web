@@ -99,8 +99,8 @@
     border 2px solid #151515
     background #fff
     .active
-        width 75%
-        height 75%
+        width 70%
+        height 70%
 .radio_i
     position absolute
     left 0

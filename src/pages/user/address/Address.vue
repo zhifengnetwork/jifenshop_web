@@ -6,7 +6,7 @@
 
         <div class="content">
             <div class="address-list">
-                <div class="address-item" v-for="(item,index) in data" :key="index">
+                <div class="address-item" v-for="(item,index) in data" :class="index==active?'active':''" :key="index" @click="select(item,index)">
                     <div class="item-name">
                         <span class="name">{{item.consignee}}</span>
                         <span class="tel">{{item.mobile}}</span>
@@ -17,10 +17,10 @@
                             <p>{{item.province}}&nbsp;{{item.city}}&nbsp;{{item.district}}&nbsp;{{item.address}}</p>
                         </div>
                     </div>
-                    <div class="editAddress" @click="edit(item)">
+                    <div class="editAddress" @click="edit(item)" v-if="!type">
                         <i class="iconfont iconbianji"></i>
                     </div>
-                    <i class="iconfont del-icon iconshanchu1" @click="del(item.id)"></i>
+                    <i class="iconfont del-icon iconshanchu1" @click="del(item.id)" v-if="!type"></i>
                 </div>
             </div>
             
@@ -38,6 +38,7 @@
 
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
+import { Dialog } from 'vant';
 export default {
     name:'AddressView',
     components: {
@@ -45,10 +46,19 @@ export default {
     },
     data(){
         return {
-           data:''
+           data:'',
+           active:0,
+           type:true
         }
     },
-   
+    created: function(){
+        this.Address = this.$route.params.Address;
+        if(this.Address){
+            this.type = true;
+        }else{
+            this.type = false;
+        }
+    },
     mounted(){
         this.requestData();//请求数据
     },
@@ -74,26 +84,37 @@ export default {
         },
         edit(item){
             this.$router.replace({name:'EditAddress'})
-            ('item',JSON.stringify(item))
+            sessionStorage.setItem('item',JSON.stringify(item))
         },
         // 删除数据
         del(id){
-			let _this = this;
-            if(confirm("是否删除地址?删除后不可恢复")){
+            let _this = this;
+            Dialog.confirm({
+                message: '是否删除该地址?'
+            }).then(() => {
+                // on close
                 this.$axios.post('home/del_address',{
                     token:_this.$store.state.token,
                     id:id
                 })
                 .then(function(response){
                     console.log(response);
-                    location.reload();
+                    if(response.data.status==1){
+                        location.reload();
+                    }
                 })
                 .catch(function(error){
                     console.log(error);
                 })
-            }else{
-
+            });
+        },
+        select(item,index){
+            if(!this.type){
+                return false;
             }
+            console.log(item.id)
+            this.active = index;
+            this.$router.replace({name:'ConfirmOrder',params:{'address_id':item}})
         }
     }
 
@@ -101,6 +122,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.active
+    color #fff
+    background #ff4d4d
+    border-radius 10px
 .AddressView
     min-height 100vh
     background-color #ffffff

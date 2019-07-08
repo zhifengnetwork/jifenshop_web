@@ -27,18 +27,18 @@
 					</div>
 					<div class="list" v-show="nowIndex===0">
 						<ul v-for="(tes,index) in reduce" :key="index">
-							<li>{{tes.no}}</li>
-							<li>{{tes.date}}</li>
+							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.no}}</li>
+							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.date}}</li>
 							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.money}}</li>
-							<li>{{tes.note}}</li>
+							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.note}}</li>
 						</ul>
 					</div>
 					<div class="list" v-show="nowIndex===1">
 						<ul v-for="(tes,index) in increase" :key="index">
-							<li>{{tes.nickname}}</li>
-							<li>{{tes.date}}</li>
+							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.nickname}}</li>
+							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.date}}</li>
 							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.money}}</li>
-							<li>{{tes.note}}</li>
+							<li style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{tes.note}}</li>
 						</ul>
 					</div>
 

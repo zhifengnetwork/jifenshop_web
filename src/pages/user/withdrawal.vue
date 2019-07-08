@@ -68,7 +68,8 @@
 </template>
 
 <script>
-	import WithHeader from "@/pages/common/header/TopHeader"
+    import WithHeader from "@/pages/common/header/TopHeader"
+    import { Toast } from 'vant';
 	export default {
         name: 'withdrawal',
         components: {
@@ -126,7 +127,7 @@
             apply(){
                 let _this = this;
                 if(!_this.item){
-                    alert('请选择提现方式')
+                    Toast('请选择提现方式')
                     return false;
                 }
                 this.$axios.post('home/withdraw',{
@@ -137,6 +138,10 @@
                 })
                 .then(function(response){
                     console.log(response);
+                    if(response.data.status==1){
+                        Toast.success('申请成功,等待审核');
+                        _this.$router.go(-2)
+                        }
                 })
                 .catch(function(error){
                     console.log(error);
