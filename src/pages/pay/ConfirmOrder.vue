@@ -95,6 +95,8 @@
 </template>
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
+import { Toast } from 'vant';
+
 export default {
     data() {
         return {
@@ -154,12 +156,18 @@ export default {
                 }
                 })
                 .then((res) => {
-                   console.log(res)
-                   if(res.status == 1){
+                   if(res.data.status == 1){
+                       console.log(res)
                         Toast({
                             message: '购买成功',
                             icon: 'fail'
                         });
+                        console.log(res.data.data)
+                        if(this.indx==1){
+                            this.$router.push({path:'/Order/OrderDetail',query:{'order_id':res.data.data.order_id}})
+                        }else{
+                            this.$router.push({path:'/Order/OrderDetail',query:{'order_id':res.data.data}})
+                        }
                    }else if(res.status == 0){
                         Toast({
                             message: '余额不足',
@@ -191,6 +199,7 @@ export default {
             this.addr_res = this.list.addr_res[0]
             this.address_id = this.addr_res.address_id
             this.pay_type = this.list.pay_type
+            console.log(res)
             if(this.site){
                 this.addr_res = this.$route.params.address_id;
                 this.address_id = this.site.id
