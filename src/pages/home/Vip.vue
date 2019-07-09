@@ -28,9 +28,11 @@
                 </van-cell-group>
             </van-radio-group>
         </div>
-        <van-cell-group>
-            <van-field v-model="pwd" placeholder="请输入支付密码" />
-        </van-cell-group>
+        <div class="password" v-if="radio==0">
+            <van-cell-group>
+                <van-field v-model="pwd" placeholder="请输入支付密码" type="password" />
+            </van-cell-group>
+        </div>
         <!-- 底部菜单 -->
         <div class="menu">
             <p class="menu_item">
@@ -53,7 +55,7 @@
                 checked:true,
                 data:'',
                 user_info:'',
-                radio:'',
+                radio:'0',
                 pwd:''
             }
         },
@@ -104,8 +106,8 @@
                 // 购买
                 this.$axios.post('user/member_pay',{
                     token:_this.$store.state.token,
-                    type:2,
-                    pwd:111111
+                    type:_this.radio,
+                    pwd:_this.pwd
                 })
                 .then(function(response){
                     console.log(response.data);
@@ -145,6 +147,8 @@
     height 100px
     line-height 100px
     background #fff
+.password
+    margin-top 104px
 .menu
     position fixed
     bottom 0
