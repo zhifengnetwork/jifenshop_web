@@ -9,12 +9,17 @@
             <div class="user-info-wrap mb-10">
                  <router-link  :to="{name:'Address',params:{Address:'Address'}}" replace class="user-info">
                     <i class="iconfont iconweizhi"></i>
-                    <div class="-info-list">
+                    <div class="-info-list" v-if="addr_res!=''">
                         <p class="-list-a">
                             <strong class="mr-44">{{addr_res.consignee}}</strong>
                             <strong>{{addr_res.mobile}}</strong>
                         </p>
                         <p class="-list-b">{{addr_res.address}}</p>
+                    </div>
+                    <div class="-info-list" v-if="addr_res==''">
+                        <p class="-list-a">
+                            请添加地址
+                        </p>
                     </div>
                     <div class="-list-edit"><i class="iconfont iconbianji"></i></div>
                 </router-link>
@@ -48,7 +53,7 @@
                     </div>
                     <div class="-list-1">
                         <span class="-b-subtitle">订单备注</span>
-                        <input type="text"  placeholder-class="placehor" placeholder="选填 请先和商家协商一致" />  
+                        <input type="text"  placeholder-class="placehor" v-model="user_note" placeholder="选填 请先和商家协商一致" />  
                     </div>
                     <div class="goods-price">
                         <span>共{{goods.goods_num}}件</span>
@@ -68,7 +73,7 @@
 
 
 
-            <van-radio-group v-model="radio">
+            <!-- <van-radio-group v-model="radio">
                 <van-cell-group>
                     <van-cell :title="item.pay_name" clickable @click="che(key,$event)" v-for="(item,key) in pay_type" :key="key" :data-id="item.pay_type" >
                             <van-radio slot="right-icon" :name="key" /> 
@@ -77,7 +82,7 @@
                                  <input type="password" v-model="password" placeholder="请输入密码" v-if="radio == 1 && key == indx">
                     </van-cell>
                 </van-cell-group>
-            </van-radio-group>
+            </van-radio-group> -->
         </div>
         <!-- FOOTER START -->
         <div class="footer-height"></div>
@@ -110,6 +115,7 @@ export default {
             indx: '',
             password:'',
             site: '',
+            user_note: ''
         };
     },
     methods:{
@@ -141,40 +147,39 @@ export default {
         },
         //立即付款按钮
         zhifu(){
-                let that = this;
-                // this.address_id = this.addr_res.address_id
-                console.log(this.indx)
-                // this.$toast("添加成功,可直接去购物车下单")
-                this.$axios({
-                method:'post',
-                url: 'order/submitOrder',
-                data: {
-                    address_id: this.address_id,
-                    pay_type: this.indx,
-                    pwd: this.password,
-                    "token":that.$store.state.token 
-                }
-                })
-                .then((res) => {
-                   if(res.data.status == 1){
-                       console.log(res)
-                        Toast({
-                            message: '购买成功',
-                            icon: 'fail'
-                        });
-                        console.log(res.data.data)
-                        if(this.indx==1){
-                            this.$router.push({path:'/Order/OrderDetail',query:{'order_id':res.data.data.order_id}})
-                        }else{
-                            this.$router.push({path:'/Order/OrderDetail',query:{'order_id':res.data.data}})
-                        }
-                   }else if(res.status == 0){
-                        Toast({
-                            message: '余额不足',
-                            icon: 'fail'
-                        });
-                   }
-                    })
+            this.$router.push({name:'Confirm_pay',params:{address_id:this.addr_res,user_note:this.user_note}})
+                // let that = this;
+                // // this.address_id = this.addr_res.address_id
+                // console.log(this.indx)
+                // // this.$toast("添加成功,可直接去购物车下单")
+                // this.$axios({
+                // method:'post',
+                // url: 'order/submitOrder',
+                // data: {
+                //     address_id: this.address_id,
+                //     pay_type: this.indx,
+                //     pwd: this.password,
+                //     "token":that.$store.state.token 
+                // }
+                // })
+                // .then((res) => {
+                //    if(res.data.status == 1){
+                //        console.log(res)
+                //         console.log(res.data.data)
+                //         if(this.indx==1){
+                //             Toast.success('购买成功');
+                //             this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':res.data.data.order_id}})
+                //         }else{
+                //             Toast.success('下单成功');
+                //             this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':res.data.data}})
+                //         }
+                //    }else if(res.status == 0){
+                //         Toast({
+                //             message: '余额不足',
+                //             icon: 'fail'
+                //         });
+                //    }
+                //     })
         }
     },
     computed:{
@@ -239,7 +244,13 @@ export default {
         font-size 18px
         color #999
     .mr-44
+        display block
+        float left
+        max-width 200px
         margin-right  44px
+        text-overflow ellipsis
+        white-space nowrap
+        overflow hidden
     .mb-10
         margin-bottom 10px
     .content

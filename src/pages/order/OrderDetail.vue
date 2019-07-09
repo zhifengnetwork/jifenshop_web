@@ -34,7 +34,7 @@
         
         
         <div class="bottom_bar">
-                <p class="fukuang" v-if="xiang.order_status == 1 && xiang.pay_status == 0" >立即付款</p>
+                <p class="fukuang" v-if="xiang.order_status == 1 && xiang.pay_status == 0" @click="pay" >立即付款</p>
         </div>
 
 
@@ -58,19 +58,25 @@ export default {
         }
     },
     mounted(){
-         this.$axios({
-                method:'post',
-                url: '/order/order_detail?order_id='+this.$route.query.order_id,
-                data: {
-                      'token':this.$store.state.token,
-                    }
-                })
-                .then((res) => {
-                    console.log(res.data.data)
-                    this.xiang=res.data.data
-                    this.goods=res.data.data.goods_res
-                })
+        this.$axios({
+            method:'post',
+            url: '/order/order_detail?order_id='+this.$route.query.order_id,
+            data: {
+                    'token':this.$store.state.token,
+                }
+            })
+            .then((res) => {
+                console.log(res.data.data)
+                this.xiang=res.data.data
+                this.goods=res.data.data.goods_res
+            })
+    },
+    methods:{
+        pay(){
+            this.$router.replace({name:'Confirm_pay',params:{address_id:this.xiang,user_note:this.xiang.user_note}})
         }
+    }
+
 }
 </script>
 

@@ -144,8 +144,12 @@ export default {
                     align-items center
                     margin-bottom 20px
                     .name   
+                        max-height 120px
                         margin-right 50px
                         font-size 36px
+                        text-overflow ellipsis
+                        white-space nowrap
+                        overflow hidden
                     .tel
                         flex 1
                         font-size 28px

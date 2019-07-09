@@ -44,8 +44,9 @@
                     </div>
                     <div class="order-btn">
                         <router-link class="btn" :to="{path:'/Order/OrderDetail',query:{order_id:item.order_id}}" >查看详情</router-link>
-                        <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0">取消订单</span>
+                        <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0" @click="cancel(item.order_id)">取消订单</span>
                         <router-link class="btn red" to='/Order/Express' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1">查询物流</router-link>
+                        <span v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1" @click="receiving(item.order_id)">确认收货</span>
                         <router-link class="btn red" :to="{path:'/Order/Evaluate',query: {id: item.order_id}}" v-if="item.order_status == 4 &&　item.pay_status == 1">去评价</router-link>
                          
                        
@@ -71,6 +72,8 @@
 
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
+import { Toast } from 'vant';
+
 export default {
     name:'Order',
     components: {
@@ -139,7 +142,7 @@ export default {
             this.$axios.post('order/order_list',{
                 token:_this.$store.state.token,
                 type:type,
-                p:_this.page
+                page:_this.page
             })
             .then(function(response){
                 console.log(response.data);
@@ -164,6 +167,7 @@ export default {
             this.type = this.$route.query.type;
             this.requestData();
             this.page = 1;
+            this.data = [];
         },
         scrollBottom(){
             let _this = this;
@@ -174,8 +178,35 @@ export default {
                 _this.requestData();
                 _this.page++;
             }
-        }
-        
+        },
+        // 取消订单
+        cancel(order_id){
+            this.edit_status(order_id,1)
+        },
+        // 确认收货
+        receiving(order_id){
+            console.log(111)
+            this.edit_status(order_id,3)
+        },
+        // 改变订单状态
+        edit_status(order_id,status){
+            let _this = this;
+            this.$axios.post('order/edit_status',{
+                token:_this.$store.state.token,
+                order_id:order_id,
+                status:status
+            })
+            .then(function(response){
+                if(response.data.status==1){
+                    Toast.success('提交成功');
+                    _this.reload();
+                }
+                console.log(response.data);
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        },
         
     },
     destroyed: function () {
