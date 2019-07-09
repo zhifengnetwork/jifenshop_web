@@ -111,8 +111,8 @@ export default {
             let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
             let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
             if(scrollTop + windowHeight == scrollHeight){
-                _this.requestData();
                 _this.page++;
+                _this.requestData();
             }
         }
     }
@@ -208,12 +208,12 @@ export default {
         width 130px
         height 40px
         line-height 40px
-        color #888888
+        color #151515
         text-align center
         display inline-block
         font-size 26px
         border-radius 15px
-        border 2px solid #888888
+        border 2px solid #151515
         margin-left 26px
         &.red
             color #f20c0c

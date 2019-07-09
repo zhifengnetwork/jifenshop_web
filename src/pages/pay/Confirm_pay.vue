@@ -44,7 +44,9 @@ export default {
         }
         this.address_id = this.$route.params.address_id.id||this.$route.params.address_id.address_id;
         this.user_note = this.$route.params.user_note;
-        console.log(this.address_id,this.user_note)
+        this.order_id = this.$route.params.order_id;
+        console.log(this.address_id,this.user_note,this.order_id)
+        console.log(this.$route)
     },
     mounted(){
         this.requestData();
@@ -85,29 +87,62 @@ export default {
                 Toast('请输入支付密码');
                 return false;
             }
-            console.log(_this.address_id,_this.indx,6666)
-			this.$axios.post('order/submitOrder',{
-                token:_this.$store.state.token,
-                address_id:_this.address_id,
-                pay_type:_this.indx,
-                pwd:_this.pwd,
-                user_note:_this.user_note
-			})
-			.then(function(response){
-                console.log(response);
-                if(response.data.status == 1){
-                    if(_this.indx==1){
+            switch(_this.indx){
+                case 0:
+                   pay_type = 2;
+                   break;
+                case 1:
+                   pay_type = 1;
+                   break;
+                case 2:
+                   pay_type = 4;
+                   break;
+                case 3:
+                   pay_type = 4;
+                   break;
+            }
+            console.log(_this.address_id,_this.indx,_this.order_id,6666)
+            if(_this.address_id){
+                this.$axios.post('order/submitOrder',{
+                    token:_this.$store.state.token,
+                    address_id:_this.address_id,
+                    pay_type:pay_type,
+                    pwd:_this.pwd,
+                    user_note:_this.user_note
+                })
+                .then(function(response){
+                    console.log(response);
+                    if(response.data.status == 1){
+                        if(_this.indx==1){
+                            Toast.success('支付成功');
+                            _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data.order_id}})
+                        }else{
+                            Toast.success('下单成功');
+                            _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data}})
+                        }
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            }else{
+                this.$axios.post('order/order_pay',{
+                    token:_this.$store.state.token,
+                    pay_type:pay_type,
+                    order_id:_this.order_id,
+                    pwd:_this.pwd
+                })
+                .then(function(response){
+                    console.log(response);
+                    if(response.data.status == 1){
                         Toast.success('支付成功');
                         _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data.order_id}})
-                    }else{
-                        Toast.success('下单成功');
-                        _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data}})
                     }
-                }
-			})
-			.catch(function(error){
-				console.log(error);
-			})
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            }
         }
     },
     
