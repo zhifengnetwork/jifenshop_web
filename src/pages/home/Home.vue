@@ -49,7 +49,7 @@
 				</div>
 				<div class="five_info">
 					<p>会员卡</p>
-					<p>￥1000</p>
+					<p>￥{{card.money}}</p>
 					<span class="buy">立即购买></span>
 				</div>
 			</router-link>
@@ -114,7 +114,8 @@ export default {
 	name: "home",
 	data() {
 		return {
-			data:''
+			data:'',
+			card:''
 		};
 	},
 	components: {
@@ -127,6 +128,7 @@ export default {
 			console.log(response.data);
 			if(response.data.status == 1){
 				_this.data = response.data.data;
+				_this.card = response.data.data.card;
 			}
 		})
 		.catch(function(error){

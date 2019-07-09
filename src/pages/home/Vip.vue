@@ -11,12 +11,12 @@
                 臻致康健康商城
             </div>
             <div class="card_code">
-                NO:1234 5678
+                NO:{{data.number}}
             </div>
         </div>
         <!-- 余额 -->
         <div class="balance" @click="balance">
-            我的余额<span class="balance_num">￥5000.00</span>
+            我的余额<span class="balance_num">￥{{user_info.money}}</span>
             <div class="radio">
                 <i class="radio_i" :class="checked?'active':''"></i>
             </div>
@@ -24,12 +24,9 @@
         <!-- 底部菜单 -->
         <div class="menu">
             <p class="menu_item">
-                实付款<span class="menu_text">￥<b class="menu_price">720.00</b></span>
+                实付款<span class="menu_text">￥<b class="menu_price">{{data.money}}</b></span>
             </p>
-            <p class="menu_item">
-                会员优惠<span class="menu_text">￥<b class="menu_price">10.00</b></span>
-            </p>
-            <p class="menu_item">
+            <p class="menu_item" @click="buy">
                 立即购买
             </p>
         </div>
@@ -43,14 +40,66 @@
         data(){
             return {
                 checked:true,
+                data:'',
+                user_info:''
             }
         },
         components: {
             TopHeader
         },
+        mounted(){
+            this.requestData();
+        },
         methods:{
             balance(){
                 this.checked=!this.checked;
+            },
+            // 请求数据
+            requestData(){
+                let _this = this;
+                // 获取会员卡数据
+                this.$axios.get('user/member_card',{
+                    params:{
+                        token:_this.$store.state.token,
+                    }
+                })
+                .then(function(response){
+                    console.log(response.data);
+                    _this.data = response.data.data;
+                    console.log(_this.data)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+                // 获取余额
+                this.$axios.get('home/get_user_info',{
+                    params:{
+                        token:_this.$store.state.token,
+                    }
+                })
+                .then(function(response){
+                    console.log(response.data);
+                    _this.user_info = response.data.data;
+                    console.log(_this.user_info)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            },
+            buy(){
+                let _this = this;
+                // 购买
+                this.$axios.post('user/member_pay',{
+                    token:_this.$store.state.token,
+                    type:2,
+                    pwd:111111
+                })
+                .then(function(response){
+                    console.log(response.data);
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
             }
         }
     }
@@ -123,16 +172,15 @@
     text-align center
     background #fff
 .menu_item
-    width 35%
-    height 100%
     float left
-.menu_item:nth-child(3)
-    width 30%
+    width 40%
+    height 100%
+.menu_item:nth-child(2)
+    float right
+    width 40%
     color #ffffff
     font-weight bold
     background #ff0000
-.menu_item:nth-child(2) .menu_text
-    color #151515
 .menu_text
     font-size 12px
     color #ff0000

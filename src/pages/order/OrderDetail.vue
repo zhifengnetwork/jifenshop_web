@@ -8,7 +8,7 @@
               <img  :src="item.img" class="shop_img"/>               
               <div class="shop_dec">
                   <p class="shop_decname">{{item.goods_name}}</p>
-                  <p class="shop_guige">{{item.spec_key_name}}</p>
+                  <p class="shop_guige" v-if="item.spec_key_name!='[]'">{{item.spec_key_name}}</p>
                   <p class="shop_decprice"><span class="qian">￥{{item.goods_price}}</span><span class="num">x{{item.goods_num}}</span></p>
               </div>  
         </div>
