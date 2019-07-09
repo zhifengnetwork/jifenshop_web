@@ -52,6 +52,7 @@ export default {
 
               console.log("token:", res.data.data.token);
               window.localStorage.setItem("token", res.data.data.token);
+              sessionStorage.setItem("token", res.data.data.token);
               this.$store.state.token = res.data.data.token;
               this.$store.commit("updateToken", res.data.data.token);
             } else {

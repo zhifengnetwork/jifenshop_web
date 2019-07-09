@@ -123,7 +123,12 @@ export default {
 	},
 	mounted(){
 		let _this = this;
-		this.$axios.get('index?token='+this.$store.state.token)
+		var token = window.localStorage.getItem("token");
+		if(!token){
+			token = this.$store.state.token;
+		}
+		console.log('首页token:'+token)
+		this.$axios.get('index?token='+token)
 		.then(function(response){
 			console.log(response.data);
 			if(response.data.status == 1){
