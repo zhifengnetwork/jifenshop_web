@@ -44,9 +44,7 @@
                     </div>
                     <div class="order-btn">
                         <router-link class="btn" :to="{path:'/Order/OrderDetail',query:{order_id:item.order_id}}" >查看详情</router-link>
-                        {{item.order_status}}{{item.pay_status}}{{item.shipping_status}}
                         <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0" @click="cancel(item.order_id)">取消订单</span>
-                        <router-link class="btn red" to='/Order/Express' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1">查询物流</router-link>
                         <router-link class="btn red" v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1 && item.status == 2">退款</router-link>
                         <router-link class="btn red" v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 0 ">退款</router-link>
                         <span class="btn red" to='' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1" @click="receiving(item.order_id)">确认收货</span>

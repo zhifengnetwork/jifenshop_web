@@ -50,7 +50,7 @@
                     <div class="-list-1">
                         <span class="-b-subtitle">配送方式</span>
                         <span class="-b-msg">普通配送</span>
-                        <span class="">快递 免费</span>
+                        <span class="">快递{{list.shipping_price}}</span>
                     </div>
                     <div class="-list-1">
                         <span class="-b-subtitle">订单备注</span>
@@ -213,7 +213,7 @@ export default {
             this.addr_res = this.list.addr_res[0]
             this.address_id = this.addr_res.address_id
             this.pay_type = this.list.pay_type
-            console.log(res)
+        
             if(this.site){
                 this.addr_res = this.$route.params.address_id;
                 this.address_id = this.site.id
