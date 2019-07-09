@@ -260,7 +260,7 @@ export default {
         },
         //结算
         toPay(){     
-            console.log("buibui")
+            
             let newArry=[]; //存储没有选中的项-item
             let arrid=[];  //存储选中的id
             this.list.forEach((data,index)=>{
@@ -271,6 +271,8 @@ export default {
                     arrid.push(data.id);
                 }
                 })
+            
+                if(arrid.length> 0){
                 this.list =newArry;
                 var a,b;
                 // 将数组arrid,转化成字符串,并且用逗号隔开
@@ -284,10 +286,17 @@ export default {
                     }
                     })
                     .then((res) => {
-                        console.log("dsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
+                        console.log("dsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")  
                     })
 
-            this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+                   this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})     
+                   
+               }else{
+
+                    this.$toast("请选择要购买的商品")
+
+               }
+           
         }
     },
     mounted() {

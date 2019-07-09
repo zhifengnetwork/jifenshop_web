@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <!-- <p class="touch">长按二维码保存</p> -->
-                <div class="share">
+                <!-- <div class="share">
                     <div class="share_item">
                         <div class="share_imgWrap">
                             <img class="share_img" src="/static/images/user/weixin.png">
@@ -37,7 +37,7 @@
                         </div>
                         <div>保存图片</div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
