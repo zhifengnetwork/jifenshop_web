@@ -14,13 +14,23 @@
                 NO:{{data.number}}
             </div>
         </div>
-        <!-- 余额 -->
-        <div class="balance" @click="balance">
-            我的余额<span class="balance_num">￥{{user_info.money}}</span>
-            <div class="radio">
-                <i class="radio_i" :class="checked?'active':''"></i>
-            </div>
+        <!-- 选择支付方式 -->
+        
+        <div class="balance">
+            <van-radio-group v-model="radio">
+                <van-cell-group>
+                <van-cell :title="'余额支付 ￥'+user_info.money" clickable @click="radio = '0'">
+                    <van-radio slot="right-icon" name="0" />
+                </van-cell>
+                <van-cell title="微信支付" clickable @click="radio = '1'">
+                    <van-radio slot="right-icon" name="1" />
+                </van-cell>
+                </van-cell-group>
+            </van-radio-group>
         </div>
+        <van-cell-group>
+            <van-field v-model="pwd" placeholder="请输入支付密码" />
+        </van-cell-group>
         <!-- 底部菜单 -->
         <div class="menu">
             <p class="menu_item">
@@ -35,13 +45,16 @@
 
 <script>
     import TopHeader from "@/pages/common/header/TopHeader"
+    import { Toast } from 'vant';   
     export default {
         name: 'vip',
         data(){
             return {
                 checked:true,
                 data:'',
-                user_info:''
+                user_info:'',
+                radio:'',
+                pwd:''
             }
         },
         components: {
@@ -128,40 +141,10 @@
     bottom 40px
     color #867759
 .balance
-    position relative
     margin-top 40px
     height 100px
     line-height 100px
-    text-indent 24px
     background #fff
-.balance_num
-    margin-left 20px
-.radio
-    position absolute
-    right 20px
-    top 0
-    bottom 0
-    margin auto
-    width 50px
-    height 50px
-    border-radius 50%
-    border 2px solid #151515
-    background #fff
-    .active
-        width 70%
-        height 70%
-.radio_i
-    position absolute
-    left 0
-    top 0
-    right 0
-    bottom 0
-    margin auto
-    width 0
-    height 0
-    background #ff0000
-    border-radius 50%
-    transition .3s all
 .menu
     position fixed
     bottom 0

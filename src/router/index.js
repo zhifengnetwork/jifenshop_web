@@ -235,7 +235,7 @@ export default new Router({
 			name: 'ConfirmOrder',
 			component: (resolve) => require(['@/pages/pay/ConfirmOrder'],resolve),
 		},
-		// 确认订单
+		// 支付订单
 		{
 			path: '/Pay/Confirm_pay',
 			name: 'Confirm_pay',

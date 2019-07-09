@@ -22,7 +22,7 @@
                     <div class="text">
                         <h3>{{item.goods_name}}</h3>
                         <div class="good-sku">
-                            <span class="sku-coll">{{item.spec_key_name}}</span>
+                            <span class="sku-coll" v-if="item.spec_key_name!='[]'">{{item.spec_key_name}}</span>
                             <span class="price">￥{{item.goods_price}}</span>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         
                     
                 </div>
-            </div> -->
+            </div>
 
             <!-- 数据加载完提示 -->
             <div class="end-wrap" v-if="flag">

@@ -189,24 +189,7 @@ export default {
         },
         // 退款
         reimburse(order_id){
-            let _this = this;
-            this.$axios.post('order/apply_refund',{
-                token:_this.$store.state.token,
-                order_id:String(order_id),
-                refund_reason:'666'
-            })
-            .then(function(response){
-                if(response.data.status==1){
-                    Toast.success('response.data.msg');
-                    setTimeout(function(){   //设置延迟执行
-                        location.reload();
-                    },1000);
-                }
-                console.log(response.data);
-            })
-            .catch(function(error){
-                console.log(error);
-            })
+            this.$router.replace({name:'ReturnRequest',params:{order_id:order_id}})
         },
         // 改变订单状态
         edit_status(order_id,status){
