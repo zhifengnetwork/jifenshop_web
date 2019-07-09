@@ -43,6 +43,8 @@ import ReturnRequest from '@/pages/order/ReturnRequest'
 
 // 确认订单
 import ConfirmOrder from '@/pages/pay/ConfirmOrder'
+// 支付订单
+import Confirm_pay from '@/pages/pay/Confirm_pay'
 //搜索详情
 import searchdetail from '@/pages/home/searchdetail'
 // 我的
@@ -232,6 +234,12 @@ export default new Router({
 			path: '/Pay/ConfirmOrder',
 			name: 'ConfirmOrder',
 			component: (resolve) => require(['@/pages/pay/ConfirmOrder'],resolve),
+		},
+		// 确认订单
+		{
+			path: '/Pay/Confirm_pay',
+			name: 'Confirm_pay',
+			component: (resolve) => require(['@/pages/pay/Confirm_pay'],resolve),
 		},
 		/**
 		 * 我的

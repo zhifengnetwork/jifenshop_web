@@ -6,59 +6,46 @@
         <div class="height-88"></div>
         <!-- 内容 -->
         <div class="content">
-            <div class="item-card" >
+            <!-- No INFO START -->
+            <div v-if="data.length==0" class="no-info">
+                <Nodata :nodatas="nodatas"></Nodata>
+            </div>
+            <div class="item-card" v-for="(item,index) in data" :key="index">
                 <div class="card-head">
-                    <span class="order-date">2019-02-03 00:28:20</span>
-                    <span class="order-state">退货成功</span>
+                    <span class="order-date">{{item.add_time}}</span>
+                    <span class="order-state">{{status[item.status]}}</span>
                 </div>
                 <div class="goods-item">
                     <div class="img-wrap">
-                        <img src="/static/images/order/00order-goods-img01.png" />
+                        <img :src="item.img" />
                     </div>
                     <div class="text">
-                        <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
+                        <h3>{{item.goods_name}}</h3>
                         <div class="good-sku">
-                            <span class="sku-coll">颜色:蓝色；尺寸:M码</span> 
-                            <span class="price">￥368</span>
+                            <span class="sku-coll">{{item.spec_key_name}}</span>
+                            <span class="price">￥{{item.goods_price}}</span>
                         </div>
                     </div>
                 </div>
                 <div class="total-bar">
-                    <div class="total-count">共2件商品 </div>
+                    <div class="total-count">共{{item.goods_num}}件商品</div>
                     <div class="payment">
                         <span class="label">合计 : </span>
-                        <span class="price">￥736.00</span>
+                        <span class="price">￥{{item.goods_price*item.goods_num}}</span>
                     </div>
                 </div>
-            </div>
-            <!-- <div class="item-card">
-                <div class="card-head">
-                    <span class="order-date">2019-02-03 00:28:20</span>
-                    <span class="order-state">退货成功</span>
-                </div>
-                <div class="goods-item">
-                    <div class="img-wrap">
-                        <img src="/static/images/order/00order-goods-img01.png" />
-                    </div>
-                    <div class="text">
-                        <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
-                        <div class="good-sku">
-                            <span class="sku-coll">颜色:蓝色；尺寸:M码</span> 
-                            <span class="price">￥368</span>
-                        </div>
-                    </div>
-                </div>
-                 <div class="total-bar">
-                    <div class="total-count">共2件商品 </div>
-                    <div class="payment">
-                        <span class="label">合计 : </span>
-                        <span class="price">￥736.00</span>
-                    </div>
+                <div class="order-btn">
+                    <router-link class="btn" :to="{path:'/Order/OrderDetail',query:{order_id:item.order_id}}" >查看详情</router-link>
+                    <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0">取消订单</span>
+                    <router-link class="btn red" to='/Order/Express' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1">查询物流</router-link>
+                    <router-link class="btn red" :to="{path:'/Order/Evaluate',query: {id: item.order_id}}" v-if="item.order_status == 4 &&　item.pay_status == 1">去评价</router-link>
+                        
+                    
                 </div>
             </div> -->
 
             <!-- 数据加载完提示 -->
-            <div class="end-wrap">
+            <div class="end-wrap" v-if="flag">
                 <p>我是有底线哦~~</p>
             </div>
 
@@ -69,12 +56,66 @@
 
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
+import Nodata from "@/pages/common/nodata/Nodata";
 export default {
     name:'returnGoods',
     components: {
-        TopHeader
+        TopHeader,
+        Nodata
     },
-   
+    data(){
+        return {
+            data:[],
+            flag:false,
+            nodatas:{
+                'imgSrc':'/static/images/cart/cart_icon.png',
+                'text':'清单空空如也~',
+                'link':'/Hone'
+            },
+            status:['','待付款','待发货','待收货','待评价','已取消','待退款','已退款','拒绝退款'],
+            page:1
+        }
+    },
+    mounted(){
+        this.nowIndex = this.$route.query.type
+        this.requestData();
+        window.addEventListener('scroll', this.scrollBottom);
+    },
+    methods:{
+        requestData(){
+            let _this = this;
+            this.$axios.post('order/order_list',{
+                token:_this.$store.state.token,
+                type:'tk',
+                page:_this.page
+            })
+            .then(function(response){
+                console.log(response.data);
+                if(response.data.status===1){
+                    for(let i=0;i<response.data.data.length;i++){
+                        if(response.data.data.length<9){
+                            _this.flag = true;
+                        }
+                        _this.data.push(response.data.data[i]);
+                    }
+                }
+                console.log(_this.data)
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        },
+        scrollBottom(){
+            let _this = this;
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            if(scrollTop + windowHeight == scrollHeight){
+                _this.page++;
+                _this.requestData();
+            }
+        }
+    }
 }
 </script>
 
@@ -83,7 +124,6 @@ export default {
     margin-top 30px
     .item-card
         width 702px
-        height 300px
         background-color #ffffff
         border-radius 8px
         box-shadow 0 0 8px #e6e6e6
@@ -158,5 +198,25 @@ export default {
         color #888888
         text-align center
         margin 30px auto
-
+.order-btn
+    margin-top 20px
+    display flex
+    justify-content flex-end
+    padding 0 38px 36px
+    box-sizing border-box
+    .btn
+        width 130px
+        height 40px
+        line-height 40px
+        color #151515
+        text-align center
+        display inline-block
+        font-size 26px
+        border-radius 15px
+        border 2px solid #151515
+        margin-left 26px
+        &.red
+            color #f20c0c
+            border-color #f20c0c
+            background-color #faf8f5
 </style>

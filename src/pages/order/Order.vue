@@ -44,8 +44,12 @@
                     </div>
                     <div class="order-btn">
                         <router-link class="btn" :to="{path:'/Order/OrderDetail',query:{order_id:item.order_id}}" >查看详情</router-link>
-                        <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0">取消订单</span>
+                        {{item.order_status}}{{item.pay_status}}{{item.shipping_status}}
+                        <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0" @click="cancel(item.order_id)">取消订单</span>
                         <router-link class="btn red" to='/Order/Express' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1">查询物流</router-link>
+                        <router-link class="btn red" v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1 && item.status == 2">退款</router-link>
+                        <router-link class="btn red" v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 0 ">退款</router-link>
+                        <span class="btn red" to='' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1" @click="receiving(item.order_id)">确认收货</span>
                         <router-link class="btn red" :to="{path:'/Order/Evaluate',query: {id: item.order_id}}" v-if="item.order_status == 4 &&　item.pay_status == 1">去评价</router-link>
                          
                        
@@ -71,6 +75,8 @@
 
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
+import { Toast } from 'vant';
+
 export default {
     name:'Order',
     components: {
@@ -135,11 +141,10 @@ export default {
                     type = 'dpj'
                     break;
             }
-            console.log(type)
             this.$axios.post('order/order_list',{
                 token:_this.$store.state.token,
                 type:type,
-                p:_this.page
+                page:_this.page
             })
             .then(function(response){
                 console.log(response.data);
@@ -164,6 +169,7 @@ export default {
             this.type = this.$route.query.type;
             this.requestData();
             this.page = 1;
+            this.data = [];
         },
         scrollBottom(){
             let _this = this;
@@ -171,11 +177,40 @@ export default {
             let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
             let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
             if(scrollTop + windowHeight == scrollHeight){
-                _this.requestData();
                 _this.page++;
+                _this.requestData();
             }
-        }
-        
+        },
+        // 取消订单
+        cancel(order_id){
+            this.edit_status(order_id,1)
+        },
+        // 确认收货
+        receiving(order_id){
+            this.edit_status(order_id,3)
+        },
+        // 改变订单状态
+        edit_status(order_id,status){
+            let _this = this;
+            console.log(order_id,status)
+            this.$axios.post('order/edit_status',{
+                token:_this.$store.state.token,
+                order_id:order_id,
+                status:status
+            })
+            .then(function(response){
+                if(response.data.status==1){
+                    Toast.success('提交成功');
+                    setTimeout(function(){   //设置延迟执行
+                        location.reload();
+                    },1000);
+                }
+                console.log(response.data);
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        },
         
     },
     destroyed: function () {
@@ -293,12 +328,12 @@ export default {
                         width 130px
                         height 40px
                         line-height 40px
-                        color #888888
+                        color #151515
                         text-align center
                         display inline-block
                         font-size 26px
                         border-radius 15px
-                        border 2px solid #888888
+                        border 2px solid #151515
                         margin-left 26px
                         &.red
                             color #f20c0c

@@ -200,7 +200,7 @@ export default {
         deletOption(){
             Dialog.confirm({
             title: '信息提醒',
-            message: '亲，再考虑考虑吧?'
+            message: '请选择要删除的商品'
             }).then(() => {
 
                 let newArry=[]; //存储没有选中的项-item
@@ -217,7 +217,13 @@ export default {
                     var a,b;
                     // 将数组arrid,转化成字符串,并且用逗号隔开
                     b= arrid.join(",");   
-                    console.log(b) 
+                    console.log(b)
+                    if(b==''){
+                        Dialog.alert({
+                            message: '没有选择商品'
+                        })
+                        return false;
+                    }
                     this.$axios({
                         method:'post',
                         url: '/cart/delCart?cart_id='+b,
