@@ -2,7 +2,7 @@
     <div class="cart">
       	<!-- 头部组件 -->
 		<TopHeader custom-title="购物车" custom-fixed>
-			<i slot="rightBtn" class="iconfont iconshanchu" @click="deletOption()" v-show="list.length>1"></i>
+			<i slot="rightBtn" class="iconfont iconshanchu" @click="deletOption()" v-show="list.length>0"></i>
 		</TopHeader>
         <div class="height-88"></div>
         <!-- No INFO START -->
