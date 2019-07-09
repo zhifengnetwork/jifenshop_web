@@ -46,12 +46,7 @@
                         <span class="btn red" v-if="item.order_status == 1 &&　item.pay_status == 1 &&(item.shipping_status == 0||1)" @click="reimburse(item.order_id)">退款</span>   
                         <router-link class="btn" :to="{path:'/Order/OrderDetail',query:{order_id:item.order_id}}" >查看详情</router-link>
                         <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0" @click="cancel(item.order_id)">取消订单</span>
-<<<<<<< HEAD
                         <!-- <router-link class="btn red" to='/Order/Express' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1">查询物流</router-link> -->
-=======
-                        <router-link class="btn red" v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1 && item.status == 2">退款</router-link>
-                        <router-link class="btn red" v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 0 ">退款</router-link>
->>>>>>> 89df0bfbeddece24d0eaff1ca8993a1c36754556
                         <span class="btn red" to='' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1" @click="receiving(item.order_id)">确认收货</span>
                         <router-link class="btn red" :to="{path:'/Order/Evaluate',query: {id: item.order_id}}" v-if="item.order_status == 4 &&　item.pay_status == 1">去评价</router-link>
                          
