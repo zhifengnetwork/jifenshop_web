@@ -71,15 +71,15 @@ axios.interceptors.response.use(
 
 		if(error.response.status == 401){
 			
-			// Dialog.alert({
-			// 	message: error.response.data['msg']
-			// }).then(() => {
+			Dialog.alert({
+				message: error.response.data['msg']
+			}).then(() => {
 				window.localStorage.removeItem("token");
-				window.location.href = window.location.host;
+				window.location.href = document.location.protocol+'//'+window.location.host;
 				// router.replace({  	
 				// 	path: '/index',
 				// })
-			// })
+			})
 
 		}else{
 

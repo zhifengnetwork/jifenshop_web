@@ -123,7 +123,7 @@ export default {
 	},
 	mounted(){
 		let _this = this;
-		this.$axios.get('index')
+		this.$axios.get('index?token='+this.$store.state.token)
 		.then(function(response){
 			console.log(response.data);
 			if(response.data.status == 1){
