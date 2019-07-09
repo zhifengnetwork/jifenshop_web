@@ -21,23 +21,24 @@
                 <img class="-info-img" src="/static/images/order/color_line.png" />
             </div>
             <!-- GOODS START -->
-            <div class="goods-list">
+            <div class="goods-list"  v-for="(item,index) in goods" :key="index">
                 <router-link to="/Details" class="g-list-a">
-                    <img class="-list-img" :src="goods.img" />
+                    <img class="-list-img" :src="item.img" />
                     <div class="-detial-">
-                        <p class="-d-msg apostrophe">{{goods.goods_name}}</p>
+                        <p class="-d-msg apostrophe">{{item.goods_name}}</p>
                         <p class="-d-msg2">
-                            <span>￥ {{goods.goods_price}}</span>
-                            <span>x {{goods.goods_num}}</span>
+                            <span>￥ {{item.goods_price}}</span>
+                            <span>x {{item.goods_num}}</span>
                         </p>
                     </div>
                 </router-link>
+                
                 <div class="g-list-b">
                     <div class="-list-1">
                         <span class="-b-subtitle">购买数量</span>
                         <span class="-option-">
                             <i class="subling iconfont iconjian" @click="reducingNumber()"></i>
-                            <input class="inp" type="text" :value="goods.goods_num" @change="changNumber($event)"/>
+                            <input class="inp" type="text" :value="item.goods_num" @change="changNumber($event)"/>
                             <i class="puls iconfont iconjia"  @click="addNumber()"></i>
                         </span>
                     </div>
@@ -51,9 +52,9 @@
                         <input type="text"  placeholder-class="placehor" placeholder="选填 请先和商家协商一致" />  
                     </div>
                     <div class="goods-price">
-                        <span>共{{goods.goods_num}}件</span>
+                        <span>共{{item.goods_num}}件</span>
                         <span>共计：</span>
-                        <span>￥ {{updatePrice}}</span>
+                        <span>￥ {{item.goods_price*item.goods_num}}</span>
                     </div>
                 </div>
             </div>
@@ -86,7 +87,6 @@
                 <strong class="f-a-a"> 实付款：</strong>
                 <div class="f-a-b">
                     <span class="colorRed size-20">￥<strong class="size-36">{{updatePrice}}</strong></span>
-                    
                 </div>
             </div>
             <div class="footer-b" @click="zhifu()">立即付款</div>
@@ -171,8 +171,17 @@ export default {
     computed:{
         // 计算总价格
         updatePrice(){
-            var totalPrice =new Number(this.goods.goods_num) * new Number(this.goods.goods_price)
-            return totalPrice.toFixed(2)
+            // var totalPrice =new Number(this.goods.goods_num) * new Number(this.goods.goods_price)
+            // return totalPrice.toFixed(2)
+                var  totalPrice=0; 
+                for(var i=0;i<this.goods.length;i++){
+                    totalPrice= totalPrice + this.goods[i].goods_num*this.goods[i].goods_price
+                }
+
+             
+               return totalPrice.toFixed(2)
+             
+
         }
     },
     mounted() {
@@ -187,7 +196,7 @@ export default {
             })
             .then((res) => {
             this.list = res.data.data
-            this.goods = this.list.goods[0]
+            this.goods = this.list.goods
             this.addr_res = this.list.addr_res[0]
             this.pay_type = this.list.pay_type
                 })

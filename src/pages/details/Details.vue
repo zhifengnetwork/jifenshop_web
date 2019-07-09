@@ -46,7 +46,7 @@
                             <van-cell is-link @click="areaSelect">
                                 <template slot="title">
                                     <span class="label">配送</span>
-                                    <span class="text">{{datalist.shipping}}</span>
+                                    <span class="text" style="text-align:right;width:80%;display:inline-block">{{address}}</span>
                                 </template>
                             </van-cell>
                         
@@ -392,6 +392,7 @@ export default {
         onAddrConfirm(val){  
             this.areaShow = false;
             this.address = val[0].name+ val[1].name +val[2].name
+           
         },
         //配送地区取消选择
         onAddrCancel(){  

@@ -11,7 +11,7 @@ export default {
     //判断是否为微信环境 --- 两行代码
     var ua = navigator.userAgent.toLowerCase();
     if (ua.match(/MicroMessenger/i) == "micromessenger") {
-	//  在本地获取token,如果token为空或者为null或者为null的时候,就要请求后台,获取token	
+	  //在本地获取token,如果token为空或者为null或者为null的时候,就要请求后台,获取token	
       var huoqutoken = window.localStorage.getItem("token");
 
               if (huoqutoken == "" || huoqutoken == null || huoqutoken == undefined) {
@@ -26,6 +26,32 @@ export default {
                             console.log(res.data.data);
                             var lianjie = res.data.data;
                             window.location.href = lianjie;
+
+
+
+                            // 如果有code的话,我们就成功了,接下来要token了
+                            // getQueryString用来截取code的值
+                            var code = this.getQueryString("code");
+                            alert(code)
+                            this.$axios({
+                              method: "get",
+                              url: "/login/login_by_code?code=" + code
+                            }).then(res => {
+                              // alert(res.data.data.token)
+                              //获取token,储存到本地
+                              if (res.data.status == 1) {
+                                console.log('token:', res.data.data.token)
+                                window.localStorage.setItem("token", res.data.data.token);
+                                this.$store.state.token = res.data.data.token;
+                                this.$store.commit('updateToken', res.data.data.token)
+                              }
+                            }); 
+           
+
+
+
+
+
                           });
                       } 
                   else {

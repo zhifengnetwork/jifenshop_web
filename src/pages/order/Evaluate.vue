@@ -92,7 +92,9 @@ export default {
                         }
                         })
                         .then((res) => {
-                            console.log("resresres")
+                           
+                           this.$router.push({path:'/User'})
+
                         })
             },
     

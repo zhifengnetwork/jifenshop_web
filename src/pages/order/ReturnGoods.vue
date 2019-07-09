@@ -6,7 +6,7 @@
         <div class="height-88"></div>
         <!-- 内容 -->
         <div class="content">
-            <div class="item-card">
+            <div class="item-card" >
                 <div class="card-head">
                     <span class="order-date">2019-02-03 00:28:20</span>
                     <span class="order-state">退货成功</span>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="item-card">
+            <!-- <div class="item-card">
                 <div class="card-head">
                     <span class="order-date">2019-02-03 00:28:20</span>
                     <span class="order-state">退货成功</span>
@@ -55,7 +55,7 @@
                         <span class="price">￥736.00</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- 数据加载完提示 -->
             <div class="end-wrap">
