@@ -84,7 +84,8 @@ export default {
         },
         payment(){
             let _this = this;
-            let pay_type =null;
+            let pay_type = null;
+            let url = null;
             if(_this.indx===''){
                 Toast('请选择支付方式');
                 return false;
@@ -109,54 +110,37 @@ export default {
             }
             console.log(_this.address_id,_this.indx,_this.order_id,6666)
             if(_this.address_id){
-                this.$axios.post('order/submitOrder',{
-                    token:_this.$store.state.token,
-                    address_id:_this.address_id,
-                    pay_type:pay_type,
-                    pwd:_this.pwd,
-                    user_note:_this.user_note
-                })
-                .then(function(response){
-                    console.log(response);
-                    if(response.data.status == 1){
-                        if(pay_type==2){
-                        
-                        }else{
-                            Toast.success('支付成功');
-                            _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data.order_id}})
-                        }
-
-                        // else{
-                        //     Toast.success('下单成功');
-                        //     _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data}})
-                        // }
-                    }
-                })
-                .catch(function(error){
-                    console.log(error);
-                })
+                url = 'order/submitOrder';
             }else{
-                this.$axios.post('order/order_pay',{
-                    token:_this.$store.state.token,
-                    pay_type:pay_type,
-                    order_id:_this.order_id,
-                    pwd:_this.pwd
-                })
-                .then(function(response){
-                    console.log(response);
-                    if(response.data.status == 1){
-                        if(pay_type==2){
-                            _this.weixin(response.data.data);
-                        }else{
-                            Toast.success('支付成功');
-                            _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data.order_id}})
-                        }
-                    }
-                })
-                .catch(function(error){
-                    console.log(error);
-                })
+                url = 'order/order_pay';
             }
+            this.$axios.post(url,{
+                token:_this.$store.state.token,
+                address_id:_this.address_id,
+                order_id:_this.order_id,
+                pay_type:pay_type,
+                pwd:_this.pwd,
+                user_note:_this.user_note
+            })
+            .then(function(response){
+                console.log(response);
+                if(response.data.status == 1){
+                    if(pay_type==2){
+                        _this.weixin(response.data.data)
+                    }else{
+                        Toast.success('支付成功');
+                        _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data.order_id}})
+                    }
+
+                    // else{
+                    //     Toast.success('下单成功');
+                    //     _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data}})
+                    // }
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            })
         },
         // 微信支付
         weixin(data){
