@@ -107,7 +107,7 @@
                     <van-tab :title="this.comment_count">
                         <div class="comment-wrap">
                             <ul class="comment-list">
-                                <li v-for="(item,key) in commentlist" :key="key" v-if="!commentlist">
+                                <li v-for="(item,key) in commentlist" :key="key" v-if="commentlist != '暂无评论！'">
                                     <div class="eval-user">
                                         <div class="user">
                                             <div class="avatar">
@@ -137,7 +137,7 @@
                                         <span><img src="static/images/details/evaluation-img01.png"></span>
                                     </div> -->
                                 </li>
-                                <li v-if="commentlist">
+                                <li v-if="commentlist == '暂无评论！'" style="text-align:center">
                                     {{commentlist}}
                                 </li>
                             </ul>
@@ -145,7 +145,6 @@
                              <!-- 数据加载完提示 -->
                             <div class="end-wrap">
                                 <p>我是有底线哦~~</p>
-                                {{msg}}
                             </div>
 
                         </div>
