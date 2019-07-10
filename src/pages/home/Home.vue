@@ -43,7 +43,7 @@
 
 		<!-- 会员 -->
 		<div class="five">
-			<router-link to="Vip">
+			<router-link :to="'Vip?card='+card.number">
 				<div class="five_title">
 					抢购会员卡
 				</div>
