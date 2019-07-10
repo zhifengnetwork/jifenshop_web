@@ -120,7 +120,7 @@
                                         </div>
                                         <div class="score">
                                             <van-rate
-                                                :v-model="item.star_rating"
+                                                v-model="item.star_rating"
                                                 icon="like-o"
                                                 void-icon="like-o"
                                                 color="#f70a0a"
