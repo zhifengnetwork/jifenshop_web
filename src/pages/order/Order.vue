@@ -54,7 +54,7 @@
                     </div>
                 </div>
                  <!-- 数据加载完提示 -->
-                <div class="end-wrap" v-if="flag">
+                <div class="end-wrap" v-if="flag&&!empty">
                     <p>我是有底线哦~~</p>
                 </div>
 
