@@ -73,8 +73,8 @@
 				let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
 				let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
 				if(scrollTop + windowHeight == scrollHeight){
-                    _this.requestData();
 					_this.page++;
+                    _this.requestData();
 				}
             }
         },

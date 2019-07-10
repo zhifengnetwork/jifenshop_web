@@ -160,7 +160,10 @@ export default {
            }
            this.$set( data,'goods_num',val )
            console.log(val);
-           this.$axios({
+           if(val == 1){
+               console.log("小于1不能继续删除")
+           }else if(val>1){
+               this.$axios({
                         method:'post',
                         url: '/cart/reduce_num?cart_id='+idzhi,
                         data: {
@@ -170,6 +173,8 @@ export default {
                         .then((res) => {
                            console.log("resresres")
                         })
+           }
+           
         
 
 

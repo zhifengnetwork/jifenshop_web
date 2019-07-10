@@ -7,7 +7,7 @@
         <!-- 内容 -->
         <div class="content">
             <!-- No INFO START -->
-            <div v-if="data.length==0" class="no-info">
+            <div v-if="empty" class="no-info">
                 <Nodata :nodatas="nodatas"></Nodata>
             </div>
             <div class="item-card" v-for="(item,index) in data" :key="index">
@@ -22,7 +22,7 @@
                     <div class="text">
                         <h3>{{item.goods_name}}</h3>
                         <div class="good-sku">
-                            <span class="sku-coll">{{item.spec_key_name}}</span>
+                            <span class="sku-coll" v-if="item.spec_key_name!='[]'">{{item.spec_key_name}}</span>
                             <span class="price">￥{{item.goods_price}}</span>
                         </div>
                     </div>
@@ -42,10 +42,10 @@
                         
                     
                 </div>
-            </div> -->
+            </div>
 
             <!-- 数据加载完提示 -->
-            <div class="end-wrap" v-if="flag">
+            <div class="end-wrap" v-if="flag&&!empty">
                 <p>我是有底线哦~~</p>
             </div>
 
@@ -67,6 +67,7 @@ export default {
         return {
             data:[],
             flag:false,
+            empty:false,
             nodatas:{
                 'imgSrc':'/static/images/cart/cart_icon.png',
                 'text':'清单空空如也~',
@@ -97,6 +98,9 @@ export default {
                             _this.flag = true;
                         }
                         _this.data.push(response.data.data[i]);
+                    }
+                    if(response.data.data.length==0&&_this.data.length==0){
+                        _this.empty = true;
                     }
                 }
                 console.log(_this.data)

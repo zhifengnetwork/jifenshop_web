@@ -31,6 +31,7 @@
 
 <script>
 	import PayHeader from "@/pages/common/header/TopHeader"
+	import { Toast } from 'vant';
 	export default {
 		name: "alipay",
 		data() {
@@ -57,6 +58,10 @@
 				}
 			})
 			.then((res) => {
+				if(res.data.status == 1){
+					Toast.success('添加成功');
+					that.$router.push({name:'bankcard'})
+				}
 				console.log(res)
 			})
 		}

@@ -30,7 +30,7 @@
                         <div class="text">
                             <h3>{{item.goods_name}}</h3>
                             <div class="good-sku">
-                                <span class="sku-coll">{{item.spec_key_name}}</span>
+                                <span class="sku-coll" v-if="item.spec_key_name!='[]'">{{item.spec_key_name}}</span>
                                 <span class="price">￥{{item.goods_price}}</span>
                             </div>
                         </div>
@@ -43,10 +43,10 @@
                         </div>
                     </div>
                     <div class="order-btn">
+                        <span class="btn red" v-if="item.order_status == 1 &&　item.pay_status == 1 &&(item.shipping_status == 0||1)" @click="reimburse(item.order_id)">退款</span>   
                         <router-link class="btn" :to="{path:'/Order/OrderDetail',query:{order_id:item.order_id}}" >查看详情</router-link>
                         <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0" @click="cancel(item.order_id)">取消订单</span>
-                        <router-link class="btn red" v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1 && item.status == 2">退款</router-link>
-                        <router-link class="btn red" v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 0 ">退款</router-link>
+                        <!-- <router-link class="btn red" to='/Order/Express' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1">查询物流</router-link> -->
                         <span class="btn red" to='' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1" @click="receiving(item.order_id)">确认收货</span>
                         <router-link class="btn red" :to="{path:'/Order/Evaluate',query: {id: item.order_id}}" v-if="item.order_status == 4 &&　item.pay_status == 1">去评价</router-link>
                          
@@ -54,12 +54,12 @@
                     </div>
                 </div>
                  <!-- 数据加载完提示 -->
-                <div class="end-wrap" v-if="flag">
+                <div class="end-wrap" v-if="flag&&!empty">
                     <p>我是有底线哦~~</p>
                 </div>
 
                 <!-- 无数据 -->
-                <div class="none" v-if="data.length==0">
+                <div class="none" v-if="empty">
                     <img src="/static/images/public/none.png"/>
                     <p>亲，订单空空如也~</p>
                 </div>
@@ -110,7 +110,8 @@ export default {
             token:window.sessionStorage.getItem("token"),
             data:[],
             page:1,
-            flag:false
+            flag:false,
+            empty:false
         }
     },
     mounted(){
@@ -153,6 +154,9 @@ export default {
                         }
                         _this.data.push(response.data.data[i]);
                     }
+                    if(response.data.data.length==0&&_this.data.length==0){
+                        _this.empty = true;
+                    }
                 }
                 console.log(_this.data)
             })
@@ -167,6 +171,8 @@ export default {
             this.type = this.$route.query.type;
             this.requestData();
             this.page = 1;
+            this.flag = false;
+            this.empty = false;
             this.data = [];
         },
         scrollBottom(){
@@ -186,6 +192,10 @@ export default {
         // 确认收货
         receiving(order_id){
             this.edit_status(order_id,3)
+        },
+        // 退款
+        reimburse(order_id){
+            this.$router.replace({name:'ReturnRequest',params:{order_id:order_id}})
         },
         // 改变订单状态
         edit_status(order_id,status){

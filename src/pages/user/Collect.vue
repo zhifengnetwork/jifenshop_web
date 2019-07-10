@@ -9,7 +9,7 @@
         <div class="height-88"></div>
        
         <!-- NO INFO START -->
-        <div v-show="list.length<1">
+        <div v-show="empty">
             <Nodata :nodatas="nodatas"></Nodata>
         </div>
         <!-- GOODS INFO START -->
@@ -55,7 +55,8 @@ export default {
             },
             list:[],
             allChecked: false,
-            showTrash: false
+            showTrash: false,
+            empty: false
         };
     },
     computed:{
@@ -162,6 +163,11 @@ export default {
                         'goods_id':response.data.data.list[i].goods_id,
                         'isCheck':false
                     })
+                }
+                if(_this.list.length==0){
+                    console.log(666)
+
+                    _this.empty = true;
                 }
             }
             console.log(_this.list)

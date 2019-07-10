@@ -9,31 +9,41 @@
             <!-- 商品信息 -->
             <div class="goods-item">
                 <div class="img-wrap">
-                    <img src="/static/images/order/00order-goods-img01.png" />
+                    <img :src="goods[0].img" />
                 </div>
                 <div class="text">
-                    <h3>Haoduoyi2018秋季新品女装 欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣欧美宽松休闲套头卫衣</h3>
+                    <h3>{{goods[0].goods_name}}</h3>
                      <div class="good-sku">
-                        <span class="sku-coll">颜色:蓝色；尺寸:M码</span>
-                        <span class="price">￥368</span>
+                        <span class="sku-coll" v-if="goods[0].spec_key_name!='[]'">{{goods[0].spec_key_name}}</span>
+                        <span class="price">￥{{goods[0].goods_price}}</span>
                     </div>
-                    <div class="count">x2</div>
+                    <div class="count">x{{goods[0].goods_num}}</div>
                 </div>
             </div>
 
             <!-- 退款原因 -->
             <div class="reason-wrap">
-                <textarea placeholder="退款原因"></textarea>
+                <textarea placeholder="退款原因" v-model="refund_reason"></textarea>
             </div>
 
             <!-- 退款金额 -->
             <div class="refund-amount">
                 <span class="label">退款金额</span>
-                <span class="amount">￥736.00</span>
+                <span class="amount">￥{{goods[0].goods_price*goods[0].goods_num}}</span>
             </div>
-
+            <!-- 选择退款方式 -->
+            <van-radio-group v-model="radio">
+                <van-cell-group>
+                  <van-cell title="退款" clickable @click="radio = '0'">
+                    <van-radio slot="right-icon" name="0" />
+                  </van-cell>
+                  <van-cell title="退款至余额" clickable @click="radio = '1'">
+                    <van-radio slot="right-icon" name="1" />
+                  </van-cell>
+                </van-cell-group>
+            </van-radio-group>
             <!-- 按钮 -->
-            <div class="refundBtn">提交申请</div>
+            <div class="refundBtn" @click="reimburse">提交申请</div>
 
         </div>
 
@@ -42,12 +52,72 @@
 
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
+import { Toast } from 'vant';
 export default {
     name:'ReturnRequest',
     components: {
         TopHeader
     },
- 
+    data(){
+        return {
+            goods:'',
+            refund_reason:'',
+            radio:'',
+            cancel_remark:''
+        }
+    },
+    created(){
+        this.order_id = this.$route.params.order_id;
+    },
+    mounted(){
+        if(!this.order_id){
+            this.$router.go(-1);
+            return false;
+        }
+        this.requestData();
+    },
+    methods:{
+        requestData(){
+            let _this = this;
+            this.$axios.post('order/order_detail',{
+                token:_this.$store.state.token,
+                order_id:_this.order_id
+            })
+            .then(function(response){
+                console.log(response.data);
+                if(response.data.status==1){
+                    _this.goods = response.data.data.goods_res;
+                }
+                console.log(_this.goods);
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        },
+        reimburse(){
+            let _this = this;
+            console.log(_this.order_id,_this.refund_reason,_this.radio)
+            this.$axios.post('order/apply_refund',{
+                token:_this.$store.state.token,
+                order_id:_this.order_id,
+                refund_reason:_this.refund_reason,
+                refund_type:_this.radio,
+                cancel_remark:_this.cancel_remark
+            })
+            .then(function(response){
+                if(response.data.status==1){
+                    Toast.success('提交成功，等待审核');
+                    setTimeout(function(){   //设置延迟执行
+                        location.reload();
+                    },1000);
+                }
+                console.log(response.data);
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+    }
 }
 </script>
 
