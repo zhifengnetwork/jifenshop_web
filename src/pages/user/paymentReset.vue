@@ -93,12 +93,16 @@
             },
             send(){
                 // 发送请求
-                if(this.pwd!=this.pwd1){
-                    Toast('密码不一致');
+                if(!this.pwd||!this.pwd1){
+                    Toast('支付密码不能为空');
                     return false;
                 }
-                if(this.pwd.length<6){
+                if(this.pwd.length<6||this.pwd1.length<6){
                     Toast('请输入6位数密码');
+                    return false;
+                }
+                if(this.pwd!=this.pwd1){
+                    Toast('密码不一致');
                     return false;
                 }
                 if(this.cod==''){
