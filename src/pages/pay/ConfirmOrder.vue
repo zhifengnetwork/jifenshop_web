@@ -27,7 +27,8 @@
             </div>
             <!-- GOODS START -->
             <div class="goods-list"  v-for="(item,index) in goods" :key="index">
-                <router-link to="/Details" class="g-list-a">
+                <!-- to="/Details" -->
+                <router-link  :to="{path:'/Details',query:{id:item.goods_id}}"  class="g-list-a">
                     <img class="-list-img" :src="item.img" />
                     <div class="-detial-">
                         <p class="-d-msg apostrophe">{{item.goods_name}}</p>
