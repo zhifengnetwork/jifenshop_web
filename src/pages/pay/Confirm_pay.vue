@@ -159,6 +159,7 @@ export default {
     
         },
         onBridgeReady:function(data){
+            let _this = this;
             WeixinJSBridge.invoke(
             'getBrandWCPayRequest',{//下面参数内容都是后台返回的
                 debug:true,
@@ -173,6 +174,7 @@ export default {
                 // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
                 if(res.err_msg == "get_brand_wcpay_request:ok" ){         
                     Toast.success('支付成功');
+                    _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':data}})
                 }else{           
                     Toast('支付失败');
                 }
