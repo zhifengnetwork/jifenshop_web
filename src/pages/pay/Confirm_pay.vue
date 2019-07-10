@@ -114,13 +114,17 @@ export default {
                 .then(function(response){
                     console.log(response);
                     if(response.data.status == 1){
-                        if(_this.indx==1){
+                        if(pay_type==2){
+                        
+                        }else{
                             Toast.success('支付成功');
                             _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data.order_id}})
-                        }else{
-                            Toast.success('下单成功');
-                            _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data}})
                         }
+
+                        // else{
+                        //     Toast.success('下单成功');
+                        //     _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data}})
+                        // }
                     }
                 })
                 .catch(function(error){
@@ -136,15 +140,56 @@ export default {
                 .then(function(response){
                     console.log(response);
                     if(response.data.status == 1){
-                        Toast.success('支付成功');
-                        _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data.order_id}})
+                        if(pay_type==2){
+                            _this.weixin(response.data.data);
+                        }else{
+                            Toast.success('支付成功');
+                            _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data.order_id}})
+                        }
                     }
                 })
                 .catch(function(error){
                     console.log(error);
                 })
             }
-        }
+        },
+        // 微信支付
+        weixin(data){
+            var _this= this;
+        //下面是解决WeixinJSBridge is not defined 报错的方法
+            if (typeof WeixinJSBridge == "undefined"){//微信浏览器内置对象。参考微信官方文档
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', _this.onBridgeReady(data), false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', _this.onBridgeReady(data));
+                document.attachEvent('onWeixinJSBridgeReady',_this.onBridgeReady(data));
+            }
+            }else{
+                _this.onBridgeReady(data);
+            }
+    
+        },
+        onBridgeReady:function(data){
+            WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',{//下面参数内容都是后台返回的
+                debug:true,
+                "appId":data.appId,//公众号名称，由商户传入
+                "timeStamp":data.timeStamp,//时间戳
+                "nonceStr":data.nonceStr,//随机串
+                "package":data.packageValue,//预支付id
+                "signType":data.signType,//微信签名方式
+                "paySign":data.paySign,//微信签名
+            },
+            function(res){
+                // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                if(res.err_msg == "get_brand_wcpay_request:ok" ){         
+                    Toast.success('成功111');
+                }else{           
+                    Toast('失败222');
+                }
+            }
+            );
+        },
     },
     
 }

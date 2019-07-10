@@ -134,7 +134,7 @@
                     token:_this.$store.state.token,
                     type:_this.item.type,
                     card_id:_this.item.card_id,
-                    money:_this.reality
+                    money:_this.num
                 })
                 .then(function(response){
                     console.log(response);
