@@ -145,20 +145,20 @@ export default {
         // 微信支付
         weixin(data){
             var _this= this;
-        //下面是解决WeixinJSBridge is not defined 报错的方法
+            //下面是解决WeixinJSBridge is not defined 报错的方法
             if (typeof WeixinJSBridge == "undefined"){//微信浏览器内置对象。参考微信官方文档
             if( document.addEventListener ){
-                document.addEventListener('WeixinJSBridgeReady', _this.onBridgeReady(data), false);
+                document.addEventListener('WeixinJSBridgeReady', _this.wxpay(data), false);
             }else if (document.attachEvent){
-                document.attachEvent('WeixinJSBridgeReady', _this.onBridgeReady(data));
-                document.attachEvent('onWeixinJSBridgeReady',_this.onBridgeReady(data));
+                document.attachEvent('WeixinJSBridgeReady', _this.wxpay(data));
+                document.attachEvent('onWeixinJSBridgeReady',_this.wxpay(data));
             }
             }else{
-                _this.onBridgeReady(data);
+                _this.wxpay(data);
             }
     
         },
-        onBridgeReady:function(data){
+        wxpay(data){
             let _this = this;
             WeixinJSBridge.invoke(
             'getBrandWCPayRequest',{//下面参数内容都是后台返回的
@@ -174,7 +174,7 @@ export default {
                 // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
                 if(res.err_msg == "get_brand_wcpay_request:ok" ){         
                     Toast.success('支付成功');
-                    _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':data}})
+                    _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':data.order_id}})
                 }else{           
                     Toast('支付失败');
                 }

@@ -83,7 +83,7 @@
 							<h3>{{item.goods_name}}</h3>
 							<div class="price">
 								<p class="discount-price">￥{{item.price}}</p>
-								<p class="original-price">原价:￥<s>{{item.original_price}}</s></p>
+								<p class="original-price">原价:<s>￥{{item.original_price}}</s></p>
 							</div>
 						</div>
 					</router-link>
@@ -107,7 +107,7 @@
 							<h3>{{item.goods_name}}</h3>
 							<div class="price">
 								<p class="discount-price">￥{{item.price}}</p>
-								<p class="original-price">原价:￥<s>{{item.original_price}}</s></p>
+								<p class="original-price">原价:<s>￥{{item.original_price}}</s></p>
 							</div>
 						</div>
 					</router-link>
