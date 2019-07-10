@@ -110,7 +110,7 @@
                 .btn_wrap
                     margin 25px auto 30px
                 .btn_wrap .draw
-                    width 702px
+                    width 100%
                     height 80px
                     margin 0 auto
                     border-radius 44px
