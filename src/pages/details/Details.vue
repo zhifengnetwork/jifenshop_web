@@ -111,7 +111,7 @@
                                     <div class="eval-user">
                                         <div class="user">
                                             <div class="avatar">
-                                                <img :src="item.img" />
+                                                <img :src="item.avatar" />
                                             </div>
                                             <div class="text">
                                                 <span class="name">{{item.nickname}}</span>
@@ -120,7 +120,7 @@
                                         </div>
                                         <div class="score">
                                             <van-rate
-                                                :v-model="item.star_rating"
+                                                v-model="item.star_rating"
                                                 icon="like-o"
                                                 void-icon="like-o"
                                                 color="#f70a0a"
@@ -166,6 +166,7 @@
                 <van-goods-action-icon
                     icon="shop-o"
                     text="店铺"
+                     @click="home()"
                 />
                 <van-goods-action-icon
                     :style="{'color': ( this.datalist.collection == '1' ? 'red':'')}"
@@ -287,6 +288,9 @@ export default {
             this.areaShow = false;
             this.address = val[0].name+ val[1].name +val[2].name
            
+        },
+        home(){
+             this.$router.push({path:'/home/Home'});
         },
         //配送地区取消选择
         onAddrCancel(){  
