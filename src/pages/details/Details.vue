@@ -99,34 +99,15 @@
                                     <div class="param-name">{{item.spec_name}}</div>
                                     <div class="param-value">{{item.val_name}}</div>
                                 </li>
-                                <!-- <li>
-                                    <div class="param-name">面料</div>
-                                    <div class="param-value">蕾丝</div>
-                                </li>
-                                <li>
-                                    <div class="param-name">使用尺寸</div>
-                                    <div class="param-value">S M L XL</div>
-                                </li>
-                                <li>
-                                    <div class="param-name">款式</div>
-                                    <div class="param-value">中长款</div>
-                                </li>
-                                <li>
-                                    <div class="param-name">风格</div>
-                                    <div class="param-value">其他</div>
-                                </li>
-                                <li>
-                                    <div class="param-name">图案</div>
-                                    <div class="param-value">碎花</div>
-                                </li> -->
                             </ul>
                         </div>
-
                     </van-tab>
-                    <van-tab title="商品评价(891)">
+                    <!-- 评论 -->
+                    <!-- {{this.comment_count}} -->
+                    <van-tab :title="this.comment_count">
                         <div class="comment-wrap">
                             <ul class="comment-list">
-                                <li v-for="(item,key) in commentlist" :key="key">
+                                <li v-for="(item,key) in commentlist" :key="key" v-if="!commentlist">
                                     <div class="eval-user">
                                         <div class="user">
                                             <div class="avatar">
@@ -134,12 +115,12 @@
                                             </div>
                                             <div class="text">
                                                 <span class="name">{{item.nickname}}</span>
-                                                <span class="date">2019-05-06</span>
+                                                <span class="date">{{item.add_time}}</span>
                                             </div>
                                         </div>
                                         <div class="score">
                                             <van-rate
-                                                v-model="rateVal"
+                                                :v-model="item.star_rating"
                                                 icon="like-o"
                                                 void-icon="like-o"
                                                 color="#f70a0a"
@@ -150,102 +131,15 @@
                                     <div class="eval-content">
                                         <p>{{item.content}}</p>
                                     </div>
-                                    <div class="imgView">
+                                    <!-- <div class="imgView">
                                         <span><img src="static/images/details/evaluation-img01.png"></span>
                                         <span><img src="static/images/details/evaluation-img01.png"></span>
                                         <span><img src="static/images/details/evaluation-img01.png"></span>
-                                    </div>
+                                    </div> -->
                                 </li>
-                                <!-- <li>
-                                    <div class="eval-user">
-                                        <div class="user">
-                                            <div class="avatar">
-                                                <img src="/static/images/details/00avatar01.png" />
-                                            </div>
-                                            <div class="text">
-                                                <span class="name">小腊肉</span>
-                                                <span class="date">2019-05-06</span>
-                                            </div>
-                                        </div>
-                                        <div class="score">
-                                            <van-rate
-                                                v-model="rateVal"
-                                                icon="like-o"
-                                                void-icon="like-o"
-                                                color="#f70a0a"
-                                                readonly
-                                            />
-                                        </div>
-                                    </div> 
-                                    <div class="eval-content">
-                                        <p>你的衣服最好的 快递也好快</p>
-                                    </div>
-                                     <div class="imgView">
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                    </div>
+                                <li v-if="commentlist">
+                                    {{commentlist}}
                                 </li>
-                                <li>
-                                    <div class="eval-user">
-                                        <div class="user">
-                                            <div class="avatar">
-                                                <img src="/static/images/details/00avatar01.png" />
-                                            </div>
-                                            <div class="text">
-                                                <span class="name">小腊肉</span>
-                                                <span class="date">2019-05-06</span>
-                                            </div>
-                                        </div>
-                                        <div class="score">
-                                            <van-rate
-                                                v-model="rateVal"
-                                                icon="like-o"
-                                                void-icon="like-o"
-                                                color="#f70a0a"
-                                                readonly
-                                            />
-                                        </div>
-                                    </div> 
-                                    <div class="eval-content">
-                                        <p>你的衣服最好的 快递也好快</p>
-                                    </div>
-                                     <div class="imgView">
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="eval-user">
-                                        <div class="user">
-                                            <div class="avatar">
-                                                <img src="/static/images/details/00avatar01.png" />
-                                            </div>
-                                            <div class="text">
-                                                <span class="name">小腊肉</span>
-                                                <span class="date">2019-05-06</span>
-                                            </div>
-                                        </div>
-                                        <div class="score">
-                                            <van-rate
-                                                v-model="rateVal"
-                                                icon="like-o"
-                                                void-icon="like-o"
-                                                color="#f70a0a"
-                                                readonly
-                                            />
-                                        </div>
-                                    </div> 
-                                    <div class="eval-content">
-                                        <p>你的衣服最好的 快递也好快</p>
-                                    </div>
-                                     <div class="imgView">
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                    </div>
-                                </li> -->
                             </ul>
 
                              <!-- 数据加载完提示 -->
@@ -381,6 +275,7 @@ export default {
             subIndex: [],
             zong: '', //是否选中 因为不确定是多规格还是但规格，所以这里定义数组来判断
             immediatelyOrder: '',
+            comment_count: '',
         }
     },
     methods:{
@@ -653,7 +548,8 @@ export default {
                 this.goodsinfo= res.data.data.goodsinfo
                 this.spec = res.data.data.spec
                 this.commentlist = res.data.data.commentlist
-                console.log(this.datalist)
+                this.comment_count = "商品评价" + "(" + res.data.data.comment_count + ")"
+                console.log(this.commentlist)
             })
 
             ///////////////////////////////
