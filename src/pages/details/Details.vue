@@ -396,7 +396,6 @@ export default {
         },
         //点击加入到购物车
         addToCart(){
-            
             console.log("this.goodsNumber", this.goodsNumber)
             if(this.spec.goods_sku.length>1){
                 if(this.zongshu){
@@ -464,7 +463,7 @@ export default {
         },
         // 立即购买
         toBay(){
-            console.log("this.goodsNumber", this.goodsNumber)
+            console.log("this.goodsNumber 666666", this.goodsNumber)
             if(this.spec.goods_sku.length>1){
                 if(this.zongshu){
                     let that = this;
@@ -491,6 +490,7 @@ export default {
                 
                 
             }else if(this.spec.goods_sku.length = 1){
+                 console.log("this.goodsNumber 666666", this.goodsNumber)
                 let skuid = this.spec.goods_sku[0].sku_id
                 let that = this;
                 this.goodsNumber = sessionStorage.getItem('goodsNumber');
