@@ -5,7 +5,7 @@
       <i slot="backBtn" class="iconfont iconfanhui"></i>
     </With-Header>
     <div class="bank_card_box">
-      <div class="bankcard_box" :class="active == key ? 'active':''" v-for="(item,key) in list" :key="key" @click="select(item,key)">
+      <div class="bankcard_box" :class="active == key ? 'active':''" v-for="(item,key) in data.list" :key="key" @click="select(item,key)">
         <div class="bankcard_top">
             <div class="bankcard_img"></div>
             <div class="bankcard_name">{{item.name}}</div>
@@ -16,13 +16,13 @@
       <div class="bankcard_button" @click="send">确定</div>
     </div>
     <!-- 无银行卡支付宝账号时 -->
-     <div class="embody_box" v-if="list.length==0">
-        <router-link to="/user/addBank">
+     <div class="embody_box">
+        <router-link to="/user/addBank" v-if="data.add_card==1">
           <div class="embody_top">
               <b>+</b><span>添加银行账号</span>
           </div>
         </router-link>
-        <router-link to="/user/alipay">
+        <router-link to="/user/alipay" v-if="data.alipay==1">
             <div class="embody_bottom">
                 <b>+</b><span>添加支付宝账号</span>
             </div>
@@ -36,7 +36,7 @@ export default {
   name: 'bankcard',
   data () {
     return {
-      list: '',
+      data: '',
       type: '',
       active: -1,
       card_id: ''
@@ -55,7 +55,7 @@ export default {
             }
             })
             .then((res) => {
-                this.list = res.data.data
+                this.data = res.data.data
                 // console.log(res.data.data)
             })
   },
