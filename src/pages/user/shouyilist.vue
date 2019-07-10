@@ -18,16 +18,16 @@
         <img :src="item.avatar" class="touxiang" />
         <div class="youbian">
           <p>昵称:{{item.nickname}}</p>
-          <p class="idzi">DI:{{item.id}}</p>
+          <p class="idzi">ID:{{item.id}}</p>
         </div>
       </div>
       <div class="second_ear">
         <span class="jife">积分</span>
-        <input class="box" placeholder="10000.00" v-model="point" type="text">
+        <input class="box" placeholder="请输入转账积分" v-model="point" type="text">
       </div>
       <div class="bottom_ear">
         <span class="jife">备注</span>
-        <input class="box" type="text" v-model="tips">
+        <input class="box" placeholder="选填" type="text" v-model="tips">
       </div>
       <div class="btn" @click="surezhuang">确认转账</div>
 

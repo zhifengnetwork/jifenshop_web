@@ -1,7 +1,7 @@
 <template>
 	<div class="data_wrap">
 		<!-- 头部组件 -->
-		<Data-Header custom-title="个人资料" custom-fixed>
+		<Data-Header custom-title="支付密码设置" custom-fixed>
 			<!-- 返回按钮 -->
 			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</Data-Header>
@@ -15,7 +15,7 @@
                         </div>
                     </div>
                 </router-link>
-                <router-link class="my_look" to="/user/paymentEdit">
+                <router-link class="my_look" v-if="data.pwd==1" to="/user/paymentEdit">
                     <div class="item_wrap">
                         <div class="text">修改支付密码</div>
                         <div class="name_wrap">
@@ -38,7 +38,8 @@
 
 <script>
 	import DataHeader from "@/pages/common/header/TopHeader"
-	export default {
+	import { Toast } from 'vant';    
+    export default {
 		name: "payment",
 		data() {
 			return{
@@ -64,6 +65,12 @@
                 console.log(response);
                 if(response.data.status == 1){
                     _this.data = response.data.data;
+                    if(_this.data.mobile==''){
+                        Toast('请先绑定手机号');
+                        setTimeout(function(){
+                            _this.$router.replace({name:'phone'})
+                        },1000);
+                    }
                 }
 				console.log(_this.data)
 			})

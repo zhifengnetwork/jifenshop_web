@@ -88,6 +88,10 @@
             },
             send(){
                 // 发送请求
+                if(this.mobile==''){
+                    Toast('请先绑定手机号');
+                    return false;
+                }
                 if(this.pwd.length<6){
                     Toast('请输入6位数密码');
                     return false;
