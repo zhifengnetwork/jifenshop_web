@@ -59,11 +59,16 @@ export default {
         },
         requestData(){
             let _this = this;
-			this.$axios.get('order/order_go_pay',{
-				params:{
-                    token:_this.$store.state.token,
-                    order_id:_this.order_id,                    
-				}
+            let url = null;
+            if(this.address_id){
+                url = 'order/temporary'
+            }else{
+                url = 'order/order_go_pay'
+            }
+			this.$axios.post(url,{
+                token:_this.$store.state.token,
+                order_id:_this.order_id,
+                address_id:_this.address_id,
 			})
 			.then(function(response){
                 console.log(response);
