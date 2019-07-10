@@ -23,7 +23,7 @@
                             ￥<strong>{{item.goods_price}}</strong>
                         </span>
                         <span class="-option-">
-                            <i class="subling iconfont iconjian-copy" @click="reducingNumber(key)"></i>
+                            <i class="subling iconfont iconjian-copy" @click="reducingNumber(key)" id="jiande"></i>
                             <input class="inp" type="text" :value="item.goods_num" @change="changNumber($event,key)" disabled/>
                             <i class="puls iconfont iconjia-copy" @click="addNumber(key)" ></i>
                         </span>
@@ -155,23 +155,28 @@ export default {
             var data =this.list[key];
             var idzhi=data.id;
             var val =parseInt(data.goods_num - 1) 
-           if(val<=1){
-               val =1
-           }
            this.$set( data,'goods_num',val )
            console.log("val",val);
-           if(val>1){
-               this.$axios({
-                    method:'post',
-                    url: '/cart/reduce_num?cart_id='+idzhi,
-                    data: {
-                        'token':this.$store.state.token,
-                    }
-                    })
-                    .then((res) => {
-                        console.log("resresres")
-                    })
-           }
+         if(val <= 0){
+            console.log(1234)
+            val = 1
+        }else{
+            this.$axios({
+                method:'post',
+                url: '/cart/reduce_num?cart_id='+idzhi,
+                data: {
+                    'token':this.$store.state.token,
+                }
+                })
+                .then((res) => {
+                    console.log("resresres")
+                })
+                console.log("val 666666",val)
+        }
+        
+          
+           
+           
            
         
 
