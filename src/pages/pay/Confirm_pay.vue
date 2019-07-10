@@ -176,8 +176,7 @@ export default {
                 }else{           
                     Toast('支付失败');
                 }
-            }
-            );
+            });
         },
     },
     
