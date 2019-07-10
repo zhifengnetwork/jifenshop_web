@@ -135,17 +135,31 @@ export default {
 	},
 	mounted(){
 		let _this = this;
-		this.$axios.get('index?token='+this.$store.state.token)
-		.then(function(response){
-			console.log(response.data);
-			if(response.data.status == 1){
-				_this.data = response.data.data;
-				_this.card = response.data.data.card;
+		//url 里有 code ，延时1秒再执行
+		setTimeout(function(){
+			console.log("Home before line 127 "+Date.now())
+			
+			var token = window.localStorage.getItem("token");
+			if(!token){
+				token = this.$store.state.token;
 			}
-		})
-		.catch(function(error){
-			console.log(error);
-		})
+			console.log('首页token:'+token)
+			_this.$axios.get('index?token='+token)
+			.then(function(response){
+				console.log(response.data);
+				console.log("Home after line 127 "+Date.now())
+
+				if(response.data.status == 1){
+					_this.data = response.data.data;
+					_this.card = response.data.data.card;
+				}
+			})
+			.catch(function(error){
+				console.log(error);
+			})
+
+		},1000)
+		
 	}
 };
 </script>

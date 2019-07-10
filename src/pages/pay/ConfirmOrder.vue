@@ -3,6 +3,7 @@
       	<!-- 头部组件 -->
 		<TopHeader custom-title="订单确认" custom-fixed>
             <i slot="backBtn" class="iconfont iconfanhui"></i>
+            <router-link slot="rightBtn" to="/User" style="color:black">我的</router-link>
 		</TopHeader>
         <div class="height-88"></div>
         <div class="content">
@@ -41,6 +42,7 @@
                 
                 <div class="g-list-b">
                     <div class="-list-1">
+
                         <span class="-b-subtitle">购买数量</span>
                         <span class="-option-">
                             <!-- <i class="subling iconfont iconjian" @click="reducingNumber()"></i> -->
