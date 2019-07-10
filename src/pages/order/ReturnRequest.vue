@@ -106,7 +106,7 @@ export default {
             })
             .then(function(response){
                 if(response.data.status==1){
-                    Toast.success(response.data.msg);
+                    Toast.success('提交成功，等待审核');
                     setTimeout(function(){   //设置延迟执行
                         location.reload();
                     },1000);

@@ -7,7 +7,7 @@
         <!-- 内容 -->
         <div class="content">
             <!-- No INFO START -->
-            <div v-if="data.length==0" class="no-info">
+            <div v-if="empty" class="no-info">
                 <Nodata :nodatas="nodatas"></Nodata>
             </div>
             <div class="item-card" v-for="(item,index) in data" :key="index">
@@ -67,6 +67,7 @@ export default {
         return {
             data:[],
             flag:false,
+            empty:false,
             nodatas:{
                 'imgSrc':'/static/images/cart/cart_icon.png',
                 'text':'清单空空如也~',
@@ -97,6 +98,9 @@ export default {
                             _this.flag = true;
                         }
                         _this.data.push(response.data.data[i]);
+                    }
+                    if(response.data.data.length==0&&_this.data.length==0){
+                        _this.empty = true;
                     }
                 }
                 console.log(_this.data)

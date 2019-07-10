@@ -71,7 +71,7 @@
 							<h3>{{item.goods_name}}</h3>
 							<div class="price">
 								<p class="discount-price">￥{{item.price}}</p>
-								<p class="original-price">原价:￥{{item.original_price}}</p>
+								<p class="original-price">原价:￥<s>{{item.original_price}}</s></p>
 							</div>
 						</div>
 					</router-link>
@@ -95,7 +95,7 @@
 							<h3>{{item.goods_name}}</h3>
 							<div class="price">
 								<p class="discount-price">￥{{item.price}}</p>
-								<p class="original-price">原价:￥{{item.original_price}}</p>
+								<p class="original-price">原价:￥<s>{{item.original_price}}</s></p>
 							</div>
 						</div>
 					</router-link>
@@ -345,6 +345,4 @@ export default {
 								margin-left 20px
 								font-size 24px
 								color #a1a1a1
-								text-decoration line-through
-			
 </style>

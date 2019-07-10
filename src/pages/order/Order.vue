@@ -59,7 +59,7 @@
                 </div>
 
                 <!-- 无数据 -->
-                <div class="none" v-if="data.length==0">
+                <div class="none" v-if="empty">
                     <img src="/static/images/public/none.png"/>
                     <p>亲，订单空空如也~</p>
                 </div>
@@ -110,7 +110,8 @@ export default {
             token:window.sessionStorage.getItem("token"),
             data:[],
             page:1,
-            flag:false
+            flag:false,
+            empty:false
         }
     },
     mounted(){
@@ -153,6 +154,9 @@ export default {
                         }
                         _this.data.push(response.data.data[i]);
                     }
+                    if(response.data.data.length==0&&_this.data.length==0){
+                        _this.empty = true;
+                    }
                 }
                 console.log(_this.data)
             })
@@ -167,6 +171,8 @@ export default {
             this.type = this.$route.query.type;
             this.requestData();
             this.page = 1;
+            this.flag = false;
+            this.empty = false;
             this.data = [];
         },
         scrollBottom(){

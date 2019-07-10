@@ -103,13 +103,29 @@
             },
             buy(){
                 let _this = this;
+                let type = null;
+                if(_this.radio=='0'&&_this.pwd==''){
+                    Toast('请输入支付密码');
+                    return false;
+                }
+                switch(_this.radio){
+                    case '0':
+                        type = 1;
+                        break;
+                    case '1':
+                        type = 2;
+                        break;
+                }
                 // 购买
                 this.$axios.post('user/member_pay',{
                     token:_this.$store.state.token,
-                    type:_this.radio,
+                    type:type,
                     pwd:_this.pwd
                 })
                 .then(function(response){
+                    if(response.data.status == 1){
+                        Toast.success('购买成功')
+                    }
                     console.log(response.data);
                 })
                 .catch(function(error){
