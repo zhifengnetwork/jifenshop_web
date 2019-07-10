@@ -42,15 +42,15 @@
                     <div class="-list-1">
                         <span class="-b-subtitle">购买数量</span>
                         <span class="-option-">
-                            <i class="subling iconfont iconjian" @click="reducingNumber()"></i>
-                            <input class="inp" type="text" :value="item.goods_num" @change="changNumber($event)"/>
-                            <i class="puls iconfont iconjia"  @click="addNumber()"></i>
+                            <!-- <i class="subling iconfont iconjian" @click="reducingNumber()"></i> -->
+                            <input class="inp" type="text" :value="item.goods_num" @change="changNumber($event)" disabled/>
+                            <!-- <i class="puls iconfont iconjia"  @click="addNumber()"></i> -->
                         </span>
                     </div>
                     <div class="-list-1">
                         <span class="-b-subtitle">配送方式</span>
                         <span class="-b-msg">普通配送</span>
-                        <span class="">快递{{list.shipping_price}}</span>
+                        <span class="">快递:{{list.shipping_price}}</span>
                     </div>
                     <div class="-list-1">
                         <span class="-b-subtitle">订单备注</span>
@@ -59,7 +59,7 @@
                     <div class="goods-price">
                         <span>共{{item.goods_num}}件</span>
                         <span>共计：</span>
-                        <span>￥ {{item.goods_price*item.goods_num}}</span>
+                        <span>￥ {{item.goods_price*item.goods_num+Number(list.shipping_price)  | numFilter}}</span>
                     </div>
                 </div>
             </div>
@@ -92,6 +92,7 @@
                 <strong class="f-a-a"> 实付款：</strong>
                 <div class="f-a-b">
                     <span class="colorRed size-20">￥<strong class="size-36">{{updatePrice}}</strong></span>
+                    <span class="han">(含运费)</span>
                 </div>
             </div>
             <div class="footer-b" @click="zhifu()">立即付款</div>
@@ -182,6 +183,13 @@ export default {
                 //     })
         }
     },
+    filters: {
+        numFilter (value) {
+            // 截取当前数据到小数点后两位
+            let realVal = parseFloat(value).toFixed(2)
+            return realVal
+        }
+        },
     computed:{
         // 计算总价格
         updatePrice(){
@@ -189,7 +197,7 @@ export default {
             // return totalPrice.toFixed(2)
                 var  totalPrice=0; 
                 for(var i=0;i<this.goods.length;i++){
-                    totalPrice= totalPrice + this.goods[i].goods_num*this.goods[i].goods_price
+                    totalPrice= totalPrice + (this.goods[i].goods_num*this.goods[i].goods_price+Number(this.list.shipping_price))
                 }
 
              
@@ -247,6 +255,9 @@ export default {
         color #f70a0a
     .size-20
         font-size 20px
+    .han
+        font-size 20px
+        color #ccc
     .size-36
         font-size 36px
     .placehor
@@ -328,7 +339,7 @@ export default {
                         margin 0 25px 0 138px
                         font-size 26px
                     .-option-
-                        border  2px solid #e6e6e6
+                        // border  2px solid #e6e6e6
                         width  200px
                         height  40px
                         line-height  40px
@@ -337,7 +348,7 @@ export default {
                         justify-content space-between
                         border-radius  20px
                         text-align center
-                        margin-left 115px
+                        // margin-left 115px
                         .iconfont
                             width 41px
                             height 100%
