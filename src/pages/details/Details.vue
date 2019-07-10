@@ -356,6 +356,7 @@ export default {
         confirm(){
 
              this.guigeNumber = sessionStorage.getItem('guigeNumber');
+             console.log("this.guigeNumber",this.guigeNumber)
             //点击确定关闭弹窗并使页面可以滚动
             this.guige = !this.guige;
             document.body.style.overflow='';
@@ -395,11 +396,13 @@ export default {
         },
         //点击加入到购物车
         addToCart(){
+            this.goodsNumber = sessionStorage.getItem('goodsNumber');
+            console.log("this.goodsNumber", this.goodsNumber)
             if(this.spec.goods_sku.length>1){
                 if(this.zongshu){
                 let that = this;
                 // this.$toast("添加成功,可直接去购物车下单")
-                this.guigeNumber = sessionStorage.getItem('guigeNumber');
+                
                 this.$axios({
                 method:'post',
                 url: 'cart/addCart',
@@ -436,13 +439,14 @@ export default {
                 let that = this;
                 console.log(skuid)
                 // this.$toast("添加成功,可直接去购物车下单")
-                this.guigeNumber = sessionStorage.getItem('guigeNumber');
+                this.goodsNumber = sessionStorage.getItem('goodsNumber');
+                
                 this.$axios({
                 method:'post',
                 url: 'cart/addCart',
                 data: {
                     sku_id: skuid,
-                    cart_number: this.guigeNumber,
+                    cart_number: this.goodsNumber,
                     "token":that.$store.state.token
                 }
                 })
@@ -526,7 +530,8 @@ export default {
     },
     //更新渲染前
         beforeUpdate() {
-        var zhi=sessionStorage.setItem("guigeNumber",this.goodsNumber)
+        var zhi=sessionStorage.setItem("goodsNumber",this.goodsNumber)
+        console.log("zhi" , this.goodsNumber)
         sessionStorage.setItem("guigeNumber", zhi);
     },
     // 挂载前
@@ -534,8 +539,8 @@ export default {
         // 挂载前取出msg数据
         this.msg = sessionStorage.getItem('msg');
         console.log(this.msg)
-        this.guigeNumber = sessionStorage.getItem('guigeNumber');
-        console.log(this.guigeNumber)
+        this.guigeNumber = sessionStorage.getItem('goodsNumber');
+        console.log("this.guigeNumber",this.guigeNumber)
     },
     mounted() {
         //监听页面滚动事件
