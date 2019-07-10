@@ -3,6 +3,7 @@
       	<!-- 头部组件 -->
 		<TopHeader custom-title="订单确认" custom-fixed>
             <i slot="backBtn" class="iconfont iconfanhui"></i>
+            <router-link slot="rightBtn" to="/User">我的</router-link>
 		</TopHeader>
         <div class="height-88"></div>
         <div class="content">
@@ -41,6 +42,7 @@
                 
                 <div class="g-list-b">
                     <div class="-list-1">
+
                         <span class="-b-subtitle">购买数量</span>
                         <span class="-option-">
                             <!-- <i class="subling iconfont iconjian" @click="reducingNumber()"></i> -->
@@ -149,7 +151,7 @@ export default {
         },
         //立即付款按钮
         zhifu(){
-            this.$router.push({name:'Confirm_pay',params:{address_id:this.addr_res,user_note:this.user_note}})
+            this.$router.push({name:'Confirm_pay',params:{address_id:this.addr_res,user_note:this.user_note,order_id:this.order_id}})
                 // let that = this;
                 // // this.address_id = this.addr_res.address_id
                 // console.log(this.indx)

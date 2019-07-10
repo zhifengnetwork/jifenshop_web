@@ -42,8 +42,8 @@
 		</div>
 
 		<!-- 会员 -->
-		<div class="five">
-			<router-link :to="'Vip?card='+card.number">
+		<div class="five" v-if="!card.number">
+			<router-link to="Vip">
 				<div class="five_title">
 					抢购会员卡
 				</div>
@@ -53,8 +53,20 @@
 					<span class="buy">立即购买></span>
 				</div>
 			</router-link>
+			
 		</div>
-
+		<!-- 查看会员卡 -->
+		<div class="fiveing" v-if="card.number">
+			<router-link :to="'Vip?card='+card.number">
+				<div class="five_title">
+					臻致康健康商城
+				</div>
+				<div class="five_info">
+					NO:{{card.number}}
+				</div>
+				<div class="buy">查看详情></div>
+			</router-link>
+		</div>
 		<!-- 热销商品 -->
 		<div class="hot-wrap">
 			<div class="heading">
@@ -233,10 +245,10 @@ export default {
 				text-align center
 	.five
 		position relative
-		margin  0 24px
+		margin  20px 24px 0
 		height 262px
 		background url('/static/images/home/five_bg.png')
-		background-size contain
+		background-size cover
 		text-align center
 		font-size 30px
 		font-weight bold
@@ -252,6 +264,35 @@ export default {
 			position absolute
 			right 20px
 			bottom 10px
+			color #151515
+	.fiveing
+		position relative
+		margin  20px 24px 0
+		height 262px
+		background url('/static/images/home/VIP.png')
+		background-size cover
+		text-align center
+		font-size 30px
+		font-weight bold
+		border-radius 20px
+		a
+			display block
+			width 100%
+			height 100%
+		.five_title
+			position absolute
+			left 50px
+			top 40px
+			color #692c07
+		.five_info
+			position absolute
+			left 50px
+			bottom 40px
+			color #867759
+		.buy
+			position absolute
+			right 30px
+			bottom 30px
 			color #151515
 	.heading
 		height 82px
