@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <div class="members">普通会员</div>
+            <div class="members">{{data.level}}</div>
 
             <div class="article">
                 <div class="user_item">

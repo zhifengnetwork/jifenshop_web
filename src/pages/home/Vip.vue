@@ -1,7 +1,7 @@
 <template>
     <div class="vip">
         <!-- 头部组件 -->
-		<TopHeader custom-title="确认订单" custom-fixed>
+		<TopHeader custom-title="购买会员卡" custom-fixed>
 			<!-- 返回按钮 -->
 			<i slot="backBtn" class="iconfont iconfanhui"></i>
 		</TopHeader>
@@ -16,7 +16,7 @@
         </div>
         <!-- 选择支付方式 -->
         
-        <div class="balance">
+        <div class="balance" v-if="!status">
             <van-radio-group v-model="radio">
                 <van-cell-group>
                 <van-cell :title="'余额支付 ￥'+user_info.money" clickable @click="radio = '0'">
@@ -28,13 +28,13 @@
                 </van-cell-group>
             </van-radio-group>
         </div>
-        <div class="password" v-if="radio==0">
+        <div class="password" v-if="radio==0&&!status">
             <van-cell-group>
                 <van-field v-model="pwd" placeholder="请输入支付密码" type="password" />
             </van-cell-group>
         </div>
         <!-- 底部菜单 -->
-        <div class="menu">
+        <div class="menu" v-if="!status">
             <p class="menu_item">
                 实付款<span class="menu_text">￥<b class="menu_price">{{data.money}}</b></span>
             </p>
@@ -56,7 +56,8 @@
                 data:'',
                 user_info:'',
                 radio:'0',
-                pwd:''
+                pwd:'',
+                status:''
             }
         },
         components: {
@@ -64,6 +65,7 @@
         },
         mounted(){
             this.requestData();
+            this.status = this.$route.query.card;
         },
         methods:{
             balance(){
@@ -103,13 +105,30 @@
             },
             buy(){
                 let _this = this;
+                let type = null;
+                if(_this.radio=='0'&&_this.pwd==''){
+                    Toast('请输入支付密码');
+                    return false;
+                }
+                switch(_this.radio){
+                    case '0':
+                        type = 1;
+                        break;
+                    case '1':
+                        type = 2;
+                        break;
+                }
                 // 购买
                 this.$axios.post('user/member_pay',{
                     token:_this.$store.state.token,
-                    type:_this.radio,
+                    type:type,
                     pwd:_this.pwd
                 })
                 .then(function(response){
+                    if(response.data.status == 1){
+                        Toast.success('购买成功');
+                        _this.$router.replace({name:'Home'})
+                    }
                     console.log(response.data);
                 })
                 .catch(function(error){
