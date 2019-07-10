@@ -38,11 +38,13 @@ export default {
           // 如果有code的话,我们就成功了,接下来要token了
           // getQueryString用来截取code的值
           var code = this.getQueryString("code");
+          console.log("App before line 46 "+Date.now())
 
           this.$axios({
             method: "get",
             url: "/login/login_by_code?code=" + code
           }).then(res => {
+            	console.log("App after line 46 "+Date.now())
             // alert(res.data.data.token)
             //获取token,储存到本地
             if (res.data.status == 1) {
@@ -65,7 +67,7 @@ export default {
         this.$store.commit("updateToken", huoqutoken);
       }
     } else {
-      console.log("不是微信环境");
+      console.log("APP line 70 :不是微信环境");
       window.localStorage.setItem(
         "token",
         "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEQyIsImlhdCI6MTU1OTYzOTg3MCwiZXhwIjoxNTU5Njc1ODcwLCJ1c2VyX2lkIjo3Nn0.YUQ3hG3TiXzz_5U594tLOyGYUzAwfzgDD8jZFY9n1WA"

@@ -181,9 +181,19 @@
         mounted(){
             let _this = this;
             let ord = ['waitPay','waitSend','waitReceive','waitComment','return']
+            var token = window.localStorage.getItem("token");
+			if(!token){
+				token = this.$store.state.token;
+            }
+            console.log('User line 188 token:'+token)
+            //不存在就跳回首页
+            if(!token){
+                window.location.href = document.location.protocol+'//'+window.location.host;
+                return false;
+            }
             this.$axios.get('home/index',{
                 params:{
-                    token:_this.$store.state.updateToken
+                    token:token
                 }
             })
             .then(function(response){
