@@ -165,7 +165,7 @@ export default {
                 "appId":data.appId,//公众号名称，由商户传入
                 "timeStamp":data.timeStamp,//时间戳
                 "nonceStr":data.nonceStr,//随机串
-                "package":data.packageValue,//预支付id
+                "package":data.package,//预支付id
                 "signType":data.signType,//微信签名方式
                 "paySign":data.paySign,//微信签名
             },
