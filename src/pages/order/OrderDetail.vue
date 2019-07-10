@@ -8,7 +8,7 @@
               <img  :src="item.img" class="shop_img"/>               
               <div class="shop_dec">
                   <p class="shop_decname">{{item.goods_name}}</p>
-                  <p class="shop_guige">{{item.spec_key_name}}</p>
+                  <p class="shop_guige" v-if="item.spec_key_name!='[]'">{{item.spec_key_name}}</p>
                   <p class="shop_decprice"><span class="qian">￥{{item.goods_price}}</span><span class="num">x{{item.goods_num}}</span></p>
               </div>  
         </div>
@@ -18,7 +18,7 @@
              <p class="xinxi"><span class="second_title">下单时间</span><span class="second_zhi">{{xiang.add_time}}</span></p>
              <p class="xinxi"><span class="second_title">收货地址</span><span class="second_zhi">{{xiang.address}}</span></p>
              <p class="xinxi"><span class="second_title">收货人</span><span class="second_zhi">{{xiang.consignee}}</span></p>
-             <p class="xinxi"><span class="second_title">支付方式</span><span class="second_zhi">{{xiang.pay_status}}</span></p>  
+             <p class="xinxi"><span class="second_title">支付方式</span><span class="second_zhi">{{xiang.pay_type}}</span></p>  
              <p class="xinxi"><span class="second_title"> 配送方式</span><span class="second_zhi">{{xiang.shipping_name}}</span></p>
              <p class="xinxi"><span class="second_title">买家备注</span><span class="second_zhi">{{xiang.user_note}}</span></p>
         </div>
@@ -30,8 +30,11 @@
              <p class="xinxi"><span class="second_title">积分</span><span class="second_zhi">{{xiang.integral}}</span></p>
              <p class="xinxi"><span class="second_title">订单总额</span><span class="second_zhi">{{xiang.order_amount}}</span></p>       
         </div>
+        
+        
+        
         <div class="bottom_bar">
-                <p class="fukuang">立即付款</p>
+                <p class="fukuang" v-if="xiang.order_status == 1 && xiang.pay_status == 0" @click="pay" >立即付款</p>
         </div>
 
 
@@ -55,19 +58,25 @@ export default {
         }
     },
     mounted(){
-         this.$axios({
-                method:'post',
-                url: '/order/order_detail?order_id='+this.$route.query.order_id,
-                data: {
-                      'token':this.$store.state.token,
-                    }
-                })
-                .then((res) => {
-                    console.log(res.data.data)
-                    this.xiang=res.data.data
-                    this.goods=res.data.data.goods_res
-                })
+        this.$axios({
+            method:'post',
+            url: '/order/order_detail?order_id='+this.$route.query.order_id,
+            data: {
+                    'token':this.$store.state.token,
+                }
+            })
+            .then((res) => {
+                console.log(res.data.data)
+                this.xiang=res.data.data
+                this.goods=res.data.data.goods_res
+            })
+    },
+    methods:{
+        pay(){
+            this.$router.replace({name:'Confirm_pay',params:{address_id:false,user_note:this.xiang.user_note,order_id:this.xiang.order_id}})
         }
+    }
+
 }
 </script>
 

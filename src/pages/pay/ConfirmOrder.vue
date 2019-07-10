@@ -7,53 +7,59 @@
         <div class="height-88"></div>
         <div class="content">
             <div class="user-info-wrap mb-10">
-                 <router-link  :to="{path:'/user/Address',prams:{Address:addr_res.address_id}}" class="user-info">
+                 <router-link  :to="{name:'Address',params:{Address:'Address'}}" replace class="user-info">
                     <i class="iconfont iconweizhi"></i>
-                    <div class="-info-list">
+                    <div class="-info-list" v-if="addr_res!=''">
                         <p class="-list-a">
                             <strong class="mr-44">{{addr_res.consignee}}</strong>
                             <strong>{{addr_res.mobile}}</strong>
                         </p>
                         <p class="-list-b">{{addr_res.address}}</p>
                     </div>
+                    <div class="-info-list" v-if="addr_res==''">
+                        <p class="-list-a">
+                            请添加地址
+                        </p>
+                    </div>
                     <div class="-list-edit"><i class="iconfont iconbianji"></i></div>
                 </router-link>
                 <img class="-info-img" src="/static/images/order/color_line.png" />
             </div>
             <!-- GOODS START -->
-            <div class="goods-list">
+            <div class="goods-list"  v-for="(item,index) in goods" :key="index">
                 <router-link to="/Details" class="g-list-a">
-                    <img class="-list-img" :src="goods.img" />
+                    <img class="-list-img" :src="item.img" />
                     <div class="-detial-">
-                        <p class="-d-msg apostrophe">{{goods.goods_name}}</p>
+                        <p class="-d-msg apostrophe">{{item.goods_name}}</p>
                         <p class="-d-msg2">
-                            <span>￥ {{goods.goods_price}}</span>
-                            <span>x {{goods.goods_num}}</span>
+                            <span>￥ {{item.goods_price}}</span>
+                            <span>x {{item.goods_num}}</span>
                         </p>
                     </div>
                 </router-link>
+                
                 <div class="g-list-b">
                     <div class="-list-1">
                         <span class="-b-subtitle">购买数量</span>
                         <span class="-option-">
                             <i class="subling iconfont iconjian" @click="reducingNumber()"></i>
-                            <input class="inp" type="text" :value="goods.goods_num" @change="changNumber($event)"/>
+                            <input class="inp" type="text" :value="item.goods_num" @change="changNumber($event)"/>
                             <i class="puls iconfont iconjia"  @click="addNumber()"></i>
                         </span>
                     </div>
                     <div class="-list-1">
                         <span class="-b-subtitle">配送方式</span>
                         <span class="-b-msg">普通配送</span>
-                        <span class="">快递 免费</span>
+                        <span class="">快递{{list.shipping_price}}</span>
                     </div>
                     <div class="-list-1">
                         <span class="-b-subtitle">订单备注</span>
-                        <input type="text"  placeholder-class="placehor" placeholder="选填 请先和商家协商一致" />  
+                        <input type="text"  placeholder-class="placehor" v-model="user_note" placeholder="选填 请先和商家协商一致" />  
                     </div>
                     <div class="goods-price">
-                        <span>共{{goods.goods_num}}件</span>
+                        <span>共{{item.goods_num}}件</span>
                         <span>共计：</span>
-                        <span>￥ {{updatePrice}}</span>
+                        <span>￥ {{item.goods_price*item.goods_num}}</span>
                     </div>
                 </div>
             </div>
@@ -68,7 +74,7 @@
 
 
 
-            <van-radio-group v-model="radio">
+            <!-- <van-radio-group v-model="radio">
                 <van-cell-group>
                     <van-cell :title="item.pay_name" clickable @click="che(key,$event)" v-for="(item,key) in pay_type" :key="key" :data-id="item.pay_type" >
                             <van-radio slot="right-icon" :name="key" /> 
@@ -77,7 +83,7 @@
                                  <input type="password" v-model="password" placeholder="请输入密码" v-if="radio == 1 && key == indx">
                     </van-cell>
                 </van-cell-group>
-            </van-radio-group>
+            </van-radio-group> -->
         </div>
         <!-- FOOTER START -->
         <div class="footer-height"></div>
@@ -86,7 +92,6 @@
                 <strong class="f-a-a"> 实付款：</strong>
                 <div class="f-a-b">
                     <span class="colorRed size-20">￥<strong class="size-36">{{updatePrice}}</strong></span>
-                    
                 </div>
             </div>
             <div class="footer-b" @click="zhifu()">立即付款</div>
@@ -95,6 +100,8 @@
 </template>
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
+import { Toast } from 'vant';
+
 export default {
     data() {
         return {
@@ -108,6 +115,7 @@ export default {
             indx: '',
             password:'',
             site: '',
+            user_note: ''
         };
     },
     methods:{
@@ -139,41 +147,55 @@ export default {
         },
         //立即付款按钮
         zhifu(){
-                let that = this;
-                // this.address_id = this.addr_res.address_id
-                console.log(this.indx)
-                // this.$toast("添加成功,可直接去购物车下单")
-                this.$axios({
-                method:'post',
-                url: 'order/submitOrder',
-                data: {
-                    address_id: this.address_id,
-                    pay_type: this.indx,
-                    pwd: this.password,
-                    "token":that.$store.state.token 
-                }
-                })
-                .then((res) => {
-                   console.log(res)
-                   if(res.status == 1){
-                        Toast({
-                            message: '购买成功',
-                            icon: 'fail'
-                        });
-                   }else if(res.status == 0){
-                        Toast({
-                            message: '余额不足',
-                            icon: 'fail'
-                        });
-                   }
-                    })
+            this.$router.push({name:'Confirm_pay',params:{address_id:this.addr_res,user_note:this.user_note}})
+                // let that = this;
+                // // this.address_id = this.addr_res.address_id
+                // console.log(this.indx)
+                // // this.$toast("添加成功,可直接去购物车下单")
+                // this.$axios({
+                // method:'post',
+                // url: 'order/submitOrder',
+                // data: {
+                //     address_id: this.address_id,
+                //     pay_type: this.indx,
+                //     pwd: this.password,
+                //     "token":that.$store.state.token 
+                // }
+                // })
+                // .then((res) => {
+                //    if(res.data.status == 1){
+                //        console.log(res)
+                //         console.log(res.data.data)
+                //         if(this.indx==1){
+                //             Toast.success('购买成功');
+                //             this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':res.data.data.order_id}})
+                //         }else{
+                //             Toast.success('下单成功');
+                //             this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':res.data.data}})
+                //         }
+                //    }else if(res.status == 0){
+                //         Toast({
+                //             message: '余额不足',
+                //             icon: 'fail'
+                //         });
+                //    }
+                //     })
         }
     },
     computed:{
         // 计算总价格
         updatePrice(){
-            var totalPrice =new Number(this.goods.goods_num) * new Number(this.goods.goods_price)
-            return totalPrice.toFixed(2)
+            // var totalPrice =new Number(this.goods.goods_num) * new Number(this.goods.goods_price)
+            // return totalPrice.toFixed(2)
+                var  totalPrice=0; 
+                for(var i=0;i<this.goods.length;i++){
+                    totalPrice= totalPrice + this.goods[i].goods_num*this.goods[i].goods_price
+                }
+
+             
+               return totalPrice.toFixed(2)
+             
+
         }
     },
     created: function(){
@@ -187,10 +209,11 @@ export default {
             })
             .then((res) => {
             this.list = res.data.data
-            this.goods = this.list.goods[0]
+            this.goods = this.list.goods
             this.addr_res = this.list.addr_res[0]
             this.address_id = this.addr_res.address_id
             this.pay_type = this.list.pay_type
+        
             if(this.site){
                 this.addr_res = this.$route.params.address_id;
                 this.address_id = this.site.id
@@ -230,7 +253,13 @@ export default {
         font-size 18px
         color #999
     .mr-44
+        display block
+        float left
+        max-width 200px
         margin-right  44px
+        text-overflow ellipsis
+        white-space nowrap
+        overflow hidden
     .mb-10
         margin-bottom 10px
     .content

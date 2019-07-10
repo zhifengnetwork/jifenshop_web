@@ -11,25 +11,34 @@
                 臻致康健康商城
             </div>
             <div class="card_code">
-                NO:1234 5678
+                NO:{{data.number}}
             </div>
         </div>
-        <!-- 余额 -->
-        <div class="balance" @click="balance">
-            我的余额<span class="balance_num">￥5000.00</span>
-            <div class="radio">
-                <i class="radio_i" :class="checked?'active':''"></i>
-            </div>
+        <!-- 选择支付方式 -->
+        
+        <div class="balance">
+            <van-radio-group v-model="radio">
+                <van-cell-group>
+                <van-cell :title="'余额支付 ￥'+user_info.money" clickable @click="radio = '0'">
+                    <van-radio slot="right-icon" name="0" />
+                </van-cell>
+                <van-cell title="微信支付" clickable @click="radio = '1'">
+                    <van-radio slot="right-icon" name="1" />
+                </van-cell>
+                </van-cell-group>
+            </van-radio-group>
+        </div>
+        <div class="password" v-if="radio==0">
+            <van-cell-group>
+                <van-field v-model="pwd" placeholder="请输入支付密码" type="password" />
+            </van-cell-group>
         </div>
         <!-- 底部菜单 -->
         <div class="menu">
             <p class="menu_item">
-                实付款<span class="menu_text">￥<b class="menu_price">720.00</b></span>
+                实付款<span class="menu_text">￥<b class="menu_price">{{data.money}}</b></span>
             </p>
-            <p class="menu_item">
-                会员优惠<span class="menu_text">￥<b class="menu_price">10.00</b></span>
-            </p>
-            <p class="menu_item">
+            <p class="menu_item" @click="buy">
                 立即购买
             </p>
         </div>
@@ -38,19 +47,74 @@
 
 <script>
     import TopHeader from "@/pages/common/header/TopHeader"
+    import { Toast } from 'vant';   
     export default {
         name: 'vip',
         data(){
             return {
                 checked:true,
+                data:'',
+                user_info:'',
+                radio:'0',
+                pwd:''
             }
         },
         components: {
             TopHeader
         },
+        mounted(){
+            this.requestData();
+        },
         methods:{
             balance(){
                 this.checked=!this.checked;
+            },
+            // 请求数据
+            requestData(){
+                let _this = this;
+                // 获取会员卡数据
+                this.$axios.get('user/member_card',{
+                    params:{
+                        token:_this.$store.state.token,
+                    }
+                })
+                .then(function(response){
+                    console.log(response.data);
+                    _this.data = response.data.data;
+                    console.log(_this.data)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+                // 获取余额
+                this.$axios.get('home/get_user_info',{
+                    params:{
+                        token:_this.$store.state.token,
+                    }
+                })
+                .then(function(response){
+                    console.log(response.data);
+                    _this.user_info = response.data.data;
+                    console.log(_this.user_info)
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+            },
+            buy(){
+                let _this = this;
+                // 购买
+                this.$axios.post('user/member_pay',{
+                    token:_this.$store.state.token,
+                    type:_this.radio,
+                    pwd:_this.pwd
+                })
+                .then(function(response){
+                    console.log(response.data);
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
             }
         }
     }
@@ -79,40 +143,12 @@
     bottom 40px
     color #867759
 .balance
-    position relative
     margin-top 40px
     height 100px
     line-height 100px
-    text-indent 24px
     background #fff
-.balance_num
-    margin-left 20px
-.radio
-    position absolute
-    right 20px
-    top 0
-    bottom 0
-    margin auto
-    width 50px
-    height 50px
-    border-radius 50%
-    border 2px solid #151515
-    background #fff
-    .active
-        width 70%
-        height 70%
-.radio_i
-    position absolute
-    left 0
-    top 0
-    right 0
-    bottom 0
-    margin auto
-    width 0
-    height 0
-    background #ff0000
-    border-radius 50%
-    transition .3s all
+.password
+    margin-top 104px
 .menu
     position fixed
     bottom 0
@@ -123,16 +159,15 @@
     text-align center
     background #fff
 .menu_item
-    width 35%
-    height 100%
     float left
-.menu_item:nth-child(3)
-    width 30%
+    width 40%
+    height 100%
+.menu_item:nth-child(2)
+    float right
+    width 40%
     color #ffffff
     font-weight bold
     background #ff0000
-.menu_item:nth-child(2) .menu_text
-    color #151515
 .menu_text
     font-size 12px
     color #ff0000

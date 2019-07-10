@@ -6,6 +6,8 @@ const axios = Axios.create();
 import { Dialog } from 'vant';
 let cancel ,promiseArr = {} 
 
+
+
 /*设置 axios拦截器*/
 //拦截器的作用是判断token的问题
 
@@ -72,10 +74,11 @@ axios.interceptors.response.use(
 			Dialog.alert({
 				message: error.response.data['msg']
 			}).then(() => {
-				window.localStorage.setItem("token",null);
-				router.replace({  	
-					path: '/index',
-				})
+				window.localStorage.removeItem("token");
+				window.location.href = document.location.protocol+'//'+window.location.host;
+				// router.replace({  	
+				// 	path: '/index',
+				// })
 			})
 
 		}else{

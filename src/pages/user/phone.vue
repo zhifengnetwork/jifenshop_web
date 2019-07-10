@@ -17,7 +17,7 @@
 				<!-- 验证码 -->
 				<div class="name_wrap" style="width:65%;float:left;">
 					<div class="name">验证码</div>
-					<div class="inp_wrap"  style="width:55%;">
+					<div class="inp_wrap"  style="width:52%;">
 						<input type="text" placeholder="请输入验证码" v-model="cod" />
 					</div>
 				</div>
@@ -60,24 +60,24 @@
                     return false;
                 }
                 let _this = this;
-                let s = 60;
-                let time = setInterval(function(){
-                    s--;
-                    _this.flag = false;
-                    _this.but = s+'秒后重新获取';
-                    if(s==0){
-                        _this.but = '获取验证码'
-                        _this.flag = true;
-                        clearInterval(time)
-                    }
-                },1000)
                 console.log(_this.mobile)
                 this.$axios.post('home/send_sms',{
-                    token:_this.$store.state.token,
+					token:_this.$store.state.token,
                     mobile:_this.mobile
                 })
                 .then(function(response){
-                    if(response.data.status==1){
+					if(response.data.status==1){
+						let s = 60;
+						let time = setInterval(function(){
+							s--;
+							_this.flag = false;
+							_this.but = s+'秒后重新获取';
+							if(s==0){
+								_this.but = '获取验证码'
+								_this.flag = true;
+								clearInterval(time)
+							}
+						},1000)
                         console.log(response);
                     }else{
                         Toast(response.data.msg)
@@ -97,6 +97,8 @@
                 })
                 .then(function(response){
                     if(response.data.status==1){
+						Toast.success('绑定成功');
+						_this.$router.replace({name:'User'})
                         console.log(response);
                     }else{
                         Toast(response.data.msg)
