@@ -11,7 +11,7 @@
 			<!-- 轮播图 -->
 			<div class="banner">
 				<van-swipe :autoplay="3000" indicator-color="white">
-					<van-swipe-item v-for="(item,index) in data.banner" :key="index" @click="banner(item)">
+					<van-swipe-item v-for="(item,index) in data.banner" :key="index" @click="banner(item.url)">
 						<!-- <router-link :to="item.url" :pid="item.id"> -->
 							<img :src="item.picture"/>
 						<!-- </router-link> -->
@@ -30,7 +30,7 @@
 			</div>
 			<!-- 分类 -->
 			<div class="classify">
-				<div class="classify_btn" v-for="(item,index) in data.catenav" @click="classify_btn(item)" :key="index">
+				<div class="classify_btn" v-for="(item,index) in data.catenav" @click="classify_btn(item.url)" :key="index">
 					<!-- <router-link :to="item.url"> -->
 						<div class="btn_imgWrap">
 							<img class="btn_img" :src="item.image">
@@ -168,11 +168,20 @@ export default {
 		
 	},
 	methods:{
-		classify_btn(item){
-			window.location.href = 'http://'+item.url;
+		classify_btn(url){
+			
+			if(url.substr(0,4) == 'http'){
+				window.location.href = url;
+			}else{
+				window.location.href = 'http://'+url;
+			}
 		},
-		banner(item){
-			window.location.href = 'http://'+item.url;
+		banner(url){
+			if(url.substr(0,4) == 'http'){
+				window.location.href = url;
+			}else{
+				window.location.href = 'http://'+url;
+			}
 		},
 	}
 };
