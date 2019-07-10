@@ -39,7 +39,7 @@
                         <div class="total-count">共{{item.goods_num}}件商品</div>
                         <div class="payment">
                             <span class="label">合计 : </span>
-                            <span class="price">￥{{item.goods_price*item.goods_num}}</span>
+                            <span class="price">￥{{item.total_amount}}</span><span style="color:#ccc" v-if="item.shipping_price >0">(含运费{{item.shipping_price}})</span>
                         </div>
                     </div>
                     <div class="order-btn">
@@ -48,7 +48,7 @@
                         <span class="btn red"  v-if="item.order_status == 1 &&　item.pay_status == 0" @click="cancel(item.order_id)">取消订单</span>
                         <!-- <router-link class="btn red" to='/Order/Express' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1">查询物流</router-link> -->
                         <span class="btn red" to='' v-if="item.order_status == 1 &&　item.pay_status == 1 && item.shipping_status == 1" @click="receiving(item.order_id)">确认收货</span>
-                        <router-link class="btn red" :to="{path:'/Order/Evaluate',query: {id: item.order_id}}" v-if="item.order_status == 4 &&　item.pay_status == 1">去评价</router-link>
+                        <router-link class="btn red" :to="{path:'/Order/Evaluate',query: {id: item.order_id}}" v-if="item.status == 4">去评价</router-link>
                          
                        
                     </div>
