@@ -62,17 +62,7 @@
                     return false;
                 }
                 let _this = this;
-                let s = 60;
-                let time = setInterval(function(){
-                    s--;
-                    _this.flag = false;
-                    _this.but = s+'秒后重新获取';
-                    if(s==0){
-                        _this.but = '获取验证码'
-                        _this.flag = true;
-                        clearInterval(time)
-                    }
-                },1000)
+                
                 console.log(_this.mobile)
                 this.$axios.post('home/send_sms',{
                     token:_this.$store.state.token,
@@ -81,6 +71,17 @@
                 })
                 .then(function(response){
                     if(response.data.status==1){
+                        let s = 60;
+                        let time = setInterval(function(){
+                            s--;
+                            _this.flag = false;
+                            _this.but = s+'秒后重新获取';
+                            if(s==0){
+                                _this.but = '获取验证码'
+                                _this.flag = true;
+                                clearInterval(time)
+                            }
+                        },1000)
                         console.log(response);
                     }else{
                         Toast(response.data.msg)

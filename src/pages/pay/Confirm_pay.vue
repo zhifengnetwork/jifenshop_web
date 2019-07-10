@@ -59,11 +59,16 @@ export default {
         },
         requestData(){
             let _this = this;
-			this.$axios.get('order/order_go_pay',{
-				params:{
-                    token:_this.$store.state.token,
-                    order_id:_this.order_id,                    
-				}
+            let url = null;
+            if(this.address_id){
+                url = 'order/temporary'
+            }else{
+                url = 'order/order_go_pay'
+            }
+			this.$axios.post(url,{
+                token:_this.$store.state.token,
+                order_id:_this.order_id,
+                address_id:_this.address_id,
 			})
 			.then(function(response){
                 console.log(response);
@@ -79,7 +84,8 @@ export default {
         },
         payment(){
             let _this = this;
-            let pay_type =null;
+            let pay_type = null;
+            let url = null;
             if(_this.indx===''){
                 Toast('请选择支付方式');
                 return false;
@@ -104,47 +110,74 @@ export default {
             }
             console.log(_this.address_id,_this.indx,_this.order_id,6666)
             if(_this.address_id){
-                this.$axios.post('order/submitOrder',{
-                    token:_this.$store.state.token,
-                    address_id:_this.address_id,
-                    pay_type:pay_type,
-                    pwd:_this.pwd,
-                    user_note:_this.user_note
-                })
-                .then(function(response){
-                    console.log(response);
-                    if(response.data.status == 1){
-                        if(_this.indx==1){
-                            Toast.success('支付成功');
-                            _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data.order_id}})
-                        }else{
-                            Toast.success('下单成功');
-                            _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data}})
-                        }
-                    }
-                })
-                .catch(function(error){
-                    console.log(error);
-                })
+                url = 'order/submitOrder';
             }else{
-                this.$axios.post('order/order_pay',{
-                    token:_this.$store.state.token,
-                    pay_type:pay_type,
-                    order_id:_this.order_id,
-                    pwd:_this.pwd
-                })
-                .then(function(response){
-                    console.log(response);
-                    if(response.data.status == 1){
+                url = 'order/order_pay';
+            }
+            this.$axios.post(url,{
+                token:_this.$store.state.token,
+                address_id:_this.address_id,
+                order_id:_this.order_id,
+                pay_type:pay_type,
+                pwd:_this.pwd,
+                user_note:_this.user_note
+            })
+            .then(function(response){
+                console.log(response);
+                if(response.data.status == 1){
+                    if(pay_type==2){
+                        _this.weixin(response.data.data)
+                    }else{
                         Toast.success('支付成功');
                         _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data.order_id}})
                     }
-                })
-                .catch(function(error){
-                    console.log(error);
-                })
+
+                    // else{
+                    //     Toast.success('下单成功');
+                    //     _this.$router.replace({path:'/Order/OrderDetail',query:{'order_id':response.data.data}})
+                    // }
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        },
+        // 微信支付
+        weixin(data){
+            var _this= this;
+        //下面是解决WeixinJSBridge is not defined 报错的方法
+            if (typeof WeixinJSBridge == "undefined"){//微信浏览器内置对象。参考微信官方文档
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', _this.onBridgeReady(data), false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', _this.onBridgeReady(data));
+                document.attachEvent('onWeixinJSBridgeReady',_this.onBridgeReady(data));
             }
-        }
+            }else{
+                _this.onBridgeReady(data);
+            }
+    
+        },
+        onBridgeReady:function(data){
+            WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',{//下面参数内容都是后台返回的
+                debug:true,
+                "appId":data.appId,//公众号名称，由商户传入
+                "timeStamp":data.timeStamp,//时间戳
+                "nonceStr":data.nonceStr,//随机串
+                "package":data.package,//预支付id
+                "signType":data.signType,//微信签名方式
+                "paySign":data.paySign,//微信签名
+            },
+            function(res){
+                // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                if(res.err_msg == "get_brand_wcpay_request:ok" ){         
+                    Toast.success('支付成功');
+                }else{           
+                    Toast('支付失败');
+                }
+            });
+        },
     },
     
 }

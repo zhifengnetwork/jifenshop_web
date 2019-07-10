@@ -107,7 +107,7 @@
                     <van-tab :title="this.comment_count">
                         <div class="comment-wrap">
                             <ul class="comment-list">
-                                <li v-for="(item,key) in commentlist" :key="key" v-if="!commentlist">
+                                <li v-for="(item,key) in commentlist" :key="key" v-if="commentlist != '暂无评论！'">
                                     <div class="eval-user">
                                         <div class="user">
                                             <div class="avatar">
@@ -137,7 +137,7 @@
                                         <span><img src="static/images/details/evaluation-img01.png"></span>
                                     </div> -->
                                 </li>
-                                <li v-if="commentlist">
+                                <li v-if="commentlist == '暂无评论！'" style="text-align:center">
                                     {{commentlist}}
                                 </li>
                             </ul>
@@ -145,7 +145,6 @@
                              <!-- 数据加载完提示 -->
                             <div class="end-wrap">
                                 <p>我是有底线哦~~</p>
-                                {{msg}}
                             </div>
 
                         </div>
@@ -396,7 +395,6 @@ export default {
         },
         //点击加入到购物车
         addToCart(){
-            
             console.log("this.goodsNumber", this.goodsNumber)
             if(this.spec.goods_sku.length>1){
                 if(this.zongshu){
@@ -408,7 +406,7 @@ export default {
                 url: 'cart/addCart',
                 data: {
                     sku_id: this.zongshu,
-                    cart_number: this.guigeNumber,
+                    cart_number: this.goodsNumber,
                     "token":that.$store.state.token
                 }
                 })
@@ -464,32 +462,34 @@ export default {
         },
         // 立即购买
         toBay(){
+            console.log("this.goodsNumber 666666", this.goodsNumber)
             if(this.spec.goods_sku.length>1){
-                 if(this.zongshu){
-                     let that = this;
-                     this.goodsNumber = sessionStorage.getItem('goodsNumber');
-                this.$axios({
-                method:'post',
-                url: 'order/immediatelyOrder',
-                data: {
-                    sku_id: this.zongshu,
-                    cart_number: this.goodsNumber,
-                    "token":that.$store.state.token
-                }
-                })
-                .then((res) => {
-                    this.immediatelyOrder = res.data
-                    if(this.immediatelyOrder.status > 0){
-                    this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
-                    }
-                    })
+                if(this.zongshu){
+                    let that = this;
+                    this.goodsNumber = sessionStorage.getItem('goodsNumber');
+                    this.$axios({
+                        method:'post',
+                        url: 'order/immediatelyOrder',
+                        data: {
+                            sku_id: this.zongshu,
+                            cart_number: this.goodsNumber,
+                            "token":that.$store.state.token
+                            }
+                        })
+                        .then((res) => {
+                            this.immediatelyOrder = res.data
+                            if(this.immediatelyOrder.status > 0){
+                            this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+                            }
+                            })
                  }else{
                     this.guige = !this.guige;
-	        document.body.style.overflow='hidden';//禁止页面划动
+	                document.body.style.overflow='hidden';//禁止页面划动
                  }
                 
                 
-            }else if(this.spec.goods_sku.length = 1){
+            }else if(this.spec.goods_sku.length == 1){
+                 console.log("this.goodsNumber 666666", this.goodsNumber)
                 let skuid = this.spec.goods_sku[0].sku_id
                 let that = this;
                 this.goodsNumber = sessionStorage.getItem('goodsNumber');
@@ -533,7 +533,7 @@ export default {
     //更新渲染前
         beforeUpdate() {
         var zhi=sessionStorage.setItem("goodsNumber",this.goodsNumber)
-        console.log("zhi" , this.goodsNumber)
+        // console.log("zhi" , this.goodsNumber)
         sessionStorage.setItem("guigeNumber", zhi);
     },
     // 挂载前
@@ -542,7 +542,7 @@ export default {
         this.msg = sessionStorage.getItem('msg');
         console.log(this.msg)
         this.guigeNumber = sessionStorage.getItem('goodsNumber');
-        console.log("this.guigeNumber",this.guigeNumber)
+        // console.log("this.guigeNumber",this.guigeNumber)
     },
     mounted() {
         //监听页面滚动事件

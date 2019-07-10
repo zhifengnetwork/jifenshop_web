@@ -151,7 +151,7 @@ export default {
         },
         //立即付款按钮
         zhifu(){
-            this.$router.push({name:'Confirm_pay',params:{address_id:this.addr_res,user_note:this.user_note,order_id:this.order_id}})
+            this.$router.replace({name:'Confirm_pay',params:{address_id:this.addr_res,user_note:this.user_note,order_id:this.order_id}})
                 // let that = this;
                 // // this.address_id = this.addr_res.address_id
                 // console.log(this.indx)
