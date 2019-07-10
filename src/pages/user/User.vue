@@ -202,6 +202,7 @@
                     _this.data = response.data.data;
                     for(let i=0;i<ord.length;i++){
                         _this.order[i].icon = response.data.data[ord[i]];
+                        sessionStorage.setItem('mobile',response.data.data.mobile)
                     }
                     console.log(_this.data)
                 }else{

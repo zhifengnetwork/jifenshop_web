@@ -96,7 +96,7 @@
             // 请求数据
             requestData(){
                 let _this = this;
-                this.$axios.get('home/get_user_info',{
+                this.$axios.get('home/withdrawal',{
                     params:{
                         token:_this.$store.state.token
                     }
@@ -117,12 +117,14 @@
                 this.In();
             },
             In(){
-                if(Number(this.num)>Number(this.data.money)&&Number(this.num)<this.data.withdraw_max){
+                if(Number(this.num)>Number(this.data.money)&&Number(this.num)<this.data.max){
                     this.num = this.data.money;
                 }
-                let cny = this.data.withdraw_rate;
-                this.poundage = Math.floor(this.num*cny*100)/1e4;
-                this.reality = Math.floor((this.num-this.poundage)*100)/100;
+                let cny = this.data.rate_percent;
+                let str = this.num/this.data.times;
+                console.log(str)
+                // this.poundage = Math.floor(this.num*cny*100)/1e4;
+                // this.reality = Math.floor((this.num-this.poundage)*100)/100;
             },
             apply(){
                 let _this = this;

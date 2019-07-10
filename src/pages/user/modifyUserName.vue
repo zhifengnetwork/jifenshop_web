@@ -11,7 +11,7 @@
             </div>
             <!-- 手机号码 -->
             <div class="inp_wrap">
-                <input type="text" placeholder="请输入手机号" v-model="mobile" />
+                <input type="text" :placeholder="mobile==''?'请绑定手机号':mobile" disabled/>
             </div>
             <!-- 验证码 -->
             <div class="name_wrap">
@@ -37,7 +37,7 @@
 		name: "modifyUserName",
 		data() {
 			return{
-                mobile: '',
+                mobile: sessionStorage.getItem('mobile'),
                 cod: '',
                 pwd:'',
                 but: '获取验证码',
@@ -90,6 +90,10 @@
                 // 发送请求
                 if(this.pwd.length<6){
                     Toast('请输入6位数密码');
+                    return false;
+                }
+                if(this.cod==''){
+                    Toast('验证码不能为空');
                     return false;
                 }
                 let _this = this;

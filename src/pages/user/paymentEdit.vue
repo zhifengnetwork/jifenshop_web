@@ -39,6 +39,17 @@
         },
         methods:{
             send(){
+                if(password==''){
+                    Toast('原密码不能为空');
+                    return false;
+                }else if(password1||password2){
+                    Toast('新密码不能为空');
+                    return false;
+                }
+                if(password1!=password2){
+                    Toast('输入密码不一致');
+                    return false;
+                }
                 // 发送请求
                 let _this = this;
                 this.$axios.post('home/change_pwd',{
