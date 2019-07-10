@@ -106,7 +106,7 @@
                     return false;
                 }
                 if(this.pwd!=this.pwd1){
-                    Toast('密码不一致');
+                    Toast('输入密码不一致');
                     return false;
                 }
                 if(this.cod==''){
