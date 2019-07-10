@@ -39,14 +39,14 @@
         },
         methods:{
             send(){
-                if(password==''){
+                if(this.pwd==''){
                     Toast('原密码不能为空');
                     return false;
-                }else if(password1||password2){
+                }else if(!this.password1||!this.password2){
                     Toast('新密码不能为空');
                     return false;
                 }
-                if(password1!=password2){
+                if(this.password1!=this.password2){
                     Toast('输入密码不一致');
                     return false;
                 }

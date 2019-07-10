@@ -95,6 +95,14 @@ export default {
             })
         },
         reimburse(){
+            if(this.refund_reason==''){
+                Toast('请填写退款原因');
+                return false;
+            }
+            if(this.radio==''){
+                Toast('请选择退款方式');
+                return false;
+            }
             let _this = this;
             console.log(_this.order_id,_this.refund_reason,_this.radio)
             this.$axios.post('order/apply_refund',{

@@ -1,127 +1,134 @@
 <template>
 	<div class="Home">
-		<!-- 搜索 -->
-		<router-link class="top-bar" to="/Home/search">
-			<div class="search">
-				<span class="search-icon"></span>
-				<span class="text">搜索</span>
+		<div v-if="data!=''">	
+			<!-- 搜索 -->
+			<router-link class="top-bar" to="/Home/search">
+				<div class="search">
+					<span class="search-icon"></span>
+					<span class="text">搜索</span>
+				</div>
+			</router-link>
+			<!-- 轮播图 -->
+			<div class="banner">
+				<van-swipe :autoplay="3000" indicator-color="white">
+					<van-swipe-item v-for="(item,index) in data.banner" :key="index">
+						<router-link :to="item.url" :pid="item.id">
+							<img :src="item.picture"/>
+						</router-link>
+					</van-swipe-item>
+				</van-swipe>
 			</div>
-		</router-link>
-		<!-- 轮播图 -->
-		<div class="banner">
-			<van-swipe :autoplay="3000" indicator-color="white">
-				<van-swipe-item v-for="(item,index) in data.banner" :key="index">
-					<router-link :to="item.url" :pid="item.id">
-						<img :src="item.picture"/>
-					</router-link>
-				</van-swipe-item>
-			</van-swipe>
-		</div>
 
-		<!-- 公告 -->
-		<div class="notice" v-for="(item,index) in data.notice" :key="index">
-			<van-notice-bar
-				:text="item.value"
-				left-icon="volume-o"
-				color="#ffffff"
-  				background="#f92a0f"
-			/>
-		</div>
-		<!-- 分类 -->
-		<div class="classify">
-			<div class="classify_btn" v-for="(item,index) in data.catenav" :key="index">
-				<router-link :to="item.url">
-					<div class="btn_imgWrap">
-						<img class="btn_img" :src="item.image">
+			<!-- 公告 -->
+			<div class="notice" v-for="(item,index) in data.notice" :key="index">
+				<van-notice-bar
+					:text="item.value"
+					left-icon="volume-o"
+					color="#ffffff"
+					background="#f92a0f"
+				/>
+			</div>
+			<!-- 分类 -->
+			<div class="classify">
+				<div class="classify_btn" v-for="(item,index) in data.catenav" :key="index">
+					<router-link :to="item.url">
+						<div class="btn_imgWrap">
+							<img class="btn_img" :src="item.image">
+						</div>
+						<div class="btn_text">
+							{{item.title}}
+						</div>
+					</router-link>
+				</div>
+			</div>
+
+			<!-- 会员 -->
+			<div class="five" v-if="!card.number">
+				<router-link to="Vip">
+					<div class="five_title">
+						抢购会员卡
 					</div>
-					<div class="btn_text">
-						{{item.title}}
+					<div class="five_info">
+						<p>会员卡</p>
+						<p>￥{{card.money}}</p>
+						<span class="buy">立即购买></span>
 					</div>
 				</router-link>
+				
 			</div>
-		</div>
-
-		<!-- 会员 -->
-		<div class="five" v-if="!card.number">
-			<router-link to="Vip">
-				<div class="five_title">
-					抢购会员卡
+			<!-- 查看会员卡 -->
+			<div class="fiveing" v-if="card.number">
+				<router-link :to="'Vip?card='+card.number">
+					<div class="five_title">
+						臻致康健康商城
+					</div>
+					<div class="five_info">
+						NO:{{card.number}}
+					</div>
+					<div class="buy">查看详情></div>
+				</router-link>
+			</div>
+			<!-- 热销商品 -->
+			<div class="hot-wrap">
+				<div class="heading">
+					<i class="icon"><img src="/static/images/home/hot-icon.png"></i>
+					<h3>热销商品</h3>
 				</div>
-				<div class="five_info">
-					<p>会员卡</p>
-					<p>￥{{card.money}}</p>
-					<span class="buy">立即购买></span>
+				<div class="hot-list">
+					<div class="single-item" v-for="(item,index) in data.hotgoods" :key="index">
+						<router-link :to="{path:'/Details',query:{id:item.goods_id}}">
+							<div class="img-wrap">
+								<img :src="item.picture" />
+							</div>
+							<div class="main">
+								<h3>{{item.goods_name}}</h3>
+								<div class="price">
+									<p class="discount-price">￥{{item.price}}</p>
+									<p class="original-price">原价:<s>￥{{item.original_price}}</s></p>
+								</div>
+							</div>
+						</router-link>
+					</div>
 				</div>
-			</router-link>
+			</div>
 			
-		</div>
-		<!-- 查看会员卡 -->
-		<div class="fiveing" v-if="card.number">
-			<router-link :to="'Vip?card='+card.number">
-				<div class="five_title">
-					臻致康健康商城
+			<!-- 推荐商品 -->
+			<div class="recommend-wrap">
+				<div class="heading">
+					<i class="icon"><img src="/static/images/home/recommend-icon.png"></i>
+					<h3>推荐商品</h3>
 				</div>
-				<div class="five_info">
-					NO:{{card.number}}
-				</div>
-				<div class="buy">查看详情></div>
-			</router-link>
-		</div>
-		<!-- 热销商品 -->
-		<div class="hot-wrap">
-			<div class="heading">
-				<i class="icon"><img src="/static/images/home/hot-icon.png"></i>
-				<h3>热销商品</h3>
-			</div>
-			<div class="hot-list">
-				<div class="single-item" v-for="(item,index) in data.hotgoods" :key="index">
-					<router-link :to="{path:'/Details',query:{id:item.goods_id}}">
-						<div class="img-wrap">
-							<img :src="item.picture" />
-						</div>
-						<div class="main">
-							<h3>{{item.goods_name}}</h3>
-							<div class="price">
-								<p class="discount-price">￥{{item.price}}</p>
-								<p class="original-price">原价:<s>￥{{item.original_price}}</s></p>
+				<div class="recommend-list">
+					<div class="single-item" v-for="(item,index) in data.commendgoods" :key="index">
+						<router-link :to="{path:'/Details',query:{id:item.goods_id}}">
+							<div class="img-wrap">
+								<img :src="item.picture" />
 							</div>
-						</div>
-					</router-link>
-				</div>
-			</div>
-		</div>
-		
-		<!-- 推荐商品 -->
-		<div class="recommend-wrap">
-			<div class="heading">
-				<i class="icon"><img src="/static/images/home/recommend-icon.png"></i>
-				<h3>推荐商品</h3>
-			</div>
-			<div class="recommend-list">
-				<div class="single-item" v-for="(item,index) in data.commendgoods" :key="index">
-					<router-link :to="{path:'/Details',query:{id:item.goods_id}}">
-						<div class="img-wrap">
-							<img :src="item.picture" />
-						</div>
-						<div class="main">
-							<h3>{{item.goods_name}}</h3>
-							<div class="price">
-								<p class="discount-price">￥{{item.price}}</p>
-								<p class="original-price">原价:<s>￥{{item.original_price}}</s></p>
+							<div class="main">
+								<h3>{{item.goods_name}}</h3>
+								<div class="price">
+									<p class="discount-price">￥{{item.price}}</p>
+									<p class="original-price">原价:<s>￥{{item.original_price}}</s></p>
+								</div>
 							</div>
-						</div>
-					</router-link>
+						</router-link>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- 底部导航 -->
-		<Navigate></Navigate>
+			<!-- 底部导航 -->
+			<Navigate></Navigate>
+		</div>
+		<!-- load -->
+		<div class="load" v-if="data==''">
+			<van-loading size="44px" color="#1989fa" />
+		</div>
 	</div>
 </template>
 
 <script>
 import Navigate from "@/pages/common/footer/Navigate";
+import { Loading } from 'vant';
 export default {
 	name: "home",
 	data() {
@@ -400,4 +407,13 @@ export default {
 								margin-left 20px
 								font-size 24px
 								color #a1a1a1
+.load
+	position absolute
+	left 0
+	right 0
+	bottom 0
+	top 0
+	margin auto
+	width 100px
+	height 100px
 </style>

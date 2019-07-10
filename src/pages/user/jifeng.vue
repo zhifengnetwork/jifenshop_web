@@ -140,7 +140,6 @@
             width 97%
             color black
         .to
-            width 25px
             height 20px 
             vertical-align center   
 
