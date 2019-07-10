@@ -92,7 +92,7 @@ export default {
                         }
                         })
                         .then((res) => {
-                           
+                           this.$toast("评论成功") 
                            this.$router.push({path:'/User'})
 
                         })

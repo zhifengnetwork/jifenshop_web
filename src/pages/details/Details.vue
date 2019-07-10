@@ -459,6 +459,8 @@ export default {
 
         // 商品规格选择确定
         confirm(){
+
+             this.guigeNumber = sessionStorage.getItem('guigeNumber');
             //点击确定关闭弹窗并使页面可以滚动
             this.guige = !this.guige;
             document.body.style.overflow='';
@@ -550,6 +552,8 @@ export default {
                 }
                 })
                 .then((res) => {
+                    console.log("dddddddddddddd")
+                    console.log(this.guigeNumber)
                     this.likeo = res.data
                     // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
                     sessionStorage.setItem("msg",this.likeo.msg);
@@ -610,21 +614,25 @@ export default {
             var val =parseInt(this.goodsNumber) - 1 
            if(val<=1){val =1}
            this.goodsNumber=val
+           sessionStorage.setItem("guigeNumber",this.goodsNumber);
         },
         changNumber(e){
             var val =e.target.value;
             if(val<1){return;}
             this.goodsNumber=val
+            sessionStorage.setItem("guigeNumber",this.goodsNumber);
         },
         addNumber(){
             var val =parseInt(this.goodsNumber) + 1
             this.goodsNumber=val
+            sessionStorage.setItem("guigeNumber",this.goodsNumber);
             console.log(this.goodsNumber)
         },
     },
     //更新渲染前
         beforeUpdate() {
-        sessionStorage.setItem("guigeNumber",this.goodsNumber);
+        var zhi=sessionStorage.setItem("guigeNumber",this.goodsNumber)
+        sessionStorage.setItem("guigeNumber", zhi);
     },
     // 挂载前
     beforeMount() {
