@@ -533,7 +533,7 @@ export default {
     //更新渲染前
         beforeUpdate() {
         var zhi=sessionStorage.setItem("goodsNumber",this.goodsNumber)
-        console.log("zhi" , this.goodsNumber)
+        // console.log("zhi" , this.goodsNumber)
         sessionStorage.setItem("guigeNumber", zhi);
     },
     // 挂载前
@@ -542,7 +542,7 @@ export default {
         this.msg = sessionStorage.getItem('msg');
         console.log(this.msg)
         this.guigeNumber = sessionStorage.getItem('goodsNumber');
-        console.log("this.guigeNumber",this.guigeNumber)
+        // console.log("this.guigeNumber",this.guigeNumber)
     },
     mounted() {
         //监听页面滚动事件
