@@ -16,7 +16,7 @@
              <p class="jiben">基本信息</p>
              <p class="xinxi"><span class="second_title">订单编号</span><span class="second_zhi">{{xiang.order_sn}}</span></p>
              <p class="xinxi"><span class="second_title">下单时间</span><span class="second_zhi">{{xiang.add_time}}</span></p>
-             <p class="xinxi"><span class="second_title">收货地址</span><span class="second_zhi">{{xiang.address}}</span></p>
+             <p class="xinxi"><span class="second_title">收货地址</span><span class="second_zhi2">{{xiang.address}}</span></p>
              <p class="xinxi"><span class="second_title">收货人</span><span class="second_zhi">{{xiang.consignee}}</span></p>
              <p class="xinxi"><span class="second_title">支付方式</span><span class="second_zhi">{{xiang.pay_type}}</span></p>  
              <p class="xinxi"><span class="second_title"> 配送方式</span><span class="second_zhi">{{xiang.shipping_name}}</span></p>
@@ -126,9 +126,10 @@ export default {
         font-size 30px
         font-weight bolder
     .xinxi
-        height 60px
-        line-height 60px
         font-size 27px
+        line-height: 0.6rem;
+        font-size: 0.36rem;
+        padding: .18rem 0;
         .second_title
             display inline-block
             width 30%
@@ -141,6 +142,11 @@ export default {
             overflow: hidden
             text-overflow: ellipsis
             white-space: nowrap 
+        .second_zhi2
+            display inline-block
+            vertical-align top
+            width 70%
+            text-align right 
 .three_wrap
     background white
     width 94%
