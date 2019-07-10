@@ -408,7 +408,7 @@ export default {
                 url: 'cart/addCart',
                 data: {
                     sku_id: this.zongshu,
-                    cart_number: this.guigeNumber,
+                    cart_number: this.goodsNumber,
                     "token":that.$store.state.token
                 }
                 })
@@ -464,28 +464,29 @@ export default {
         },
         // 立即购买
         toBay(){
+            console.log("this.goodsNumber", this.goodsNumber)
             if(this.spec.goods_sku.length>1){
-                 if(this.zongshu){
-                     let that = this;
-                     this.goodsNumber = sessionStorage.getItem('goodsNumber');
-                this.$axios({
-                method:'post',
-                url: 'order/immediatelyOrder',
-                data: {
-                    sku_id: this.zongshu,
-                    cart_number: this.goodsNumber,
-                    "token":that.$store.state.token
-                }
-                })
-                .then((res) => {
-                    this.immediatelyOrder = res.data
-                    if(this.immediatelyOrder.status > 0){
-                    this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
-                    }
-                    })
+                if(this.zongshu){
+                    let that = this;
+                    this.goodsNumber = sessionStorage.getItem('goodsNumber');
+                    this.$axios({
+                        method:'post',
+                        url: 'order/immediatelyOrder',
+                        data: {
+                            sku_id: this.zongshu,
+                            cart_number: this.goodsNumber,
+                            "token":that.$store.state.token
+                            }
+                        })
+                        .then((res) => {
+                            this.immediatelyOrder = res.data
+                            if(this.immediatelyOrder.status > 0){
+                            this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+                            }
+                            })
                  }else{
                     this.guige = !this.guige;
-	        document.body.style.overflow='hidden';//禁止页面划动
+	                document.body.style.overflow='hidden';//禁止页面划动
                  }
                 
                 
