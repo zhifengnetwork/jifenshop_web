@@ -159,20 +159,18 @@ export default {
                val =1
            }
            this.$set( data,'goods_num',val )
-           console.log(val);
-           if(val == 1){
-               console.log("小于1不能继续删除")
-           }else if(val>1){
+           console.log("val",val);
+           if(val>1){
                this.$axios({
-                        method:'post',
-                        url: '/cart/reduce_num?cart_id='+idzhi,
-                        data: {
-                           'token':this.$store.state.token,
-                        }
-                        })
-                        .then((res) => {
-                           console.log("resresres")
-                        })
+                    method:'post',
+                    url: '/cart/reduce_num?cart_id='+idzhi,
+                    data: {
+                        'token':this.$store.state.token,
+                    }
+                    })
+                    .then((res) => {
+                        console.log("resresres")
+                    })
            }
            
         
