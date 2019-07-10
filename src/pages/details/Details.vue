@@ -396,13 +396,13 @@ export default {
         },
         //点击加入到购物车
         addToCart(){
-            this.goodsNumber = sessionStorage.getItem('goodsNumber');
+            
             console.log("this.goodsNumber", this.goodsNumber)
             if(this.spec.goods_sku.length>1){
                 if(this.zongshu){
                 let that = this;
                 // this.$toast("添加成功,可直接去购物车下单")
-                
+                this.goodsNumber = sessionStorage.getItem('goodsNumber');
                 this.$axios({
                 method:'post',
                 url: 'cart/addCart',
@@ -467,12 +467,13 @@ export default {
             if(this.spec.goods_sku.length>1){
                  if(this.zongshu){
                      let that = this;
+                     this.goodsNumber = sessionStorage.getItem('goodsNumber');
                 this.$axios({
                 method:'post',
                 url: 'order/immediatelyOrder',
                 data: {
                     sku_id: this.zongshu,
-                    cart_number: this.guigeNumber,
+                    cart_number: this.goodsNumber,
                     "token":that.$store.state.token
                 }
                 })
@@ -491,12 +492,13 @@ export default {
             }else if(this.spec.goods_sku.length = 1){
                 let skuid = this.spec.goods_sku[0].sku_id
                 let that = this;
+                this.goodsNumber = sessionStorage.getItem('goodsNumber');
                 this.$axios({
                 method:'post',
                 url: 'order/immediatelyOrder',
                 data: {
                     sku_id: skuid,
-                    cart_number: this.guigeNumber,
+                    cart_number: this.goodsNumber,
                     "token":that.$store.state.token
                 }
                 })
