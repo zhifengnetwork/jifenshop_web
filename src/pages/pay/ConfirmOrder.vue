@@ -3,7 +3,7 @@
       	<!-- 头部组件 -->
 		<TopHeader custom-title="订单确认" custom-fixed>
             <i slot="backBtn" class="iconfont iconfanhui"></i>
-            <router-link slot="rightBtn" to="/User">我的</router-link>
+            <router-link slot="rightBtn" to="/User" style="color:black">我的</router-link>
 		</TopHeader>
         <div class="height-88"></div>
         <div class="content">
