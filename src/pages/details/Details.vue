@@ -489,7 +489,7 @@ export default {
                  }
                 
                 
-            }else if(this.spec.goods_sku.length = 1){
+            }else if(this.spec.goods_sku.length == 1){
                  console.log("this.goodsNumber 666666", this.goodsNumber)
                 let skuid = this.spec.goods_sku[0].sku_id
                 let that = this;
