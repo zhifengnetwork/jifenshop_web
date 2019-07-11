@@ -923,7 +923,6 @@ export default {
         .guibox
             margin 20px 0
             height 350px
-            border 1px solid red
             overflow scroll
             h3
                 font-size 30px
