@@ -111,9 +111,10 @@ export default {
             });
         },
         select(item,index){
-            if(!this.type){
-                return false;
-            }
+            // 如果地址处于编辑状态,就不能跳地址
+            // if(!this.type){
+            //     return false;
+            // }
             this.$router.replace({name:'ConfirmOrder',params:{'address_id':item}})
         }
     }
@@ -139,6 +140,8 @@ export default {
                 box-sizing border-box
                 margin-bottom 10px
                 position relative
+                .address-item:last-child
+                    margin-bottom 150px
                 .item-name
                     display flex
                     align-items center

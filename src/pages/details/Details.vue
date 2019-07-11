@@ -92,8 +92,9 @@
                             {{goodsinfo.content}}
                         </div>
                     </van-tab>
+                    
                     <van-tab title="参数">
-                        <div class="params-wrap">
+                        <div class="params-wrap" v-show="zhuangtai">
                             <ul class="param-list">
                                 <li v-for="(item,key) in datalist.parameter" :key="key">
                                     <div class="param-name">{{item.spec_name}}</div>
@@ -106,6 +107,7 @@
                     <!-- {{this.comment_count}} -->
                     <van-tab :title="this.comment_count">
                         <div class="comment-wrap">
+                            <!-- {{commentlist}} -->
                             <ul class="comment-list">
                                 <li v-for="(item,key) in commentlist" :key="key" v-if="commentlist != '暂无评论！'">
                                     <div class="eval-user">
@@ -127,6 +129,13 @@
                                                 readonly
                                             />
                                         </div>
+                                                       
+
+
+
+
+
+
                                     </div> 
                                     <div class="eval-content">
                                         <p>{{item.content}}</p>
@@ -276,6 +285,7 @@ export default {
             zong: '', //是否选中 因为不确定是多规格还是但规格，所以这里定义数组来判断
             immediatelyOrder: '',
             comment_count: '',
+            zhuangtai:true
         }
     },
     methods:{
@@ -564,6 +574,13 @@ export default {
             })
             .then((res) => {
                 this.datalist = res.data.data
+                
+                
+                console.log("--------------")
+                if(this.datalist.parameter.length===1){
+                   this.zhuangtai=false    
+                }
+                console.log(this.datalist.parameter.length)
                 this.goodsinfo= res.data.data.goodsinfo
                 this.spec = res.data.data.spec
                 this.commentlist = res.data.data.commentlist
@@ -773,8 +790,9 @@ export default {
                             border-right  1px solid #c1c1c1
                             padding-left 34px
                             box-sizing border-box
-                        .param-value
                             flex 1
+                        .param-value
+                            flex 4
                             padding-left 28px
                             box-sizing border-box
             // 商品评论
