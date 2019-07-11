@@ -58,7 +58,7 @@
 			</div>
 			<!-- 查看会员卡 -->
 			<div class="fiveing" v-if="card.number">
-				<router-link :to="'Vip?card='+card.number">
+				<router-link :to="'Pay/Vip?card='+card.number">
 					<div class="five_title">
 						积分商城
 					</div>
