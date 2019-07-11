@@ -9,6 +9,9 @@
             <div class="inp_wrap">
                 <input type="password" maxlength='6' v-model="pwd" placeholder="输入支付密码"/>
             </div>
+            <div class="inp_wrap">
+                <input type="password" maxlength='6' v-model="pwd1" placeholder="确认支付密码"/>
+            </div>
             <!-- 手机号码 -->
             <div class="inp_wrap">
                 <input type="text" :placeholder="mobile==''?'请绑定手机号':mobile" disabled/>
@@ -40,6 +43,7 @@
                 mobile: sessionStorage.getItem('mobile'),
                 cod: '',
                 pwd:'',
+                pwd1:'',
                 but: '获取验证码',
                 flag: true
 			}
@@ -58,17 +62,6 @@
                     return false;
                 }
                 let _this = this;
-                let s = 60;
-                let time = setInterval(function(){
-                    s--;
-                    _this.flag = false;
-                    _this.but = s+'秒后重新获取';
-                    if(s==0){
-                        _this.but = '获取验证码'
-                        _this.flag = true;
-                        clearInterval(time)
-                    }
-                },1000)
                 console.log(_this.mobile)
                 this.$axios.post('home/send_sms',{
                     token:_this.$store.state.token,
@@ -77,6 +70,17 @@
                 })
                 .then(function(response){
                     if(response.data.status==1){
+                        let s = 60;
+                        let time = setInterval(function(){
+                            s--;
+                            _this.flag = false;
+                            _this.but = s+'秒后重新获取';
+                            if(s==0){
+                                _this.but = '获取验证码'
+                                _this.flag = true;
+                                clearInterval(time)
+                            }
+                        },1000)
                         console.log(response);
                     }else{
                         Toast(response.data.msg)
@@ -92,7 +96,23 @@
                     Toast('请先绑定手机号');
                     return false;
                 }
-                if(this.pwd.length<6){
+                if(this.pwd.length==''){
+                    Toast('支付密码不能为空');
+                    return false;
+                }
+                if(this.pwd1.length==''){
+                    Toast('确认密码不能为空');
+                    return false;
+                }
+                if(this.pwd!=this.pwd1){
+                    Toast('输入密码不一致');
+                    return false;
+                }
+                if(this.pwd.length!=6){
+                    Toast('请输入6位数密码');
+                    return false;
+                }
+                if(this.pwd1.length!=6){
                     Toast('请输入6位数密码');
                     return false;
                 }
@@ -104,15 +124,14 @@
                 this.$axios.post('home/pwd',{
                     token:_this.$store.state.token,
                     code:_this.cod,
-                    pwd:_this.pwd
+                    pwd:_this.pwd,
+                    pwd1:_this.pwd1
                 })
                 .then(function(response){
                     if(response.data.status==1){
                         Toast.success('设置成功');
                         _this.$router.go(-1)     
                         console.log(response);
-                    }else{
-                        Toast(response.data.msg)
                     }
                 })
                 .catch(function(error){

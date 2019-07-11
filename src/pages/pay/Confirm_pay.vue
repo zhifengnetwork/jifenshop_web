@@ -12,8 +12,9 @@
                     <van-cell :title="item.pay_name" clickable @click="che(key,$event)" v-for="(item,key) in pay_type" :key="key" :data-id="item.pay_type" >
                         <van-radio slot="right-icon" :name="key" /> 
                         <p class="-list2-msg" v-if="radio == 1 && key == indx">余额：{{list.balance}}</p>
-                        <span v-if="radio == 1 && key == indx">输入密码</span>
-                        <input type="password" v-model="pwd" placeholder="请输入密码" v-if="radio == 1 && key == indx">
+                        <p class="-list2-msg" v-if="radio == 2 && key == indx">积分余额：{{list.ky_point}}</p>
+                        <span v-if="(radio == 1 || radio == 2)&& key == indx">输入密码</span>
+                        <input type="password" v-model="pwd" placeholder="请输入密码" v-if="(radio == 1 || radio == 2)&& key == indx">
                     </van-cell>
                 </van-cell-group>
             </van-radio-group>
@@ -105,8 +106,11 @@ export default {
                    pay_type = 4;
                    break;
                 case 3:
-                   pay_type = 4;
+                   pay_type = 3;
                    break;
+            }
+            if(pay_type == 3){
+                Toast('暂未开通');
             }
             console.log(_this.address_id,_this.indx,_this.order_id,6666)
             if(_this.address_id){

@@ -42,8 +42,22 @@
                 if(this.pwd==''){
                     Toast('原密码不能为空');
                     return false;
-                }else if(!this.password1||!this.password2){
+                }else if(!this.password1){
                     Toast('新密码不能为空');
+                    return false;
+                }else if(!this.password2){
+                    Toast('确认密码不能为空');
+                    return false;
+                }
+                console.log(this.pwd.length)
+                if(this.pwd.length!=6){
+                    Toast('原密码格式错误');
+                    return false;
+                }else if(this.password1.length!=6){
+                    Toast('新密码格式错误');
+                    return false;
+                }else if(this.password2.length!=6){
+                    Toast('确认密码格式错误');
                     return false;
                 }
                 if(this.password1!=this.password2){
@@ -63,8 +77,6 @@
                         Toast.success('修改成功');
                         _this.$router.go(-1)                        
                         console.log(response);
-                    }else{
-                        Toast(response.data.msg)
                     }
                 })
                 .catch(function(error){

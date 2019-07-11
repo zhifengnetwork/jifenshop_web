@@ -29,7 +29,7 @@
 							<img :src="item.img"/>
 						</div>
 					</div> -->
-					<div class="play_wrap">
+					<div class="play_wrap" v-if="item!=''">
 						<!-- 微信/支付宝-提现金额 -->
 						<div class="sum_wrap">
 							<h4>提现金额</h4>
@@ -37,7 +37,7 @@
 							<div class="put">
                                 <span class="dollars">￥</span>
 								<div class="inp">
-									<input type="text" v-model="num" @input="In" placeholder="请输入提现金额"/>
+									<input type="text" v-model="num" @input="In" placeholder="请输入提现金额(金额为50的倍数)"/>
 								</div>
 								<div class="all_btn" @click="all()">全部提现</div>
 							</div>
@@ -48,6 +48,7 @@
 									<span>{{poundage}}</span>
 								</div>
 								<div class="unit">元</div>
+                                <div class="unit" style="margin-right:20px;">手续费为提现金额的0.1%</div>
 							</div>
 							<!-- 实际到账 -->
 							<div class="fee_wrap">
@@ -80,7 +81,8 @@
                 data:'',
                 num:'',
                 poundage:'',
-                reality:''
+                reality:'',
+                item:''
 			}
         },
         created(){
@@ -117,19 +119,28 @@
                 this.In();
             },
             In(){
-                if(Number(this.num)>Number(this.data.money)&&Number(this.num)<this.data.max){
+                if(Number(this.num)>Number(this.data.money)){
                     this.num = this.data.money;
                 }
+                if(Number(this.num)>Number(this.data.max)){
+                    this.num = this.data.max;
+                }
                 let cny = this.data.rate_percent;
-                let str = this.num/this.data.times;
-                console.log(str)
-                // this.poundage = Math.floor(this.num*cny*100)/1e4;
-                // this.reality = Math.floor((this.num-this.poundage)*100)/100;
+                this.poundage = parseFloat(this.num*cny/100).toFixed(2);
+                this.reality = parseFloat(this.num-this.poundage).toFixed(2);
             },
             apply(){
                 let _this = this;
                 if(!_this.item){
                     Toast('请选择提现方式')
+                    return false;
+                }
+                if(this.num==''){
+                    Toast('请输入提现金额')
+                    return false;
+                }
+                if(this.num%50!=0){
+                    Toast('请输入50的倍数')
                     return false;
                 }
                 this.$axios.post('home/withdraw',{
@@ -142,8 +153,8 @@
                     console.log(response);
                     if(response.data.status==1){
                         Toast.success('申请成功,等待审核');
-                        _this.$router.go(-2)
-                        }
+                        _this.$router.go(-2);
+                    }
                 })
                 .catch(function(error){
                     console.log(error);

@@ -11,10 +11,10 @@
 			<!-- 轮播图 -->
 			<div class="banner">
 				<van-swipe :autoplay="3000" indicator-color="white">
-					<van-swipe-item v-for="(item,index) in data.banner" :key="index">
-						<router-link :to="item.url" :pid="item.id">
+					<van-swipe-item v-for="(item,index) in data.banner" :key="index" @click="banner(item.url)">
+						<!-- <router-link :to="item.url" :pid="item.id"> -->
 							<img :src="item.picture"/>
-						</router-link>
+						<!-- </router-link> -->
 					</van-swipe-item>
 				</van-swipe>
 			</div>
@@ -30,15 +30,15 @@
 			</div>
 			<!-- 分类 -->
 			<div class="classify">
-				<div class="classify_btn" v-for="(item,index) in data.catenav" :key="index">
-					<router-link :to="item.url">
+				<div class="classify_btn" v-for="(item,index) in data.catenav" @click="classify_btn(item.url)" :key="index">
+					<!-- <router-link :to="item.url"> -->
 						<div class="btn_imgWrap">
 							<img class="btn_img" :src="item.image">
 						</div>
 						<div class="btn_text">
 							{{item.title}}
 						</div>
-					</router-link>
+					<!-- </router-link> -->
 				</div>
 			</div>
 
@@ -60,7 +60,7 @@
 			<div class="fiveing" v-if="card.number">
 				<router-link :to="'Vip?card='+card.number">
 					<div class="five_title">
-						臻致康健康商城
+						积分商城
 					</div>
 					<div class="five_info">
 						NO:{{card.number}}
@@ -121,14 +121,13 @@
 		</div>
 		<!-- load -->
 		<div class="load" v-if="data==''">
-			<van-loading size="44px" color="#1989fa" />
+			<img class="loadimg" src="/static/images/public/load.gif" alt="">
 		</div>
 	</div>
 </template>
 
 <script>
 import Navigate from "@/pages/common/footer/Navigate";
-import { Loading } from 'vant';
 export default {
 	name: "home",
 	data() {
@@ -167,6 +166,23 @@ export default {
 
 		},1000)
 		
+	},
+	methods:{
+		classify_btn(url){
+			
+			if(url.substr(0,4) == 'http'){
+				window.location.href = url;
+			}else{
+				window.location.href = 'http://'+url;
+			}
+		},
+		banner(url){
+			if(url.substr(0,4) == 'http'){
+				window.location.href = url;
+			}else{
+				window.location.href = 'http://'+url;
+			}
+		},
 	}
 };
 </script>
@@ -410,10 +426,18 @@ export default {
 .load
 	position absolute
 	left 0
+	top 0
+	width 100%
+	height 100% 
+	margin auto
+	background #fefefe
+.loadimg
+	position absolute
+	left 0
+	top 0
 	right 0
 	bottom 0
-	top 0
 	margin auto
-	width 100px
-	height 100px
+	max-width 100%
+	max-height 100%
 </style>

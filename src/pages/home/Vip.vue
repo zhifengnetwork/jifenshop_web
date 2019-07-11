@@ -8,7 +8,7 @@
         <!-- 卡面 -->
         <div class="card">
             <div class="card_title">
-                臻致康健康商城
+                积分商城
             </div>
             <div class="card_code">
                 NO:{{data.number}}

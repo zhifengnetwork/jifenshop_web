@@ -4,6 +4,7 @@ import router from '@/router'
 var root = process.env.API_ROOT;
 const axios = Axios.create();
 import { Dialog } from 'vant';
+import { Toast } from 'vant';
 let cancel ,promiseArr = {} 
 
 
@@ -49,15 +50,13 @@ axios.interceptors.response.use(
 		// console.log('拦截器');
 		if(response.data['status'] < 0) {
 			console.log('拦截器-状态');
-			Dialog.alert({
-				message: response.data['msg']
-			}).then(() => {
+			
+			Toast(response.data['msg'])
 				//window.localStorage.setItem("token",null);
 			
 				// router.replace({  	
 				// 	path: '/index',
 				// })
-			})
 		}
 
 		 //console.log('拦截器-正常');

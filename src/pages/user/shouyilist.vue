@@ -23,17 +23,38 @@
       </div>
       <div class="second_ear">
         <span class="jife">积分</span>
-        <input class="box" placeholder="请输入转账积分" v-model="point" type="text">
+        <input class="box" placeholder="请输入转账积分" @focus="getFocus" v-model="point" type="text">
       </div>
       <div class="bottom_ear">
         <span class="jife">备注</span>
-        <input class="box" placeholder="选填" type="text" v-model="tips">
+        <input class="box" placeholder="选填" type="text" @focus="getFocus" v-model="tips">
       </div>
       <div class="btn" @click="surezhuang">确认转账</div>
 
 
+    <!-- 密码输入框 -->
+    <div v-if="show" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);" @click="show = false">
+      <div style="position:absolute;top:40%;left:0;right:0;margin:auto;background:#fff;padding:20px 0;" @click.stop="">
+        <van-password-input
+          :value="value"
+          info="密码为 6 位数字"
+          @focus="showKeyboard = true"
+        />
+      </div>
+
+    <!-- 数字键盘 -->
+    <div  @click.stop="">
+      <van-number-keyboard
+        :show="showKeyboard"
+        @input="onInput"
+        @delete="onDelete"
+        @blur="showKeyboard = false"
+      />
+    </div>
+    </div>
+
 <!-- 支付密码输入--s -->
- <div class="pay-tool"  v-show="isshow">
+ <!-- <div class="pay-tool"  v-show="isshow">
     <div class="pay-tool-title border-bottom">
       <img :src="item.avatar" class="touxiang" />
       <span style="float:right;margin-right:20px;font-size: 30px;line-height: 30px;margin-left:-2rem;width:20px"	@click="hello"><img src="/static/images/user/X.png" class="x"/></span>
@@ -56,19 +77,19 @@
         <li class="del" @click="delHandle"><span class="icon-del">删除</span></li>
       </ul>
     </div>
-  </div>
+  </div> -->
 <!-- 支付密码输入--e -->
-<div class="mask" v-show="isshow"></div>
+<!-- <div class="mask" v-show="isshow"></div>-->
 
 
-</div>    
+        </div>     
     </div> 
 </template>
 
 <script>
 /**头部 */
 import ListHeader from "@/pages/common/header/TopHeader";
-import { Toast } from 'vant';
+import { Toast,PasswordInput,NumberKeyboard } from 'vant';
 const keys = () => [1, 2, 3, 4, 5, 6, 7, 8, 9, '', 0]
 
 export default {
@@ -83,7 +104,10 @@ export default {
         isshow: false,
         data:'',
         point:'',
-        tips:''
+        tips:'',
+        value: '',
+        showKeyboard: true,
+        show:false
        
       }
   },
@@ -96,6 +120,9 @@ export default {
       this.requestData();
   },
   methods: {
+    getFocus(){
+      window.scroll(0, 0);
+    },
     requestData(){
         let _this = this;
         this.$axios.get('home/get_user_info',{
@@ -131,32 +158,15 @@ export default {
       this.password.shift()
       this.Span--;
     },
-    ajaxData () {
-      let _this = this;
-      let pwd =parseInt(this.password.join(' ').replace(/\s/g, ''))
-      if (this.password.length >= 6) {
-        this.$axios.post('home/point_pay',{
-          token:_this.$store.state.token,
-          to_user:_this.item.id,
-          pwd:pwd
-				})
-				.then(function(response){
-          console.log(response);
-          Toast(response.data.msg);
-          if(response.data.status===1){
-            _this.$router.replace({name:'jifeng'})
-          }else{
-            _this.Span = -1;
-            _this.password = [];
-          }
-				})
-				.catch(function(error){
-					console.log(error);
-				})
+    // ajaxData () {
+    //   let _this = this;
+    //   let pwd =parseInt(this.password.join(' ').replace(/\s/g, ''))
+    //   if (this.password.length >= 6) {
+        
 
-      }
-      return false
-    },
+    //   }
+    //   return false
+    // },
     clearPasswordHandle: function () {
       this.password = []
     },
@@ -176,6 +186,8 @@ export default {
         .then(function(response){
           if(response.data.status===1){
             _this.isshow=true
+            _this.show = true;
+            window.scroll(0, 0);
           }
           console.log(response);
         })
@@ -185,6 +197,33 @@ export default {
       }else{
         Toast('积分数量不能为空')
       }
+    },
+    // 发送请求
+    onInput(key) {
+      let _this = this;
+      this.value = (this.value + key).slice(0, 6);
+      if(this.value.length==6){
+        this.$axios.post('home/point_pay',{
+          token:_this.$store.state.token,
+          to_user:_this.item.id,
+          pwd:_this.value
+				})
+				.then(function(response){
+          console.log(response);
+          Toast(response.data.msg);
+          if(response.data.status===1){
+            _this.$router.replace({name:'jifeng'})
+          }else{
+            _this.value = '';
+          }
+				})
+				.catch(function(error){
+					console.log(error);
+				})
+      }
+    },
+    onDelete() {
+      this.value = this.value.slice(0, this.value.length - 1);
     }
   },
         
