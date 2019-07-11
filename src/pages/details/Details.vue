@@ -369,19 +369,80 @@ export default {
         // 商品规格选择确定
         confirm(){
 
-             this.guigeNumber = sessionStorage.getItem('guigeNumber');
-             console.log("this.guigeNumber",this.guigeNumber)
+            this.guigeNumber = sessionStorage.getItem('guigeNumber');
+            console.log("Details line 373 this.guigeNumber ",this.guigeNumber)
             //点击确定关闭弹窗并使页面可以滚动
             this.guige = !this.guige;
             document.body.style.overflow='';
+
+            console.log("Details line 378 this.spec.goods_sku.length ",this.spec.goods_sku.length)
+
             // 对比
             for(var i=0;i<this.spec.goods_sku.length;i++){
-                if(this.zong==this.spec.goods_sku[i].sku_attr1){
-                    console.log(this.spec.goods_sku[i].sku_id,'666')
-                    this.zongshu = this.spec.goods_sku[i].sku_id
+
+              //  console.log("Details line 385 this.zong ",this.zong)
+                console.log("Details line 386 =============")
+               // console.log("Details line 387 this.spec.goods_sku[i].sku_attr1 ",this.spec.goods_sku[i].sku_attr1)
+
+
+                if(this.spec.goods_sku[i].sku_attr1 != ''){
+                    // 如果 sku_attr1 不是空的，那就用 sku_attr1
+                    if(this.zong==this.spec.goods_sku[i].sku_attr1){
+                        console.log("Deatails line 389 "+this.spec.goods_sku[i].sku_id,'666')
+                        this.zongshu = this.spec.goods_sku[i].sku_id
+                    }
+                }else{
+                    // 如果 sku_attr1 是空的。用 sku_attr
+
+                    console.log(this.zong)
+
+                    var sku_attr = JSON.parse(this.spec.goods_sku[i].sku_attr);
+                    
+                    console.log( this.spec.goods_sku[i].sku_id )
+
+                    for(var k  in sku_attr ){
+
+                        // console.log("Details line 405 key ====chuan=== ",  k )
+                        console.log("Details line 407  ===传过来==== ", k, "----", sku_attr[k] )
+                      
+                        // console.log('0000000')
+                        // var arr  = this.zong
+                        // //var zongzong = {}
+                        // for(var key  in arr){
+            
+                        //     // console.log("Details line 414 key ====xuan=== ",  key )
+                        //     console.log("Details line 415 值 ====选中的=== ", key, "----", arr[key] )
+
+                        //    // var kkk = Number(key) + 1
+                        //    // zongzong[kkk]=arr[key]
+                        //     if( sku_attr[k] != arr[key] ){
+
+                        //         break;
+                        //     }
+
+                        //     console.log("符合要求");
+                        // }
+
+                    }
+
+                    // var zongzong = JSON.stringify(this.zong);
+                    // zongzong = JSON.stringify(zongzong);
+                    // console.log("Details line 398 zongzong ",  zongzong )
+                    // console.log("Details line 407 this.spec.goods_sku[i].sku_attr ",  this.spec.goods_sku[i].sku_attr )
+
+                    // if(zongzong === this.spec.goods_sku[i].sku_attr){
+                    //     console.log("Deatails line 409 "+ this.spec.goods_sku[i].sku_id,' ==== ' , zongzong ,'====', this.spec.goods_sku[i].sku_attr)
+                    //     this.zongshu = this.spec.goods_sku[i].sku_id
+                    // }
                 }
+
             }
+
+            console.log("Details line 395 Go to toBay ")
+            this.toBay();
+
         },
+
         handleScroll () {
             this.head = window.scrollY > 150;
         },
@@ -477,8 +538,12 @@ export default {
         },
         // 立即购买
         toBay(){
-            console.log("this.goodsNumber 666666", this.goodsNumber)
+            console.log("Details line 484 toBuy goodsNumber :", this.goodsNumber)
+            console.log("Details line 484 toBuy this.spec.goods_sku.length :", this.spec.goods_sku.length)
+
             if(this.spec.goods_sku.length>1){
+                console.log("Details line 484 toBuy this.zongshu :", this.zongshu)
+                
                 if(this.zongshu){
                     let that = this;
                     this.goodsNumber = sessionStorage.getItem('goodsNumber');
