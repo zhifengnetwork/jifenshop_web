@@ -124,7 +124,8 @@
                 this.$axios.post('home/pwd',{
                     token:_this.$store.state.token,
                     code:_this.cod,
-                    pwd:_this.pwd
+                    pwd:_this.pwd,
+                    pwd1:_this.pwd1
                 })
                 .then(function(response){
                     if(response.data.status==1){
