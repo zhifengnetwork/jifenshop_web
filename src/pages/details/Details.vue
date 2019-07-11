@@ -209,12 +209,14 @@
         <div v-show="guige" id="guige">
             <div class="guige" @click="guanbi()" ></div>
             <div class="guige_box">
+              <div class="gun">
                 <div class="guibox" v-for="(ProductItem,n) in spec.spec_attr" :key="n" >
                     <h3>{{ProductItem.spec_name}}</h3>
                     <ul>
                         <li :data-id="oItem.attr_id" v-for="(oItem,index) in ProductItem.res" :key="index" @click="specificationBtn(oItem.attr_id,n,$event,index)" :class="[oItem.isShow?'':'noneActive',subIndex[n] == index?'productActive':'']">{{oItem.attr_name}}</li>
                     </ul>
                 </div>
+               </div> 
                 <div class="guigenum">
                     <h3>购买数量</h3>
                     <span class="-option-">
@@ -912,7 +914,7 @@ export default {
         scoll no
         // display flex
     .guige_box
-        z-index 1001
+        z-index 9999
         background #fff
         width 90%
         height 600px
@@ -920,27 +922,31 @@ export default {
         bottom 0
         left 0
         padding 5%
-        .guibox
-            margin 20px 0
-            overflow hidden
-            h3
-                font-size 30px
-                line-height 60px
-            ul
-                margin 20px
-                li
-                    float left
-                    width 160px
-                    height 40px
-                    font-size 26px
-                    line-height 40px
-                    background #f3f3f3
-                    text-align center
-                    margin 10px
-                    color #151515;
-                .productActive
-                    background #ff0000
-                    color   #fff
+        .gun
+            width 100%
+            height 370px
+            overflow scroll
+            .guibox
+                margin 20px 0
+                overflow hidden
+                h3
+                    font-size 30px
+                    line-height 60px
+                ul
+                    margin 20px
+                    li
+                        float left
+                        width 160px
+                        height 40px
+                        font-size 26px
+                        line-height 40px
+                        background #f3f3f3
+                        text-align center
+                        margin 10px
+                        color #151515;
+                    .productActive
+                        background #ff0000
+                        color   #fff
         .guigenum
             height 100px
             width   90%
@@ -991,15 +997,15 @@ export default {
             border-radius 44px
             color #fff
         .guige_bottom
-             position absolute
-             top 50px
-             right 50px
-             width 50px
-             height 50px
-             border-radius 50px
-             border 1px solid #5f5f5f
-             color #5f5f5f
-             font-size 40px
-             line-height 50px
-             text-align center
+            position absolute
+            top 50px
+            right 50px
+            width 50px
+            height 50px
+            border-radius 50px
+            border 1px solid #5f5f5f
+            color #5f5f5f
+            font-size 40px
+            line-height 50px
+            text-align center
 </style>
