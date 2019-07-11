@@ -30,11 +30,11 @@
         </div>
         <div class="password" v-if="radio==0&&!status">
             <van-cell-group>
-                <van-field v-model="pwd" placeholder="请输入支付密码" type="password" />
+                <van-field v-model="pwd" placeholder="请输入支付密码" @focus="show=false" @blur="show=true" type="password" />
             </van-cell-group>
         </div>
         <!-- 底部菜单 -->
-        <div class="menu" v-if="!status">
+        <div class="menu" v-if="!status&&show">
             <p class="menu_item">
                 实付款<span class="menu_text">￥<b class="menu_price">{{data.money}}</b></span>
             </p>
@@ -57,7 +57,8 @@
                 user_info:'',
                 radio:'0',
                 pwd:'',
-                status:''
+                status:'',
+                show:true
             }
         },
         components: {
@@ -119,6 +120,7 @@
                         break;
                 }
                 // 购买
+                console.log(type)
                 this.$axios.post('user/member_pay',{
                     token:_this.$store.state.token,
                     type:type,

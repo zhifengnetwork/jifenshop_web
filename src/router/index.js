@@ -155,9 +155,9 @@ export default new Router({
 			name: 'Sell',
 			component:() => import('@/pages/sell/Sell'),
 		},
-		//挂卖区
+		//VIP
 		{
-			path: '/Vip',
+			path: '/Pay/Vip',
 			name: 'Vip',
 			component:() => import('@/pages/home/Vip'),
 		},

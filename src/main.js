@@ -19,8 +19,8 @@ Vue.use(Vant);
 import axios from "./axios/request";
 Vue.prototype.$axios = axios
 
-import VConsole from 'vconsole'
-new VConsole()
+// import VConsole from 'vconsole'
+// new VConsole()
 
 // 引入vuex管理数据
 import store from '@/store/store.js'

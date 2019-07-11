@@ -44,7 +44,7 @@
 
 			<!-- 会员 -->
 			<div class="five" v-if="!card.number">
-				<router-link to="Vip">
+				<router-link to="Pay/Vip">
 					<div class="five_title">
 						抢购会员卡
 					</div>
