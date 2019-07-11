@@ -206,10 +206,13 @@ export default {
       let _this = this;
       this.value = (this.value + key).slice(0, 6);
       if(this.value.length==6){
+        console.log(this.value)
         this.$axios.post('home/point_pay',{
           token:_this.$store.state.token,
           to_user:_this.item.id,
-          pwd:_this.value
+          pwd:_this.value,
+          point:_this.point,
+          remark:_this.tips
 				})
 				.then(function(response){
           console.log(response);
