@@ -29,7 +29,7 @@
             <router-link :to="{path:'/Details',query: {id: items.goods_id}}">
               <h3>{{items.goods_name}}</h3>
             </router-link>
-            <p class="price">¥{{items.price}}</p>
+            <p class="price">¥{{items.price}}<s style="color:#ccc;padding-left:5px" v-show="items.original_price>0">原价{{items.original_price}}</s></p>
           </div>
         </div>
       </div>

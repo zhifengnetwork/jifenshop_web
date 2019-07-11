@@ -32,14 +32,10 @@
         </div>
         
         
-        
-        <div class="bottom_bar">
-                <p class="fukuang" v-if="xiang.order_status == 1 && xiang.pay_status == 0" @click="pay" >立即付款</p>
+        <!-- 如果没有按钮，那这个div也不用显示出来了，会遮住的 -->
+        <div class="bottom_bar" v-if="xiang.order_status == 1 && xiang.pay_status == 0">
+            <p class="fukuang" v-if="xiang.order_status == 1 && xiang.pay_status == 0" @click="pay" >立即付款</p>
         </div>
-
-
-
-
 
     </div>
 </template>
