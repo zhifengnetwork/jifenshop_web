@@ -37,7 +37,7 @@
 							<div class="put">
                                 <span class="dollars">￥</span>
 								<div class="inp">
-									<input type="text" v-model="num" @input="In" placeholder="请输入提现金额(金额为50的倍数)"/>
+									<input type="number" v-model="num" @input="In" @keyup="number" :placeholder="`请输入提现金额(金额为${data.times}的倍数)`"/>
 								</div>
 								<div class="all_btn" @click="all()">全部提现</div>
 							</div>
@@ -48,7 +48,7 @@
 									<span>{{poundage}}</span>
 								</div>
 								<div class="unit">元</div>
-                                <div class="unit" style="margin-right:20px;">手续费为提现金额的0.1%</div>
+                                <div class="unit" style="margin-right:20px;">手续费为提现金额的{{data.rate_percent}}%</div>
 							</div>
 							<!-- 实际到账 -->
 							<div class="fee_wrap">
@@ -114,6 +114,9 @@
                     console.log(error);
                 })
             },
+            number(e){　　
+                this.num = (e.target.value.match(/^[1-9]\d*/g,'')[0]) || null
+        　　},
             all(){
                 this.num = this.data.money;
                 this.In();

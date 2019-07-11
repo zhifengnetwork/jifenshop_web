@@ -17,7 +17,7 @@
              <p class="xinxi"><span class="second_title">订单编号</span><span class="second_zhi">{{xiang.order_sn}}</span></p>
              <p class="xinxi"><span class="second_title">下单时间</span><span class="second_zhi">{{xiang.add_time}}</span></p>
              <p class="xinxi"><span class="second_title">收货地址</span><span class="second_zhi2">{{xiang.address}}</span></p>
-             <p class="xinxi"><span class="second_title">收货人</span><span class="second_zhi">{{xiang.consignee}}</span></p>
+             <p class="xinxi"><span class="second_title">收货人</span><span class="second_zhi">{{xiang.consignee}}&nbsp;&nbsp;{{xiang.mobile}}</span></p>
              <p class="xinxi"><span class="second_title">支付方式</span><span class="second_zhi">{{xiang.pay_type}}</span></p>  
              <p class="xinxi"><span class="second_title"> 配送方式</span><span class="second_zhi">{{xiang.shipping_name}}</span></p>
              <p class="xinxi"><span class="second_title">买家备注</span><span class="second_zhi">{{xiang.user_note}}</span></p>
