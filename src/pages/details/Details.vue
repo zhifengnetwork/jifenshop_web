@@ -131,11 +131,9 @@
                                     <div class="eval-content">
                                         <p>{{item.content}}</p>
                                     </div>
-                                    <!-- <div class="imgView">
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                        <span><img src="static/images/details/evaluation-img01.png"></span>
-                                    </div> -->
+                                    <div class="imgView" v-for="(img,index) in item.img" :key="index">
+                                        <span><img :src="img"></span>
+                                    </div>
                                 </li>
                                 <li v-if="commentlist == '暂无评论！'" style="text-align:center">
                                     {{commentlist}}
