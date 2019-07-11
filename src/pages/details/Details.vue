@@ -922,7 +922,9 @@ export default {
         padding 5%
         .guibox
             margin 20px 0
-            overflow hidden
+            height 350px
+            border 1px solid red
+            overflow scroll
             h3
                 font-size 30px
                 line-height 60px
