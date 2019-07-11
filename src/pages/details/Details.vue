@@ -110,7 +110,7 @@
                         <div class="comment-wrap">
                             <!-- {{commentlist}} -->
                             <ul class="comment-list">
-                                <li v-for="(item,key) in commentlist" :key="key" v-if="commentlist != '暂无评论！'">
+                                <li v-for="(item,key) in commentlist" :key="key" v-if="commentlist!='暂无评论！'">
                                     <div class="eval-user">
                                         <div class="user">
                                             <div class="avatar">
@@ -905,9 +905,10 @@ export default {
                                 font-size 22px
                         .imgView
                             overflow hidden
+                            height 200px
                             span
-                                width 100px
-                                height 100px
+                                width 30%
+                                height 100%
                                 display flex
                                 align-items center
                                 justify-content center

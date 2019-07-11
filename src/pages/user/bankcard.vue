@@ -32,6 +32,7 @@
 </template>
 <script>
 import WithHeader from "@/pages/common/header/TopHeader";
+import { Toast } from 'vant';
 export default {
   name: 'bankcard',
   data () {
@@ -66,6 +67,10 @@ export default {
       this.card_id = item.card_id;
     },
     send(){
+      if(!this.type||!this.card_id&&this.card_id!=0){
+        Toast('请选择提现方式');
+        return false;
+      }
       this.$router.replace({name:'withdrawal',params:{'item':{'type':this.type,'card_id':this.card_id}}})
     }
   }

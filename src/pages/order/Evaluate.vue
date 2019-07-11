@@ -85,10 +85,14 @@ export default {
               this.$axios({
                 //   +encodeURIComponent(this.b)
                         method:'post',
-                        url: '/order/order_comment?content='+this.notedata+'&describe='+this.rateVal +'&logistics='+this.rateVal2 + '&serve='+this.rateVal3,
+                        url: '/order/order_comment',
                         data:{
-                            'img':this.postData,
-                            'order_id':this.$route.query.id
+                            img:this.postData,
+                            order_id:this.$route.query.id,
+                            content:this.notedata,
+                            describe:this.rateVal,
+                            logistics:this.rateVal2,
+                            serve:this.rateVal3
                         }
                         })
                         .then((res) => {

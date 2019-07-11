@@ -46,6 +46,14 @@
 		},
 		methods:{
 			btn:function (){
+				if(this.Num==''){
+					Toast('请输入支付宝账号');
+					return false;
+				}
+				if(this.Name==''){
+					Toast('请输入真实姓名');
+					return false;
+				}
 				let that = this;
 				// console.log(this.abc)
 					this.$axios({
