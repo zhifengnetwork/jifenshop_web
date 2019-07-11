@@ -14,7 +14,7 @@
                         <p class="-list2-msg" v-if="radio == 1 && key == indx">余额：{{list.balance}}</p>
                         <p class="-list2-msg" v-if="radio == 2 && key == indx">积分余额：{{list.ky_point}}</p>
                         <span v-if="(radio == 1 || radio == 2)&& key == indx">输入密码</span>
-                        <input type="password" v-model="pwd" placeholder="请输入密码" v-if="(radio == 1 || radio == 2)&& key == indx">
+                        <input type="password" maxlength='6' v-model="pwd" placeholder="请输入密码" v-if="(radio == 1 || radio == 2)&& key == indx">
                     </van-cell>
                 </van-cell-group>
             </van-radio-group>
@@ -111,6 +111,11 @@ export default {
             }
             if(pay_type == 3){
                 Toast('暂未开通');
+                return false;
+            }
+            if(_this.pwd.length!=6 && pay_type == 1){
+                Toast('支付密码错误');
+                return false;
             }
             console.log(_this.address_id,_this.indx,_this.order_id,6666)
             if(_this.address_id){

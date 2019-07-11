@@ -23,7 +23,7 @@
       </div>
       <div class="second_ear">
         <span class="jife">积分</span>
-        <input class="box" placeholder="请输入转账积分" @focus="getFocus" v-model="point" type="text">
+        <input class="box" placeholder="请输入转账积分" @keyup="number" @focus="getFocus" v-model.number="point" type="text">
       </div>
       <div class="bottom_ear">
         <span class="jife">备注</span>
@@ -123,6 +123,9 @@ export default {
     getFocus(){
       window.scroll(0, 0);
     },
+    number(e){　　
+      this.point = (e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]) || null
+　　},
     requestData(){
         let _this = this;
         this.$axios.get('home/get_user_info',{
