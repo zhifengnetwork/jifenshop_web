@@ -30,6 +30,7 @@
         <div class="content">
             <div class="price">
                 <span class="discount-price">￥{{goodsinfo.price}}</span>
+                 <s style="color:#ccc" v-show="goodsinfo.original_price>0">原价￥{{goodsinfo.original_price}}</s>
                 <span class="discount_tag" v-if="!goodsinfo.is_own===0">自营商品</span>
                 <!-- <span class="original-price">原价￥569.00</span> -->
             </div>
