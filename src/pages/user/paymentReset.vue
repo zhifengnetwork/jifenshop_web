@@ -125,8 +125,6 @@
                         Toast.success('重置成功');
                         _this.$router.go(-1)    
                         console.log(response);
-                    }else{
-                        Toast(response.data.msg)
                     }
                 })
                 .catch(function(error){

@@ -77,8 +77,6 @@
                         Toast.success('修改成功');
                         _this.$router.go(-1)                        
                         console.log(response);
-                    }else{
-                        Toast(response.data.msg)
                     }
                 })
                 .catch(function(error){
