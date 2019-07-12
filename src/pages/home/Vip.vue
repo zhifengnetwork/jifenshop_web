@@ -67,20 +67,6 @@
         mounted(){
             this.requestData();
             this.status = this.$route.query.card;
-            //获取原窗口的高度
-            window.οnresize=function(){
-                //键盘弹起与隐藏都会引起窗口的高度发生变化
-                var originalHeight=document.documentElement.clientHeight ||document.body.clientHeight;
-                var resizeHeight=document.documentElement.clientHeight || document.body.clientHeight;
-                console.log(originalHeight,resizeHeight);
-                if(resizeHeight-0<originalHeight-0){
-                //当软键盘弹起，在此处操作
-                    this.show = false; //隐藏按钮
-                }else{
-                //当软键盘收起，在此处操作
-                    this.show = true;;//显示按钮
-                }
-            }
         },
         methods:{
             balance(){
