@@ -378,10 +378,16 @@ export default {
             console.log("Details line 378 this.spec.goods_sku.length ",this.spec.goods_sku.length)
 
 
+            //判断是否选了
+            if(this.zong.length != this.spec.spec_attr.length){
+                Toast('请选择规格');
+                return false;
+            }
+
             // 对比
             for(var i=0;i<this.spec.goods_sku.length;i++){
 
-              //  console.log("Details line 385 this.zong ",this.zong)
+                //  console.log("Details line 385 this.zong ",this.zong)
                 console.log("Details line 386 =============")
                // console.log("Details line 387 this.spec.goods_sku[i].sku_attr1 ",this.spec.goods_sku[i].sku_attr1)
 
@@ -456,7 +462,13 @@ export default {
 
             }
 
-            console.log("Details line 395 Go to toBay ")
+            console.log("Details line 459 Go to toBay ")
+            console.log(this.zongshu );
+            if(this.zongshu == undefined || this.zongshu == 0 || this.zongshu < 0){
+                Toast('没有该组合');
+                return false;
+            }
+
             this.toBay();
 
         },
