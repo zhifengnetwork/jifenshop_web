@@ -7,7 +7,7 @@
 		</Team-Header>
         <div class="content">
             <div class="list">
-                <div class="item" v-for="(item,index) in data" :key="index" @click="to()">
+                <div class="item" v-for="(item,index) in data" :key="index" @click="to(item)">
                     <div class="item_imgWrap">
                         <img class="item_img" :src="item.user_avatar" alt="">
                     </div>
@@ -53,6 +53,7 @@
                 </div>
             </div> -->
         </div>
+        <div class="foot" v-if="flag">我是有底线的哦~~</div>
     </div>
 </template>
 
@@ -62,7 +63,9 @@
 	name: "myTeam",
 	data() {
 		return {
-            data:''
+            data:[],
+            page:1,
+            flag:false
         };
 	},
 	components: {
@@ -70,6 +73,7 @@
     },
     mounted(){
         this.requestData();//请求数据
+        window.addEventListener('scroll', this.scrollBottom);
     },
     methods:{
         // 请求数据
@@ -77,13 +81,24 @@
 			let _this = this;
 			this.$axios.get('team/my_team',{
 				params:{
-					token:_this.$store.state.token
+                    token:_this.$store.state.token,
+                    page:_this.page
 				}
 			})
 			.then(function(response){
                 console.log(response);
                 if(response.data.status == 1){
-                    _this.data = response.data.data;
+                    if(_this.page>1){
+                        for(let i=0;i<response.data.data.length;i++){
+                            if(response.data.data.length<20){
+                                _this.flag = true;
+                            }
+                            _this.data.push(response.data.data[i]);
+                        }
+                        console.log(_this.data)
+                    }else{
+                        _this.data = response.data.data;
+                    }
                 }
 				console.log(_this.data)
 			})
@@ -91,9 +106,19 @@
 				console.log(error);
 			})
         },
-        to(){
-            this.$router.push({'name':'teamList'})
-        }
+        to(item){
+            this.$router.push({'name':'teamList',query:{uid:item.user_id}})
+        },
+        scrollBottom(){
+            let _this = this;
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            if(scrollTop + windowHeight == scrollHeight){
+                _this.page++;
+                _this.requestData();
+            }
+        },
     }
 };
 </script>
@@ -193,5 +218,7 @@
 .my_look
     display block
     color #151515
-                                                             
+.foot
+    line-height 100px
+    text-align center                                                 
 </style>

@@ -111,7 +111,7 @@
                         <div class="comment-wrap">
                             <!-- {{commentlist}} -->
                             <ul class="comment-list">
-                                <li v-for="(item,key) in commentlist" :key="key" v-if="commentlist != '暂无评论！'">
+                                <li v-for="(item,key) in commentlist" :key="key" v-if="commentlist!='暂无评论！'">
                                     <div class="eval-user">
                                         <div class="user">
                                             <div class="avatar">
@@ -370,19 +370,110 @@ export default {
         // 商品规格选择确定
         confirm(){
 
-             this.guigeNumber = sessionStorage.getItem('guigeNumber');
-             console.log("this.guigeNumber",this.guigeNumber)
+            this.guigeNumber = sessionStorage.getItem('guigeNumber');
+            console.log("Details line 373 this.guigeNumber ",this.guigeNumber)
             //点击确定关闭弹窗并使页面可以滚动
             this.guige = !this.guige;
             document.body.style.overflow='';
+
+            console.log("Details line 378 this.spec.goods_sku.length ",this.spec.goods_sku.length)
+
+
+            //判断是否选了
+            if(this.zong.length != this.spec.spec_attr.length){
+                Toast('请选择规格');
+                return false;
+            }
+
             // 对比
             for(var i=0;i<this.spec.goods_sku.length;i++){
-                if(this.zong==this.spec.goods_sku[i].sku_attr1){
-                    console.log(this.spec.goods_sku[i].sku_id,'666')
-                    this.zongshu = this.spec.goods_sku[i].sku_id
+
+                //  console.log("Details line 385 this.zong ",this.zong)
+                console.log("Details line 386 =============")
+               // console.log("Details line 387 this.spec.goods_sku[i].sku_attr1 ",this.spec.goods_sku[i].sku_attr1)
+
+
+                if(this.spec.goods_sku[i].sku_attr1 != ''){
+                    // 如果 sku_attr1 不是空的，那就用 sku_attr1
+                    if(this.zong==this.spec.goods_sku[i].sku_attr1){
+                        console.log("Deatails line 389 "+this.spec.goods_sku[i].sku_id,'666')
+                        this.zongshu = this.spec.goods_sku[i].sku_id
+                    }
+                }else{
+                    // 如果 sku_attr1 是空的。用 sku_attr
+
+                    console.log(this.zong)
+
+                    var sku_attr = JSON.parse(this.spec.goods_sku[i].sku_attr);
+                    
+                    console.log( this.spec.goods_sku[i].sku_id )
+
+                    var already_equal = 0;
+                    console.log('新的开始'+already_equal)
+                    
+                    for(var k  in sku_attr ){
+                       
+                        // console.log("Details line 405 key ====chuan=== ",  k )
+                        console.log("Details line 407  ===传过来==== ", k, "----", sku_attr[k] )
+                      
+                        // console.log('0000000')
+                         var arr  = this.zong
+                        // //var zongzong = {}
+                        for(var key  in arr){
+            
+                        //     // console.log("Details line 414 key ====xuan=== ",  key )
+                        //     console.log("Details line 415 值 ====选中的=== ", key, "----", arr[key] )
+
+                        //    // var kkk = Number(key) + 1
+                        //    // zongzong[kkk]=arr[key]
+                             if( sku_attr[k] == arr[key] ){
+
+                                console.log( sku_attr[k]+'相等'+arr[key] )
+
+                                console.log('加1前：现在的already_equal是'+already_equal);
+
+                                already_equal = already_equal + 1 ; 
+                                console.log('加1后：现在的already_equal是'+already_equal);
+                        //         break;
+                             }
+
+                             if(already_equal == this.zong.length){
+
+                                 console.log("就是你了：：：：："+this.spec.goods_sku[i].sku_id)
+
+                                   this.zongshu = this.spec.goods_sku[i].sku_id
+
+                             }
+
+                        //     console.log("符合要求");
+                        }
+
+                    }
+
+                    // var zongzong = JSON.stringify(this.zong);
+                    // zongzong = JSON.stringify(zongzong);
+                    // console.log("Details line 398 zongzong ",  zongzong )
+                    // console.log("Details line 407 this.spec.goods_sku[i].sku_attr ",  this.spec.goods_sku[i].sku_attr )
+
+                    // if(zongzong === this.spec.goods_sku[i].sku_attr){
+                    //     console.log("Deatails line 409 "+ this.spec.goods_sku[i].sku_id,' ==== ' , zongzong ,'====', this.spec.goods_sku[i].sku_attr)
+                    //     this.zongshu = this.spec.goods_sku[i].sku_id
+                    // }
                 }
+
             }
+
+            console.log("Details line 459 Go to toBay ")
+            console.log(this.zongshu );
+            if(this.zongshu == undefined || this.zongshu == 0 || this.zongshu < 0){
+                Toast('没有该组合');
+                return false;
+            }
+
+            this.toBay();
+
         },
+
         handleScroll () {
             this.head = window.scrollY > 150;
         },
@@ -478,8 +569,12 @@ export default {
         },
         // 立即购买
         toBay(){
-            console.log("this.goodsNumber 666666", this.goodsNumber)
+            console.log("Details line 484 toBuy goodsNumber :", this.goodsNumber)
+            console.log("Details line 484 toBuy this.spec.goods_sku.length :", this.spec.goods_sku.length)
+
             if(this.spec.goods_sku.length>1){
+                console.log("Details line 484 toBuy this.zongshu :", this.zongshu)
+                
                 if(this.zongshu){
                     let that = this;
                     this.goodsNumber = sessionStorage.getItem('goodsNumber');
@@ -521,7 +616,7 @@ export default {
                 .then((res) => {
                     this.immediatelyOrder = res.data
                     if(this.immediatelyOrder.status > 0){
-                    this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+                    this.$router.push({path:'/pay/ConfirmOrder',name:'ConfirmOrder'})
                     }
                     })
             }
@@ -841,9 +936,10 @@ export default {
                                 font-size 22px
                         .imgView
                             overflow hidden
+                            height 200px
                             span
-                                width 100px
-                                height 100px
+                                width 30%
+                                height 100%
                                 display flex
                                 align-items center
                                 justify-content center

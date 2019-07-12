@@ -30,10 +30,10 @@
             CommHeader,
         },
         created(){
-            if(!this.$route.params){
+            if(!this.$route.query){
                 return false;
             }
-            this.user_id = this.$route.params.user_id;
+            this.user_id = this.$route.query.user_id;
         },
         mounted(){
             this.requestData();//请求数据
@@ -41,7 +41,7 @@
         methods:{
             // 请求数据
             requestData(){
-                if(!this.$route.params){
+                if(!this.$route.query){
                     return false;
                 }
 			    let _this = this;

@@ -40,12 +40,12 @@ export default {
         TopHeader
     },
     created(){
-        if(this.$route.params==''){
+        if(this.$route.query==''){
             return false;
         }
-        this.address_id = this.$route.params.address_id.id||this.$route.params.address_id.address_id;
-        this.user_note = this.$route.params.user_note;
-        this.order_id = this.$route.params.order_id;
+        this.address_id = this.$route.query.address_id;
+        this.user_note = this.$route.query.user_note;
+        this.order_id = this.$route.query.order_id;
         console.log(this.address_id,this.user_note,this.order_id)
         console.log(this.$route)
     },
@@ -61,7 +61,7 @@ export default {
         requestData(){
             let _this = this;
             let url = null;
-            if(this.address_id){
+            if(!this.order_id){
                 url = 'order/temporary'
             }else{
                 url = 'order/order_go_pay'

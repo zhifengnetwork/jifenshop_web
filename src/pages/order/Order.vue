@@ -73,7 +73,7 @@
 
 <script>
 import TopHeader from "@/pages/common/header/TopHeader"
-import { Toast } from 'vant';
+import { Toast,Dialog  } from 'vant';
 
 export default {
     name:'Order',
@@ -191,7 +191,13 @@ export default {
         },
         // 确认收货
         receiving(order_id){
-            this.edit_status(order_id,3)
+            Dialog.confirm({
+                title: '确认收货',
+                message: '是否确认收货'
+            }).then(() => {
+                // on close
+                this.edit_status(order_id,3)
+            });
         },
         // 退款
         reimburse(order_id){

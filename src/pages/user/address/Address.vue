@@ -112,9 +112,9 @@ export default {
         },
         select(item,index){
             // 如果地址处于编辑状态,就不能跳地址
-            // if(!this.type){
-            //     return false;
-            // }
+            if(!this.type){
+                return false;
+            }
             this.$router.replace({name:'ConfirmOrder',params:{'address_id':item}})
         }
     }
