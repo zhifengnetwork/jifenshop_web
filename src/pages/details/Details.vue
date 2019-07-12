@@ -377,6 +377,7 @@ export default {
 
             console.log("Details line 378 this.spec.goods_sku.length ",this.spec.goods_sku.length)
 
+
             // 对比
             for(var i=0;i<this.spec.goods_sku.length;i++){
 
@@ -400,28 +401,45 @@ export default {
                     
                     console.log( this.spec.goods_sku[i].sku_id )
 
+                    var already_equal = 0;
+                    console.log('新的开始'+already_equal)
+                    
                     for(var k  in sku_attr ){
-
+                       
                         // console.log("Details line 405 key ====chuan=== ",  k )
                         console.log("Details line 407  ===传过来==== ", k, "----", sku_attr[k] )
                       
                         // console.log('0000000')
-                        // var arr  = this.zong
+                         var arr  = this.zong
                         // //var zongzong = {}
-                        // for(var key  in arr){
+                        for(var key  in arr){
             
                         //     // console.log("Details line 414 key ====xuan=== ",  key )
                         //     console.log("Details line 415 值 ====选中的=== ", key, "----", arr[key] )
 
                         //    // var kkk = Number(key) + 1
                         //    // zongzong[kkk]=arr[key]
-                        //     if( sku_attr[k] != arr[key] ){
+                             if( sku_attr[k] == arr[key] ){
 
+                                console.log( sku_attr[k]+'相等'+arr[key] )
+
+                                console.log('加1前：现在的already_equal是'+already_equal);
+
+                                already_equal = already_equal + 1 ; 
+                                console.log('加1后：现在的already_equal是'+already_equal);
                         //         break;
-                        //     }
+                             }
+
+                             if(already_equal == this.zong.length){
+
+                                 console.log("就是你了：：：：："+this.spec.goods_sku[i].sku_id)
+
+                                   this.zongshu = this.spec.goods_sku[i].sku_id
+
+                             }
 
                         //     console.log("符合要求");
-                        // }
+                        }
 
                     }
 
