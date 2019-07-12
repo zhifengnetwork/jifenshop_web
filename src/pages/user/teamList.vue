@@ -23,7 +23,7 @@
 		name: 'teamList',
 		data(){
             return{
-                data:'',
+                data:[],
                 page:1,
                 flag:false
             }
