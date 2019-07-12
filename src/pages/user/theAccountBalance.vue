@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <!-- 充值、提现按钮 -->
-                <div class="btn_wrap">
+                <div class="btn_wrap" v-if="data.show==1">
                     <!-- 提现 -->
                     <router-link to="/user/withdrawal">
                         <div class="draw">提现</div>

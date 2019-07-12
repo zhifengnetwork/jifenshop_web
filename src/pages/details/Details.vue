@@ -465,10 +465,15 @@ export default {
 
             console.log("Details line 459 Go to toBay ")
             console.log(this.zongshu );
-            if(this.zongshu == undefined || this.zongshu == 0 || this.zongshu < 0){
-                Toast('没有该组合');
-                return false;
+
+            if(this.spec.goods_sku.length > 1){
+
+                if(this.zongshu == undefined || this.zongshu == 0 || this.zongshu < 0){
+                    Toast('没有该组合');
+                    return false;
+                }
             }
+
 
             this.toBay();
 

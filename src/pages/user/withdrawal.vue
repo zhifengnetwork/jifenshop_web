@@ -16,13 +16,11 @@
                     </div>
                 </div>
 				<!-- 提现方式 -->
-				<div class="way_wrap">
-					<router-link to="/user/bankcard">
-                        <div class="mode">
+				<div class="way_wrap" >
+                    <div class="mode" @click="to">
                         <h4>提现方式</h4>
                         <span>></span>
                     </div>
-                    </router-link>
 					<!-- 选择方式 -->
 					<!-- <div class="mode">
 						<div class="wechat" v-for="(item,index) in pay" :key="index" @click="cur=index" :class="{on:cur==index}">
@@ -162,6 +160,9 @@
                 .catch(function(error){
                     console.log(error);
                 })
+            },
+            to(){
+                this.$router.replace({name:'bankcard'})
             }
         }
 	}
