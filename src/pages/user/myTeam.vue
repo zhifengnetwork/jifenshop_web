@@ -63,7 +63,7 @@
 	name: "myTeam",
 	data() {
 		return {
-            data:'',
+            data:[],
             page:1,
             flag:false
         };
