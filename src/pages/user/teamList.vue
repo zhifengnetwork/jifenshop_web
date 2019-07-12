@@ -12,7 +12,8 @@
             <li class="li" v-for="(item,index) in data" :key="index" @click="to(item)">
                 <span class="user_id">{{item.order_id}}</span><span class="user_name">{{item.user_name}}</span><span class="user_phone">{{item.mobile}}</span><span class="user_order">查看订单</span>
             </li>
-        </ul>          
+        </ul>    
+        <div class="foot" v-if="flag">我是有底线的哦~~</div>
     </div>
 </template>
 
@@ -22,7 +23,9 @@
 		name: 'teamList',
 		data(){
             return{
-                data:''
+                data:'',
+                page:1,
+                flag:false
             }
 		},
         components:{
@@ -30,18 +33,36 @@
         },
         mounted(){
             this.requestData();//请求数据
+            window.addEventListener('scroll', this.scrollBottom);
+        },
+        created(){
+            if(this.$route.query==''){
+                return false;
+            }
+            this.uid = this.$route.query.uid;
         },
         methods:{
             // 请求数据
             requestData(){
 			    let _this = this;
 			    this.$axios.post('team/my_team_order',{
-                    token:_this.$store.state.token
+                    token:_this.$store.state.token,
+                    uid:_this.uid
 			    })
 			    .then(function(response){
                     console.log(response);
                     if(response.data.status == 1){
-                        _this.data = response.data.data;
+                        if(_this.page>1){
+                            for(let i=0;i<response.data.data.length;i++){
+                                if(response.data.data.length<20){
+                                    _this.flag = true;
+                                }
+                                _this.data.push(response.data.data[i]);
+                            }
+                            console.log(_this.data)
+                        }else{
+                            _this.data = response.data.data;
+                        }
                     }
 			    })
 			    .catch(function(error){
@@ -49,8 +70,18 @@
 		    	})
             },
             to(item){
-                this.$router.push({name:'commissionlist',params:{'user_id':item.user_id}})
-            }
+                this.$router.push({name:'commissionlist',query:{'user_id':item.user_id}})
+            },
+            scrollBottom(){
+                let _this = this;
+                let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                let scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                if(scrollTop + windowHeight == scrollHeight){
+                    _this.page++;
+                    _this.requestData();
+                }
+            },
         }
         
     }
@@ -95,6 +126,7 @@
         .li:first-child  
             background #c6e1ff 
 
-        
-
+.foot
+    line-height 100px
+    text-align center
 </style>
