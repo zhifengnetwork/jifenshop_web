@@ -242,11 +242,7 @@
                     background url('/static/images/user/address/address-edit-icon.png') no-repeat
                     background-size 100% 100%
         .apply_btn
-            position absolute
-            bottom 50px
-            left 0
-            right 0
-            margin auto
+            margin 320px auto 0
             width 702px
             height 88px
             background #ff4d4d

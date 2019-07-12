@@ -118,7 +118,7 @@ export default {
                 return false;
             }
             console.log(_this.address_id,_this.indx,_this.order_id,6666)
-            if(_this.address_id){
+            if(!_this.order_id){
                 url = 'order/submitOrder';
             }else{
                 url = 'order/order_pay';
@@ -381,11 +381,7 @@ export default {
 //     border: 1px solid red;
 //     }
 .payment
-    position absolute
-    left 0
-    right 0
-    bottom 50px
-    margin auto
+    margin 600px auto 0
     width 60%
     height 60px
     text-align center

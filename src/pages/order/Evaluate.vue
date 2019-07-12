@@ -46,6 +46,7 @@
 
 <script>
 import TopHeader from "@/pages/common/header/TopHeader";
+import{ Toast }from "vant";
 export default {
   name: "Evaluate",
   components: {
@@ -65,7 +66,6 @@ export default {
     };
   },
   methods: {
-
         onRead (file) { 
             // 上传图片到图片服务器
             this. postData.push(file.content)
@@ -80,8 +80,10 @@ export default {
             },
         
         submit: function() {
-          
-            
+              if(this.notedata==null){
+                Toast('请填写评论')
+                return false;
+              }
               this.$axios({
                 //   +encodeURIComponent(this.b)
                         method:'post',
@@ -188,6 +190,7 @@ export default {
     }
   }
 
+
   .btn {
     width: 92%;
     height: 88px;
@@ -197,10 +200,7 @@ export default {
     text-align: center;
     background-color: #ff4d4d;
     border-radius: 40px;
-    position: fixed;
-    left: 50%;
-    bottom: 68px;
-    margin-left: -46%;
+    margin: 300px auto 0;
   }
 }
 </style>
