@@ -520,7 +520,7 @@ export default {
                 .then((res) => {
                     this.immediatelyOrder = res.data
                     if(this.immediatelyOrder.status > 0){
-                    this.$router.push({path: '/pay/ConfirmOrder',name:'ConfirmOrder'})
+                    this.$router.push({path:'/pay/ConfirmOrder',name:'ConfirmOrder'})
                     }
                     })
             }

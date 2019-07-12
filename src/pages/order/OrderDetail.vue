@@ -69,7 +69,8 @@ export default {
     },
     methods:{
         pay(){
-            this.$router.replace({name:'Confirm_pay',params:{address_id:false,user_note:this.xiang.user_note,order_id:this.xiang.order_id}})
+            console.log(this.xiang)
+            this.$router.replace({name:'Confirm_pay',query:{address_id:false,user_note:this.xiang.user_note,order_id:this.xiang.order_id}})
         }
     }
 

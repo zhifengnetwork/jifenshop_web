@@ -108,12 +108,12 @@
                         <span class="right_ico"></span>
                     </router-link> 
                 </div> -->
-                <div class="arr_wrap">
-                    <router-link class="my_look" to="/user/phone">
+                <div class="arr_wrap" @click="phone">
+                    <!-- <router-link class="my_look" to="/user/phone"> -->
                         <span>手机号绑定</span>
                         <span class="cell">{{data.mobile}}</span>
                         <span class="right_ico"></span>
-                    </router-link>
+                    <!-- </router-link> -->
                 </div>
                 <div class="arr_wrap">
                     <router-link class="my_look" to="/user/Address">
@@ -212,6 +212,14 @@
             .catch(function(error){
                 console.log(error);
             })
+        },
+        methods:{
+            phone(){
+                if(this.data.mobile){
+                    return false;
+                }
+                this.$router.push({name:'phone'})
+            }
         }
     };
 </script>
@@ -409,7 +417,7 @@
                     background url(/static/images/user/leftArrow.png) no-repeat
                     background-size 100% 100%
                 .cell 
-                    margin-left 282px
+                    margin-left 240px
             .arr_wrap:last-child
                 border none
 
