@@ -518,15 +518,18 @@ export default {
                 }
                 })
                 .then((res) => {
-                    this.likeo = res.data
-                    // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
-                    sessionStorage.setItem("msg",this.likeo.msg);
-                    this.msg = sessionStorage.getItem('msg'); 
-                    })
-                    Toast({
-                    message: '加入购物车成功',
-                    icon: 'success'
-                    });
+                    if(res.data.status==1){
+                        this.likeo = res.data
+                        // 把获取到的数据储存到session中，每次点击收藏按钮保存同时改变msg的值  
+                        sessionStorage.setItem("msg",this.likeo.msg);
+                        this.msg = sessionStorage.getItem('msg'); 
+                        Toast({
+                        message: '加入购物车成功',
+                        icon: 'success'
+                        });
+                    }
+                })
+                
                 }
                 else{
                     this.guige = !this.guige;

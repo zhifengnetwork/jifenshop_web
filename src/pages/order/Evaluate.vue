@@ -84,6 +84,7 @@ export default {
                 Toast('请填写评论')
                 return false;
               }
+              Toast('111')
               this.$axios({
                 //   +encodeURIComponent(this.b)
                         method:'post',
@@ -200,7 +201,7 @@ export default {
     text-align: center;
     background-color: #ff4d4d;
     border-radius: 40px;
-    margin: 300px auto 0;
+    margin: 20vh auto 0;
   }
 }
 </style>

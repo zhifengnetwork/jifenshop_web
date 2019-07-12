@@ -114,7 +114,18 @@ export default {
                     this.list[i].selected = 0
                 }
             }
-
+            this.$axios({
+                method: "post",
+                url: "cart/selectedAll",
+                data: {
+                    'token':this.$store.state.token,
+                    }
+                }).then(res => {
+                    console.log(res.data)
+                if(res.data.status===1){
+                    console.log("Chenggongle8888888")
+                }
+            }); 
         },
         // 单选
         selectGoods(ev,key,ifc){

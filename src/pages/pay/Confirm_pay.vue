@@ -381,7 +381,7 @@ export default {
 //     border: 1px solid red;
 //     }
 .payment
-    margin 600px auto 0
+    margin 30vh auto 0
     width 60%
     height 60px
     text-align center

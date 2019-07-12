@@ -62,7 +62,7 @@
 					</div>
 				</div>
 				<!-- 申请提现按钮 -->
-				<div class="apply_btn" @click="apply">申请提现</div>
+				<div class="apply_btn" v-if="item!=''" @click="apply">申请提现</div>
 			</div>
 		</div>
 	</div>
@@ -242,7 +242,7 @@
                     background url('/static/images/user/address/address-edit-icon.png') no-repeat
                     background-size 100% 100%
         .apply_btn
-            margin 320px auto 0
+            margin 30vh auto 0
             width 702px
             height 88px
             background #ff4d4d
