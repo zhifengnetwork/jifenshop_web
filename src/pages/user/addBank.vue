@@ -37,7 +37,7 @@
 				</div>
 			</div>
 			<!-- 确认按钮 -->
-			<div class="submit_btn" @click="btn">确认</div>
+			<div class="submit_btn" @click="btn">提交审核</div>
 		</div>
 
 	</div>
@@ -93,6 +93,8 @@
 				}
 			})
 			.then((res) => {
+				Toast.success('提交成功,等待审核');
+				this.$router.replace({name:'bankcard'});
 				console.log(res)
 			})
 		}

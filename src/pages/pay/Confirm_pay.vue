@@ -61,7 +61,7 @@ export default {
         requestData(){
             let _this = this;
             let url = null;
-            if(this.address_id){
+            if(!this.order_id){
                 url = 'order/temporary'
             }else{
                 url = 'order/order_go_pay'

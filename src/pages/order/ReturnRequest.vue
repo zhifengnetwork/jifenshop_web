@@ -31,17 +31,6 @@
                 <span class="label">退款金额</span>
                 <span class="amount">￥{{goods[0].goods_price*goods[0].goods_num}}</span>
             </div>
-            <!-- 选择退款方式 -->
-            <van-radio-group v-model="radio">
-                <van-cell-group>
-                  <van-cell title="退款" clickable @click="radio = '0'">
-                    <van-radio slot="right-icon" name="0" />
-                  </van-cell>
-                  <van-cell title="退款至余额" clickable @click="radio = '1'">
-                    <van-radio slot="right-icon" name="1" />
-                  </van-cell>
-                </van-cell-group>
-            </van-radio-group>
             <!-- 按钮 -->
             <div class="refundBtn" @click="reimburse">提交申请</div>
 
@@ -99,17 +88,12 @@ export default {
                 Toast('请填写退款原因');
                 return false;
             }
-            if(this.radio==''){
-                Toast('请选择退款方式');
-                return false;
-            }
             let _this = this;
             console.log(_this.order_id,_this.refund_reason,_this.radio)
             this.$axios.post('order/apply_refund',{
                 token:_this.$store.state.token,
                 order_id:_this.order_id,
                 refund_reason:_this.refund_reason,
-                refund_type:_this.radio,
                 cancel_remark:_this.cancel_remark
             })
             .then(function(response){
